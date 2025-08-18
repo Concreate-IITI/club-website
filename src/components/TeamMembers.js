@@ -3,143 +3,6 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 
-const teamMembers = [
-  {
-    image: "/team/Kunal.jpg",
-    name: "Kunal Chandel",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["Structural Design", "Project Management", "CAD"],
-    insta: "https://www.instagram.com/00__kunal/",
-    linkedin: "https://linkedin.com/in/kunal-chandel-83626a24b/?originalSubdomain=in",
-    email: "ce210004024@iiti.ac.in",
-  },
-  {
-    image: "/team/Kishan.jpg",
-    name: "Kishan Gupta",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["Construction Tech", "Materials", "Research"],
-    insta: "https://www.instagram.com/__kishan_30?igsh=MWZ1ZXZjdmI3OTNnOA==",
-    linkedin: "https://www.linkedin.com/in/kishan-gupta-1828752b0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-    email: "ce220004026@iiti.ac.in",
-  },
-  {
-    image: "/team/Astitva.jpg",
-    name: "Astitva Jain",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["Environmental Eng", "Sustainability", "Innovation"],
-    insta: "",
-    linkedin: "http://linkedin.com/in/astitva-jain0312",
-    email: "ce220004013@iiti.ac.in",
-  },
-  {
-    image: "/team/Abhay.jpg",
-    name: "Abhay Kumar",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["Geotechnical", "Foundation Design", "Analysis"],
-    insta: "https://www.instagram.com/_iitian_abhi_kumar_?igsh=MWl1OGVhbW51NGE4MA==",
-    linkedin: "https://www.linkedin.com/in/abhay-kumar-976aa5212",
-    email: "ce220004002@iiti.ac.in",
-  },
-  {
-    image: "/team/Pushpendra.jpg",
-    name: "Pushpendra Garg",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["Transportation", "Urban Planning", "Smart Cities"],
-    insta: "https://www.instagram.com/pushpendragarg9636/",
-    linkedin: "https://www.linkedin.com/in/pushpendra-kumar-b20a7225b/",
-    email: "ce220004035@iiti.ac.in",
-  },
-  {
-    image: "/team/Yagya.jpg",
-    name: "Yagyaparna Mandwale",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["Water Resources", "Hydrology", "Climate Tech"],
-    insta: "https://www.instagram.com/yagyaparna19/",
-    linkedin: "https://www.linkedin.com/in/yagyaparna-mandwale-5b1673196?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-    email: "ce230004052@iiti.ac.in",
-  },
-  {
-    image: "/team/Sibasish.jpg",
-    name: "Sibasish Barik",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["Concrete Tech", "Material Science", "Testing"],
-    insta: "https://www.instagram.com/sibasish_barik22?igsh=MTR5Nndwa2Vibnl4dg==",
-    linkedin: "https://www.linkedin.com/in/sibasish-barik-9b7b37259/",
-    email: "ce230004044@iiti.ac.in",
-  },
-  {
-    image: "/team/Nidarsana.jpg",
-    name: "Nidarsana M",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["Earthquake Eng", "Seismic Design", "Risk Assessment"],
-    insta: "",
-    linkedin: "https://www.linkedin.com/in/nidarsana-m-07a111292",
-    email: "ce230004031@iiti.ac.in",
-  },
-  {
-    image: "/team/ChanduSri.jpg",
-    name: "Chandu Sri",
-    position: "Core Member",
-    department: "Civil Engineering",
-    skills: ["BIM Technology", "Digital Construction", "Automation"],
-    insta: "https://www.instagram.com/chandusricheeduru/",
-    linkedin: "https://www.linkedin.com/in/cheeduru-chandusree-099201276/",
-    email: "ce230004013@iiti.ac.in",
-  },
-]
-
-const leadership = [
-  {
-    image: "/team/harsh.jpg",
-    name: "Harsh Sharma",
-    position: "Club Head",
-    department: "Civil Engineering",
-    skills: ["Leadership", "Strategic Planning", "Innovation"],
-    insta: "https://www.instagram.com/harsh_sharma781/",
-    linkedin: "https://www.linkedin.com/in/harsh-shrma/",
-    email: "ce220004020@iiti.ac.in",
-  },
-  {
-    image: "/team/Pushkar.jpg",
-    name: "Pushkar Singh Kushwaha",
-    position: "Co-Head",
-    department: "Civil Engineering",
-    skills: ["Team Management", "Event Planning", "Coordination"],
-    insta: "https://www.instagram.com/@psk_tudki/",
-    linkedin: "https://www.linkedin.com/in/pushkar-singh-kushwaha",
-    email: "ce220004034@iiti.ac.in",
-  },
-  {
-    image: "/team/himanshu.jpg",
-    name: "Himanshu Khati",
-    position: "Ex-Club Head",
-    department: "Civil Engineering",
-    skills: ["Mentorship", "Legacy Building", "Vision"],
-    insta: "https://www.instagram.com/him_army321/",
-    linkedin: "https://www.linkedin.com/in/himanshu-khati-b7061b231",
-    email: "ce210004017@iiti.ac.in",
-  },
-]
-
-const developer = {
-  image: "/team/adi.jpg",
-  name: "Adi Jain",
-  position: "Lead Developer",
-  department: "Civil Engineering",
-  skills: ["Full Stack Development", "UI/UX Design", "System Architecture"],
-  insta: "https://www.instagram.com/adijain151/",
-  linkedin: "https://www.linkedin.com/in/adi-jain-336277260/",
-  email: "ce220004003@iiti.ac.in",
-}
-
 const ModernTeamCard = ({ member, index, isLeadership = false }) => {
   const [isHovered, setIsHovered] = useState(false)
 
@@ -184,7 +47,14 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
             {/* Image container with gradient border */}
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full p-0.5 z-10">
               <div className="w-full h-full bg-slate-900 rounded-full p-1">
-                <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-full transition-transform duration-500 group-hover:scale-110" />
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover rounded-full transition-transform duration-500 group-hover:scale-110"
+                  onError={(e) => {
+                    e.target.src = "/team/default-avatar.jpg"
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -204,18 +74,19 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
 
           {/* Skills */}
           <div className="flex flex-wrap justify-center gap-1 mb-6">
-            {member.skills.map((skill, skillIndex) => (
-              <motion.span key={skillIndex} className="px-2 py-1 text-xs bg-slate-800/50 text-slate-300 rounded-md border border-slate-700/50" whileHover={{ scale: 1.05, backgroundColor: "rgba(6, 182, 212, 0.1)" }}>
-                {skill}
-              </motion.span>
-            ))}
+            {member.skills &&
+              member.skills.map((skill, skillIndex) => (
+                <motion.span key={skillIndex} className="px-2 py-1 text-xs bg-slate-800/50 text-slate-300 rounded-md border border-slate-700/50" whileHover={{ scale: 1.05, backgroundColor: "rgba(6, 182, 212, 0.1)" }}>
+                  {skill}
+                </motion.span>
+              ))}
           </div>
 
           {/* Social Links */}
           <div className="flex justify-center space-x-4">
-            {member.insta && (
+            {member.social?.insta && (
               <motion.a
-                href={member.insta}
+                href={member.social.insta}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-pink-500/25 transition-all duration-300"
@@ -228,29 +99,33 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
               </motion.a>
             )}
 
-            <motion.a
-              href={member.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
-              whileHover={{ scale: 1.1, rotate: -5 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-            </motion.a>
+            {member.social?.linkedin && (
+              <motion.a
+                href={member.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
+                whileHover={{ scale: 1.1, rotate: -5 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+              </motion.a>
+            )}
 
-            <motion.a
-              href={`mailto:${member.email}`}
-              className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </motion.a>
+            {member.social?.email && (
+              <motion.a
+                href={`mailto:${member.social.email}`}
+                className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </motion.a>
+            )}
           </div>
         </div>
       </div>
@@ -260,6 +135,13 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
 
 const TeamMembers = () => {
   const [activeSection, setActiveSection] = useState("leadership")
+  const [teamMembers, setTeamMembers] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetchTeamMembers()
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -278,6 +160,61 @@ const TeamMembers = () => {
 
     return () => observer.disconnect()
   }, [])
+
+  const fetchTeamMembers = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/team")
+      const data = await response.json()
+
+      if (data.success) {
+        console.log("Fetched team members:", data.data)
+
+        setTeamMembers(data.data || [])
+      } else {
+        setError("Failed to fetch team members")
+        // Use fallback data if available
+        setTeamMembers([])
+      }
+    } catch (error) {
+      console.error("Error fetching team members:", error)
+      setError("Error loading team members")
+      setTeamMembers([])
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Group team members by position
+  const leadership = teamMembers.filter((member) => member.position.toLowerCase().includes("head") || member.position.toLowerCase().includes("president") || member.position.toLowerCase().includes("lead"))
+
+  const coreMembers = teamMembers.filter((member) => member.position.toLowerCase().includes("core") || member.position.toLowerCase().includes("member"))
+
+  const developers = teamMembers.filter((member) => member.position.toLowerCase().includes("developer"))
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cyan-400 mx-auto mb-4"></div>
+          <p className="text-xl text-slate-400">Loading our amazing team...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-400 text-xl mb-4">⚠️ {error}</div>
+          <button onClick={fetchTeamMembers} className="px-6 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors duration-200">
+            Try Again
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -299,46 +236,60 @@ const TeamMembers = () => {
         </motion.div>
 
         {/* Leadership Section */}
-        <section id="section-leadership" className="mb-24">
-          <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Leadership</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full" />
-          </motion.div>
+        {leadership.length > 0 && (
+          <section id="section-leadership" className="mb-24">
+            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Leadership</h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full" />
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {leadership.map((member, index) => (
-              <ModernTeamCard key={member.name} member={member} index={index} isLeadership={true} />
-            ))}
-          </div>
-        </section>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {leadership.map((member, index) => (
+                <ModernTeamCard key={member._id} member={member} index={index} isLeadership={true} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Core Members Section */}
-        <section id="section-members" className="mb-24">
-          <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Core Members</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full" />
-          </motion.div>
+        {coreMembers.length > 0 && (
+          <section id="section-members" className="mb-24">
+            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Core Members</h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full" />
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {teamMembers.map((member, index) => (
-              <ModernTeamCard key={member.name} member={member} index={index} />
-            ))}
-          </div>
-        </section>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {coreMembers.map((member, index) => (
+                <ModernTeamCard key={member._id} member={member} index={index} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Developer Section */}
-        <section id="section-developer" className="mb-16">
-          <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Lead Developer</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-green-400 to-cyan-400 mx-auto rounded-full" />
-          </motion.div>
+        {developers.length > 0 && (
+          <section id="section-developer" className="mb-16">
+            <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Development Team</h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-green-400 to-cyan-400 mx-auto rounded-full" />
+            </motion.div>
 
-          <div className="flex justify-center">
-            <div className="max-w-md">
-              <ModernTeamCard member={developer} index={0} isLeadership={true} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {developers.map((member, index) => (
+                <ModernTeamCard key={member._id} member={member} index={index} isLeadership={true} />
+              ))}
             </div>
+          </section>
+        )}
+
+        {/* Empty state */}
+        {teamMembers.length === 0 && !isLoading && (
+          <div className="text-center py-16">
+            <div className="text-gray-400 text-xl mb-4">No team members found</div>
+            <div className="text-gray-500 text-sm">Team information will be displayed here once available</div>
           </div>
-        </section>
+        )}
       </div>
     </div>
   )
