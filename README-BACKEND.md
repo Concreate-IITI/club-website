@@ -30,17 +30,26 @@ We have successfully implemented a comprehensive backend system with MongoDB int
 
 - **Login Page** (`/login`): Beautiful, responsive admin login
 - **Admin Dashboard** (`/admin`): Overview with statistics and navigation
-- **Team Management** (`/admin/team`): Complete CRUD interface for team members
+- **Team Management** (`/admin/team`): Complete CRUD interface with drag & drop image upload
 - **Protected Routes**: Automatic redirect for unauthorized access
 
-#### 5. **Frontend Integration**
+#### 5. **Image Upload System**
+
+- **Cloudinary Integration**: Professional image hosting and optimization
+- **Drag & Drop Upload**: Intuitive file upload interface
+- **Automatic Optimization**: Images resized to 400x400px and optimized
+- **File Validation**: Type and size validation (JPEG, PNG, WebP, max 5MB)
+- **Progress Feedback**: Real-time upload progress indication
+- **Fallback Support**: Manual URL entry if Cloudinary not configured
+
+#### 6. **Frontend Integration**
 
 - **Updated TeamMembers Component**: Now fetches data from API instead of static data
 - **Loading States**: Proper loading and error handling
 - **Responsive Design**: Mobile-friendly admin interface
 - **Real-time Updates**: Changes reflect immediately
 
-#### 6. **Security Features**
+#### 7. **Security Features**
 
 - **Route Protection**: Middleware protects admin routes
 - **Input Validation**: Zod schema validation for all forms
@@ -89,13 +98,29 @@ We have successfully implemented a comprehensive backend system with MongoDB int
    - Get connection string
    - Update `MONGODB_URI` in `.env.local`
 
-4. **Create Admin User**
+4. **Cloudinary Setup (For Image Upload)**
+
+   **Required for image upload functionality:**
+
+   - Create account at [Cloudinary](https://cloudinary.com) (free tier available)
+   - Get your Cloud Name, API Key, and API Secret from dashboard
+   - Update these values in `.env.local`:
+
+   ```
+   CLOUDINARY_CLOUD_NAME=your-cloud-name
+   CLOUDINARY_API_KEY=your-api-key
+   CLOUDINARY_API_SECRET=your-api-secret
+   ```
+
+   - See `CLOUDINARY-SETUP.md` for detailed instructions
+
+5. **Create Admin User**
 
    ```bash
    npm run seed:admin
    ```
 
-5. **Start Development Server**
+6. **Start Development Server**
    ```bash
    npm run dev
    ```
@@ -111,10 +136,11 @@ We have successfully implemented a comprehensive backend system with MongoDB int
 ### 2. **Manage Team Members**
 
 - Click "Manage Team Members" on the dashboard
-- Add new members with their details, skills, and social links
-- Edit existing members
+- Add new members with drag & drop image upload
+- Edit existing members (includes image replacement)
 - Toggle active/inactive status
 - Delete members (with confirmation)
+- Images are automatically optimized and stored in Cloudinary
 
 ### 3. **View Public Team Page**
 
@@ -167,6 +193,7 @@ src/
 - `POST /api/admin/team` - Create new team member
 - `PUT /api/admin/team/[id]` - Update team member
 - `DELETE /api/admin/team/[id]` - Delete team member
+- `POST /api/upload/image` - Upload image to Cloudinary
 
 ## 🎨 Features in Detail
 
@@ -174,7 +201,8 @@ src/
 
 - **Complete Profile Management**: Name, position, department, skills
 - **Social Links**: Instagram, LinkedIn, Email with validation
-- **Image Management**: Profile photo URLs with fallback handling
+- **Advanced Image Upload**: Drag & drop upload with Cloudinary integration
+- **Automatic Image Optimization**: Resizing, compression, and format conversion
 - **Status Control**: Active/Inactive toggle for display control
 - **Ordering**: Custom display order for team members
 

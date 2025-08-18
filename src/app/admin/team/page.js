@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import ImageUpload from "@/components/ImageUpload"
 
 export default function AdminTeamPage() {
   const [user, setUser] = useState(null)
@@ -15,6 +16,7 @@ export default function AdminTeamPage() {
     department: "",
     skills: [],
     image: "",
+    imagePublicId: "",
     social: {
       insta: "",
       linkedin: "",
@@ -25,6 +27,7 @@ export default function AdminTeamPage() {
   })
   const [skillInput, setSkillInput] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   const [message, setMessage] = useState({ type: "", text: "" })
 
   const router = useRouter()
@@ -115,6 +118,7 @@ export default function AdminTeamPage() {
       department: "",
       skills: [],
       image: "",
+      imagePublicId: "",
       social: {
         insta: "",
         linkedin: "",
@@ -136,11 +140,20 @@ export default function AdminTeamPage() {
       department: member.department,
       skills: member.skills || [],
       image: member.image,
+      imagePublicId: member.imagePublicId || "",
       social: member.social || { insta: "", linkedin: "", email: "" },
       isActive: member.isActive,
       order: member.order || 0,
     })
     setShowForm(true)
+  }
+
+  const handleImageUpload = (imageUrl, publicId) => {
+    setFormData((prev) => ({
+      ...prev,
+      image: imageUrl,
+      imagePublicId: publicId || "",
+    }))
   }
 
   const handleSubmit = async (e) => {
@@ -293,16 +306,7 @@ export default function AdminTeamPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Image URL *</label>
-                  <input
-                    type="text"
-                    name="image"
-                    value={formData.image}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-2 bg-white/10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="/team/photo.jpg"
-                  />
+                  <ImageUpload currentImage={formData.image} onImageUpload={handleImageUpload} isUploading={isUploading} />
                 </div>
               </div>
 

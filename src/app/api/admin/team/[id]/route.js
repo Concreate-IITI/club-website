@@ -12,6 +12,7 @@ const updateTeamMemberSchema = z.object({
   department: z.string().min(1, "Department is required").max(100, "Department too long").optional(),
   skills: z.array(z.string().max(50, "Skill name too long")).optional(),
   image: z.string().min(1, "Image is required").optional(),
+  imagePublicId: z.string().optional().nullable(),
   social: z
     .object({
       insta: z.string().url("Invalid Instagram URL").optional().or(z.literal("")),

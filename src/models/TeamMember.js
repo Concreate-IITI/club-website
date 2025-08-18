@@ -32,6 +32,11 @@ const TeamMemberSchema = new mongoose.Schema(
       required: [true, "Image is required"],
       trim: true,
     },
+    imagePublicId: {
+      type: String,
+      trim: true,
+      default: null,
+    },
     social: {
       insta: {
         type: String,

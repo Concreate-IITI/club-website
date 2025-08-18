@@ -337,7 +337,7 @@ CLOUDINARY_API_SECRET=your-api-secret (optional)
 - [x] Admin can edit existing team members
 - [x] Admin can delete team members
 - [x] Team members page displays data from database
-- [x] Images are properly uploaded and stored (URL-based)
+- [x] Images are properly uploaded and stored (Cloudinary integration with drag & drop)
 - [x] All routes are properly protected
 - [x] Data validation works correctly
 - [x] Error handling is comprehensive

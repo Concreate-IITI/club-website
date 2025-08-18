@@ -168,8 +168,6 @@ const TeamMembers = () => {
       const data = await response.json()
 
       if (data.success) {
-        console.log("Fetched team members:", data.data)
-
         setTeamMembers(data.data || [])
       } else {
         setError("Failed to fetch team members")
