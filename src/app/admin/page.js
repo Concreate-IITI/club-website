@@ -10,6 +10,8 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalTeamMembers: 0,
     activeTeamMembers: 0,
+    totalMessages: 0,
+    unreadMessages: 0,
   })
   const router = useRouter()
 
@@ -38,16 +40,34 @@ export default function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch("/api/admin/team?includeInactive=true")
-      const data = await response.json()
+      // Fetch team stats
+      const teamResponse = await fetch("/api/admin/team?includeInactive=true")
+      const teamData = await teamResponse.json()
 
-      if (data.success) {
-        const total = data.total
-        const active = data.data.filter((member) => member.isActive).length
-        setStats({
+      // Fetch message stats
+      const messageResponse = await fetch("/api/admin/messages")
+      const messageData = await messageResponse.json()
+
+      if (teamData.success) {
+        const total = teamData.total
+        const active = teamData.data.filter((member) => member.isActive).length
+        
+        setStats(prevStats => ({
+          ...prevStats,
           totalTeamMembers: total,
           activeTeamMembers: active,
-        })
+        }))
+      }
+
+      if (messageData.success) {
+        const totalMessages = messageData.total || 0
+        const unreadMessages = messageData.data?.filter((msg) => msg.status === 'unread').length || 0
+        
+        setStats(prevStats => ({
+          ...prevStats,
+          totalMessages,
+          unreadMessages,
+        }))
       }
     } catch (error) {
       console.error("Stats fetch error:", error)
@@ -98,7 +118,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
             <div className="flex items-center">
               <div className="p-3 bg-blue-600 rounded-lg">
@@ -134,14 +154,28 @@ export default function AdminDashboard() {
 
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
             <div className="flex items-center">
-              <div className="p-3 bg-purple-600 rounded-lg">
+              <div className="p-3 bg-orange-600 rounded-lg">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-gray-300">Your Role</p>
-                <p className="text-2xl font-bold text-white capitalize">{user?.role}</p>
+                <p className="text-gray-300">Total Messages</p>
+                <p className="text-2xl font-bold text-white">{stats.totalMessages}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+            <div className="flex items-center">
+              <div className="p-3 bg-red-600 rounded-lg">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L2.732 15.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <div className="ml-4">
+                <p className="text-gray-300">Unread Messages</p>
+                <p className="text-2xl font-bold text-white">{stats.unreadMessages}</p>
               </div>
             </div>
           </div>
@@ -167,6 +201,31 @@ export default function AdminDashboard() {
               <p className="text-gray-300 mb-4">Add, edit, and manage team member profiles and information</p>
               <div className="flex items-center text-blue-400 group-hover:text-blue-300">
                 <span>Manage Team</span>
+                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/admin/messages">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group">
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-orange-600 rounded-lg group-hover:bg-orange-500 transition-colors duration-200">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                {stats.unreadMessages > 0 && (
+                  <div className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 font-bold">
+                    {stats.unreadMessages} new
+                  </div>
+                )}
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Manage Messages</h3>
+              <p className="text-gray-300 mb-4">View and respond to contact form submissions</p>
+              <div className="flex items-center text-orange-400 group-hover:text-orange-300">
+                <span>View Messages</span>
                 <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -204,21 +263,6 @@ export default function AdminDashboard() {
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Recent Activities</h3>
             <p className="text-gray-300 mb-4">Manage recent activities and events (Coming Soon)</p>
-            <div className="flex items-center text-gray-500">
-              <span>Coming Soon</span>
-            </div>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 opacity-50">
-            <div className="flex items-center mb-4">
-              <div className="p-3 bg-gray-600 rounded-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </div>
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">User Management</h3>
-            <p className="text-gray-300 mb-4">Manage admin users and permissions (Coming Soon)</p>
             <div className="flex items-center text-gray-500">
               <span>Coming Soon</span>
             </div>

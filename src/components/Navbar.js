@@ -60,6 +60,7 @@ const Navbar = () => {
               { href: "/recentActivities", label: "Recent Activities" },
               { href: "/achievements", label: "Achievements" },
               { href: "/team", label: "Team Members" },
+              { href: "/message-us", label: "Contact Us" },
             ].map((link, index) => (
               <motion.div key={link.href} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1, duration: 0.3 }}>
                 <Link className={pathname === link.href ? "mr-5 text-cyan-400 relative" : "mr-5 hover:text-cyan-400 transition-colors duration-300 relative group"} href={link.href}>
