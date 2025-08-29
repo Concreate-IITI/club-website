@@ -5,7 +5,7 @@ import { InfiniteMovingCards } from "../ui/infinite-moving-cards"
 
 export function InfiniteMovingCardsDemo() {
   return (
-    <div className="rounded-md flex flex-col antialiased bg-transparent items-center justify-center relative overflow-hidden">
+    <div className="rounded-md flex flex-col antialiased bg-transparent items-center justify-center relative overflow-hidden py-8">
       <InfiniteMovingCards items={testimonials} direction="right" speed="slow" />
     </div>
   )

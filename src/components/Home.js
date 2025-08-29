@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <div className="min-h-screen relative">
       {/* Modern Hero Section with Split Layout */}
-      <div className="relative h-screen flex items-center overflow-hidden">
+      <div className="relative h-[calc(100vh-4rem)] md:h-[calc(100vh-4.5rem)] flex items-center overflow-hidden">
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/50 to-transparent" />
@@ -112,15 +112,6 @@ const Home = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent rounded-2xl" />
                     </motion.div>
                   ))}
-                </div>
-
-                {/* Floating Elements */}
-                <div className="absolute top-6 right-6 bg-white/10 backdrop-blur-md rounded-lg px-4 py-2 border border-white/20">
-                  <div className="text-sm text-white font-medium">Live Project</div>
-                  <div className="flex items-center gap-1 text-xs text-sky-300">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    In Progress
-                  </div>
                 </div>
 
                 {/* Navigation Dots */}
@@ -289,12 +280,15 @@ const Home = () => {
         </div>
       </motion.section>
 
-      {/* What Our Members Say Section - Kept from Original */}
-      <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 py-20">
+      {/* Iconic Civil Engineering Marvels Section */}
+      <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 py-16 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
         <div className="max-w-7xl mx-auto px-6 mb-12">
           <motion.h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-4" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            What Our Members Say
+            Iconic Civil Engineering Marvels
           </motion.h2>
+          <motion.p className="text-xl text-gray-300 text-center max-w-3xl mx-auto mb-8" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
+            Discover the world's most remarkable civil engineering achievements that continue to inspire our work and vision for the future.
+          </motion.p>
           <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full mb-8"></div>
         </div>
         <InfiniteMovingCardsDemo />
