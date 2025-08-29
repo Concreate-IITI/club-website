@@ -17,12 +17,17 @@ export const InfiniteMovingCards = ({ items, direction = "left", speed = "fast",
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children)
 
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true)
-        if (scrollerRef.current) {
-          scrollerRef.current.appendChild(duplicatedItem)
-        }
-      })
+      // Create enough duplicates for seamless infinite scroll
+      const duplicateCount = 3; // Create multiple sets for better seamless effect
+      
+      for (let i = 0; i < duplicateCount; i++) {
+        scrollerContent.forEach((item) => {
+          const duplicatedItem = item.cloneNode(true)
+          if (scrollerRef.current) {
+            scrollerRef.current.appendChild(duplicatedItem)
+          }
+        })
+      }
 
       getDirection()
       getSpeed()
@@ -47,14 +52,40 @@ export const InfiniteMovingCards = ({ items, direction = "left", speed = "fast",
       } else if (speed === "normal") {
         containerRef.current.style.setProperty("--animation-duration", "35s")
       } else {
-        containerRef.current.style.setProperty("--animation-duration", "50s")
+        containerRef.current.style.setProperty("--animation-duration", "60s")
       }
     }
   }
 
   return (
-    <div ref={containerRef} className={cn("scroller relative z-20 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]", className)}>
-      <ul ref={scrollerRef} className={cn("flex min-w-full shrink-0 gap-6 py-8 w-max flex-nowrap", start && "animate-scroll", pauseOnHover && "hover:[animation-play-state:paused]")}>
+    <div 
+      ref={containerRef} 
+      className={cn(
+        "scroller relative z-20 w-full overflow-hidden", 
+        "[mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        className
+      )}
+    >
+      <ul 
+        ref={scrollerRef} 
+        className={cn(
+          "flex min-w-full shrink-0 gap-6 py-8 w-max flex-nowrap",
+          start && "animate-scroll"
+        )}
+        style={{
+          animationPlayState: pauseOnHover ? 'running' : 'running'
+        }}
+        onMouseEnter={() => {
+          if (pauseOnHover && scrollerRef.current) {
+            scrollerRef.current.style.animationPlayState = 'paused';
+          }
+        }}
+        onMouseLeave={() => {
+          if (pauseOnHover && scrollerRef.current) {
+            scrollerRef.current.style.animationPlayState = 'running';
+          }
+        }}
+      >
         {items.map((item, idx) => (
           <li
             className="w-[350px] md:w-[500px] max-w-full relative rounded-3xl flex-shrink-0 px-6 md:px-8 py-6 md:py-8 bg-gradient-to-br from-slate-800/80 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/10 hover:border-sky-400/30 transition-all duration-300 group hover:scale-[1.02] shadow-2xl shadow-black/20"
