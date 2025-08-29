@@ -19,72 +19,151 @@ const Home = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* Hero Section with Background Images */}
-      <div className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Images */}
-        <div className="absolute inset-0 z-0">
-          {heroImages.map((image, index) => (
-            <motion.div
-              key={index}
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${image})` }}
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: index === currentImageIndex ? 1 : 0,
-                scale: index === currentImageIndex ? 1.05 : 1.1,
-              }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
-            />
-          ))}
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/60" />
-        </div>
+      {/* Modern Hero Section with Split Layout */}
+      <div className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/50 to-transparent" />
 
-        {/* Hero Content */}
-        <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3 }} className="relative z-10 text-center max-w-6xl mx-auto px-6">
-          {/* Text Background Blur */}
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm rounded-3xl" />
+        {/* Main Content Container */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-8 lg:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[90vh]">
+            {/* Left Side - Text Content */}
+            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.2 }} className="space-y-6 lg:space-y-8">
+              {/* Main Heading */}
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="space-y-3 lg:space-y-4">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                  <span className="bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">Concreate</span>
+                  <br />
+                  <span className="text-white">Club</span>
+                </h1>
 
-          <div className="relative z-10 py-12">
-            <motion.h1
-              className="text-6xl md:text-8xl font-bold mb-8 bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{ duration: 5, repeat: Infinity }}
-            >
-              Concreate Club
-            </motion.h1>
+                <h2 className="text-lg md:text-xl lg:text-2xl text-sky-300 font-medium">Civil Engineering Student Club - IIT Indore</h2>
+              </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }} className="mb-8">
-              <h2 className="text-2xl md:text-3xl font-semibold text-white mb-6">Civil Engineering Student Club - IIT Indore</h2>
-              <p className="text-lg md:text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
-                Driving hands-on learning, innovation, and collaboration. Through workshops, student-led projects, competitions, and the flagship CivilX Series, we bridge classroom knowledge with real-world engineering challenges—preparing future engineers to shape sustainable and resilient
-                infrastructures.
-              </p>
+              {/* Description */}
+              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.8 }} className="text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed max-w-2xl">
+                Driving hands-on learning, innovation, and collaboration. Through workshops, student-led projects, competitions, and the flagship CivilX Series, we bridge classroom knowledge with real-world engineering challenges.
+              </motion.p>
+
+              {/* Stats */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }} className="grid grid-cols-3 gap-6 lg:gap-8 py-4 lg:py-6">
+                {[
+                  { number: "500+", label: "Students" },
+                  { number: "50+", label: "Projects" },
+                  { number: "25+", label: "Awards" },
+                ].map((stat, index) => (
+                  <div key={index} className="text-center lg:text-left">
+                    <div className="text-2xl md:text-3xl font-bold text-sky-400">{stat.number}</div>
+                    <div className="text-sm text-gray-400">{stat.label}</div>
+                  </div>
+                ))}
+              </motion.div>
+
+              {/* Buttons */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.8 }} className="flex flex-col sm:flex-row gap-4">
+                <Link href="/team">
+                  <motion.button className="px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300 group" whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
+                    <span className="flex items-center gap-2">
+                      Meet Our Team
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </motion.button>
+                </Link>
+                <Link href="/message-us">
+                  <motion.button className="px-8 py-4 border-2 border-sky-400/50 text-sky-400 font-semibold rounded-xl hover:bg-sky-400/10 backdrop-blur-sm transition-all duration-300" whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
+                    Get In Touch
+                  </motion.button>
+                </Link>
+              </motion.div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.8 }} className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="/team">
-                <motion.button className="px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
-                  Meet Our Team
-                </motion.button>
-              </Link>
-              <Link href="/message-us">
-                <motion.button className="px-8 py-4 border-2 border-sky-400/80 text-sky-400 font-semibold rounded-full hover:bg-sky-400/10 backdrop-blur-sm transition-all duration-300" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
-                  Get In Touch
-                </motion.button>
-              </Link>
+            {/* Right Side - Image Gallery */}
+            <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.4 }} className="relative h-[350px] md:h-[400px] lg:h-[450px]">
+              {/* Main Image Container */}
+              <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-sky-500/20 to-blue-600/20 backdrop-blur-sm border border-white/10">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage: `radial-gradient(circle at 2px 2px, rgba(56, 189, 248, 0.3) 1px, transparent 0)`,
+                      backgroundSize: "24px 24px",
+                    }}
+                  ></div>
+                </div>
+
+                {/* Image Slider */}
+                <div className="relative w-full h-full">
+                  {heroImages.map((image, index) => (
+                    <motion.div
+                      key={index}
+                      className="absolute inset-0"
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{
+                        opacity: index === currentImageIndex ? 1 : 0,
+                        scale: index === currentImageIndex ? 1 : 1.05,
+                      }}
+                      transition={{ duration: 1.2, ease: "easeInOut" }}
+                    >
+                      <img src={image} alt={`Civil Engineering Project ${index + 1}`} className="w-full h-full object-cover rounded-2xl" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent rounded-2xl" />
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Floating Elements */}
+                <div className="absolute top-6 right-6 bg-white/10 backdrop-blur-md rounded-lg px-4 py-2 border border-white/20">
+                  <div className="text-sm text-white font-medium">Live Project</div>
+                  <div className="flex items-center gap-1 text-xs text-sky-300">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    In Progress
+                  </div>
+                </div>
+
+                {/* Navigation Dots */}
+                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                  {heroImages.map((_, index) => (
+                    <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentImageIndex ? "bg-sky-400 w-8 shadow-lg shadow-sky-400/50" : "bg-white/40 hover:bg-white/60"}`} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -left-4 w-24 h-24 bg-sky-400/20 rounded-full blur-xl"></div>
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+
+              {/* Thumbnail Selectors Below Image */}
+              <div className="mt-4 lg:mt-6 flex justify-center space-x-2 lg:space-x-3">
+                {heroImages.map((image, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`relative w-14 h-10 lg:w-16 lg:h-12 rounded-lg overflow-hidden border-2 transition-all duration-300 ${index === currentImageIndex ? "border-sky-400 shadow-lg shadow-sky-400/30" : "border-white/30 hover:border-white/60"}`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/20" />
+                    {index === currentImageIndex && <div className="absolute inset-0 bg-sky-400/20" />}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5, duration: 0.8 }} className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="flex flex-col items-center gap-2 text-sky-400">
+            <span className="text-xs uppercase tracking-wider">Scroll Down</span>
+            <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="w-6 h-10 border-2 border-sky-400/50 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-sky-400 rounded-full mt-2"></div>
             </motion.div>
           </div>
         </motion.div>
-
-        {/* Image Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
-          {heroImages.map((_, index) => (
-            <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentImageIndex ? "bg-sky-400 w-8" : "bg-white/50 hover:bg-white/80"}`} />
-          ))}
-        </div>
       </div>
 
       {/* Features Section */}
