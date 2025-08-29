@@ -12,14 +12,14 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
         className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 ${isLeadership ? "p-8" : "p-6"} transition-all duration-500 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-400/20`}
       >
         {/* Animated background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 via-purple-400/5 to-pink-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-400/5 via-cyan-400/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
         {/* Floating particles effect */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(6)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 bg-cyan-400/30 rounded-full"
+              className="absolute w-1 h-1 bg-sky-400/30 rounded-full"
               animate={{
                 x: [0, 100, 0],
                 y: [0, -100, 0],
@@ -42,10 +42,10 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
         <div className="relative mb-6 mx-auto">
           <div className={`relative ${isLeadership ? "w-32 h-32" : "w-24 h-24"} mx-auto`}>
             {/* Rotating ring - behind the image */}
-            <motion.div className="absolute inset-0 border-2 border-cyan-400/50 rounded-full z-0" animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} />
+            <motion.div className="absolute inset-0 border-2 border-sky-400/50 rounded-full z-0" animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} />
 
             {/* Image container with gradient border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full p-0.5 z-10">
+            <div className="absolute inset-0 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full p-0.5 z-10">
               <div className="w-full h-full bg-slate-900 rounded-full p-1">
                 <img
                   src={member.image}
@@ -62,12 +62,12 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
 
         {/* Content */}
         <div className="relative z-10 text-center">
-          <motion.h3 className={`font-bold text-white mb-2 ${isLeadership ? "text-2xl" : "text-xl"}`} animate={{ color: isHovered ? "#06b6d4" : "#ffffff" }} transition={{ duration: 0.3 }}>
+          <motion.h3 className={`font-bold text-white mb-2 ${isLeadership ? "text-2xl" : "text-xl"}`} animate={{ color: isHovered ? "#0ea5e9" : "#ffffff" }} transition={{ duration: 0.3 }}>
             {member.name}
           </motion.h3>
 
           <div className="mb-3">
-            <span className="inline-block px-3 py-1 text-sm font-medium bg-gradient-to-r from-cyan-400/20 to-purple-400/20 text-cyan-300 rounded-full border border-cyan-400/30">{member.position}</span>
+            <span className="inline-block px-3 py-1 text-sm font-medium bg-gradient-to-r from-sky-400/20 to-blue-500/20 text-sky-300 rounded-full border border-sky-400/30">{member.position}</span>
           </div>
 
           <p className="text-slate-400 text-sm mb-4">{member.department}</p>
@@ -76,7 +76,7 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
           <div className="flex flex-wrap justify-center gap-1 mb-6">
             {member.skills &&
               member.skills.map((skill, skillIndex) => (
-                <motion.span key={skillIndex} className="px-2 py-1 text-xs bg-slate-800/50 text-slate-300 rounded-md border border-slate-700/50" whileHover={{ scale: 1.05, backgroundColor: "rgba(6, 182, 212, 0.1)" }}>
+                <motion.span key={skillIndex} className="px-2 py-1 text-xs bg-slate-800/50 text-slate-300 rounded-md border border-slate-700/50" whileHover={{ scale: 1.05, backgroundColor: "rgba(14, 165, 233, 0.1)" }}>
                   {skill}
                 </motion.span>
               ))}
@@ -89,7 +89,7 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
                 href={member.social.insta}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-pink-500/25 transition-all duration-300"
+                className="w-10 h-10 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-sky-500/25 transition-all duration-300"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -220,7 +220,7 @@ const TeamMembers = () => {
         {/* Hero Section */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-20">
           <motion.h1
-            className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+            className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent"
             animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
             }}
@@ -238,7 +238,7 @@ const TeamMembers = () => {
           <section id="section-leadership" className="mb-24">
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Leadership</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full" />
+              <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full" />
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -254,7 +254,7 @@ const TeamMembers = () => {
           <section id="section-members" className="mb-24">
             <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Core Members</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full" />
+              <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full" />
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -270,7 +270,7 @@ const TeamMembers = () => {
           <section id="section-developer" className="mb-16">
             <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Development Team</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-green-400 to-cyan-400 mx-auto rounded-full" />
+              <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full" />
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">

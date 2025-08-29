@@ -133,13 +133,13 @@ const Footer = () => {
             </div>
 
             <div className="flex gap-6 text-sm">
-              <motion.a href="#" className="hover:text-cyan-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
+              <motion.a href="#" className="hover:text-sky-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
                 Privacy Policy
               </motion.a>
-              <motion.a href="#" className="hover:text-cyan-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
+              <motion.a href="#" className="hover:text-sky-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
                 Terms of Service
               </motion.a>
-              <motion.a href="#" className="hover:text-cyan-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
+              <motion.a href="#" className="hover:text-sky-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
                 Contact
               </motion.a>
             </div>

@@ -50,7 +50,7 @@ const Achievements = () => {
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent"
             animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
             }}
@@ -61,7 +61,7 @@ const Achievements = () => {
           <motion.p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.8 }}>
             Celebrating excellence, innovation, and impact in civil engineering
           </motion.p>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full"></div>
         </div>
       </motion.div>
 
@@ -76,7 +76,7 @@ const Achievements = () => {
           <motion.h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-4" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             Impact by Numbers
           </motion.h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full mb-12"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full mb-12"></div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -108,20 +108,20 @@ const Achievements = () => {
           <motion.h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-4" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             Achievement Timeline
           </motion.h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full mb-16"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full mb-16"></div>
 
           <div className="space-y-12">
             {achievements.map((achievement, index) => (
               <motion.div key={index} initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: index * 0.2 }} className={`flex flex-col lg:flex-row items-center gap-8 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
                 {/* Year Badge */}
                 <div className="flex-shrink-0">
-                  <div className="w-24 h-24 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-cyan-400/25">{achievement.year}</div>
+                  <div className="w-24 h-24 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-sky-400/25">{achievement.year}</div>
                 </div>
 
                 {/* Achievement Content */}
                 <div className="flex-1 bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 hover:border-cyan-400/50 transition-all duration-500">
                   <div className="flex flex-wrap items-center gap-4 mb-4">
-                    <span className="px-3 py-1 bg-gradient-to-r from-cyan-400/20 to-purple-400/20 text-cyan-300 rounded-full text-sm font-medium border border-cyan-400/30">{achievement.category}</span>
+                    <span className="px-3 py-1 bg-gradient-to-r from-sky-400/20 to-blue-500/20 text-sky-300 rounded-full text-sm font-medium border border-sky-400/30">{achievement.category}</span>
                     <span className="text-slate-400 text-sm">{achievement.impact}</span>
                   </div>
 
@@ -146,7 +146,7 @@ const Achievements = () => {
               Join us in creating the next chapter of achievements in civil engineering excellence and innovation.
             </motion.p>
             <motion.button
-              className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-purple-400 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-cyan-400/25 transition-all duration-300"
+              className="px-8 py-4 bg-gradient-to-r from-sky-400 to-blue-500 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: 20 }}

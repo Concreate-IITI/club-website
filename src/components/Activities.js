@@ -22,7 +22,7 @@ const Activities = () => {
       description:
         "The IITI SOC Concrete Club successfully held its recent event, featuring workshops and discussions on innovative concrete technology. It was a great platform for students to engage and learn from industry experts, highlighting the importance of sustainable construction and future advancements in civil engineering.",
       images: ["/recent/IITISOC1.jpg", "/recent/IITISOC2.jpg"],
-      gradient: "from-purple-400/20 to-pink-400/20",
+      gradient: "from-cyan-400/20 to-blue-400/20",
     },
     {
       id: 3,
@@ -30,7 +30,7 @@ const Activities = () => {
       subtitle: "Showcasing Future Technologies",
       description: "Our technical exhibition provides a platform for students to showcase their innovative projects and research in civil engineering. From sustainable building materials to smart infrastructure solutions, this event highlights the cutting-edge work being done by our club members.",
       images: ["/recent/techexpo1.jpg", "/recent/techexpo2.jpg"],
-      gradient: "from-pink-400/20 to-cyan-400/20",
+      gradient: "from-sky-400/20 to-cyan-400/20",
     },
   ]
 
@@ -44,8 +44,8 @@ const Activities = () => {
               <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-block">
                 <span className="text-cyan-400 text-lg font-semibold tracking-wider uppercase mb-2 block">Activity {activity.id}</span>
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">{activity.title}</h2>
-                <p className="text-xl text-purple-300 mb-6">{activity.subtitle}</p>
-                <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full"></div>
+                <p className="text-xl text-sky-300 mb-6">{activity.subtitle}</p>
+                <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full"></div>
               </motion.div>
             </div>
 

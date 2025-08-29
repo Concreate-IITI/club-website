@@ -22,7 +22,7 @@ const Navbar = () => {
 
             {/* Mobile centered title */}
             <motion.div
-              className="spicy-rice-regular text-4xl md:hidden font-bold absolute left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
+              className="spicy-rice-regular text-4xl md:hidden font-bold absolute left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent"
               animate={{
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
               }}
@@ -32,7 +32,7 @@ const Navbar = () => {
             </motion.div>
 
             {/* Right aligned toggle button for mobile */}
-            <motion.button className="inline-flex items-center justify-center p-2 rounded-md text-white md:hidden hover:text-cyan-400 transition-colors duration-300" onClick={() => setMenuOpen(!menuOpen)} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+            <motion.button className="inline-flex items-center justify-center p-2 rounded-md text-white md:hidden hover:text-sky-400 transition-colors duration-300" onClick={() => setMenuOpen(!menuOpen)} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
               </svg>
@@ -41,7 +41,7 @@ const Navbar = () => {
 
           {/* Laptop view centered title */}
           <motion.div
-            className="hidden md:block spicy-rice-regular text-4xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+            className="hidden md:block spicy-rice-regular text-4xl md:text-6xl font-bold bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent"
             animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
             }}
@@ -63,9 +63,9 @@ const Navbar = () => {
               { href: "/message-us", label: "Contact Us" },
             ].map((link, index) => (
               <motion.div key={link.href} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1, duration: 0.3 }}>
-                <Link className={pathname === link.href ? "mr-5 text-cyan-400 relative" : "mr-5 hover:text-cyan-400 transition-colors duration-300 relative group"} href={link.href}>
+                <Link className={pathname === link.href ? "mr-5 text-sky-400 relative" : "mr-5 hover:text-sky-400 transition-colors duration-300 relative group"} href={link.href}>
                   {link.label}
-                  <motion.div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-full transition-all duration-300" whileHover={{ width: "100%" }} />
+                  <motion.div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-sky-400 to-blue-500 group-hover:w-full transition-all duration-300" whileHover={{ width: "100%" }} />
                 </Link>
               </motion.div>
             ))}
