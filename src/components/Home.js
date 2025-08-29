@@ -20,18 +20,18 @@ const Home = () => {
   return (
     <div className="min-h-screen relative">
       {/* Modern Hero Section with Split Layout */}
-      <div className="relative min-h-screen flex items-center overflow-hidden">
+      <div className="relative h-screen flex items-center overflow-hidden">
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/50 to-transparent" />
 
         {/* Main Content Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-8 lg:py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[90vh]">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-4 lg:py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[75vh]">
             {/* Left Side - Text Content */}
-            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.2 }} className="space-y-6 lg:space-y-8">
+            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.2 }} className="space-y-4 lg:space-y-6">
               {/* Main Heading */}
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="space-y-3 lg:space-y-4">
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="space-y-2 lg:space-y-3">
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
                   <span className="bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">Concreate</span>
                   <br />
@@ -47,7 +47,7 @@ const Home = () => {
               </motion.p>
 
               {/* Stats */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }} className="grid grid-cols-3 gap-6 lg:gap-8 py-4 lg:py-6">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }} className="grid grid-cols-3 gap-6 lg:gap-8 py-2 lg:py-4">
                 {[
                   { number: "500+", label: "Students" },
                   { number: "50+", label: "Projects" },
@@ -81,7 +81,7 @@ const Home = () => {
             </motion.div>
 
             {/* Right Side - Image Gallery */}
-            <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.4 }} className="relative h-[350px] md:h-[400px] lg:h-[450px]">
+            <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.4 }} className="relative h-[300px] md:h-[350px] lg:h-[400px]">
               {/* Main Image Container */}
               <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-sky-500/20 to-blue-600/20 backdrop-blur-sm border border-white/10">
                 {/* Background Pattern */}
@@ -136,7 +136,7 @@ const Home = () => {
               <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
 
               {/* Thumbnail Selectors Below Image */}
-              <div className="mt-4 lg:mt-6 flex justify-center space-x-2 lg:space-x-3">
+              <div className="mt-3 lg:mt-4 flex justify-center space-x-2 lg:space-x-3">
                 {heroImages.map((image, index) => (
                   <motion.button
                     key={index}
@@ -167,9 +167,9 @@ const Home = () => {
       </div>
 
       {/* Features Section */}
-      <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="py-20 relative z-10">
+      <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="py-12 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">What Makes Us Unique</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full"></div>
           </motion.div>
