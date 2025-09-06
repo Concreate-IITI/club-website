@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
-import { verifyToken } from "./src/lib/authUtils"
+import { verifyTokenEdge } from "./src/lib/edgeAuth"
 
-export function middleware(request) {
+export async function middleware(request) {
   const { pathname } = request.nextUrl
 
   // Protected admin routes
@@ -14,8 +14,8 @@ export function middleware(request) {
     }
 
     try {
-      // Verify token
-      const decoded = verifyToken(token)
+      // Verify token using Edge-safe verifier
+      const decoded = await verifyTokenEdge(token)
 
       // Check if user has admin role
       if (decoded.role !== "admin") {
@@ -36,7 +36,7 @@ export function middleware(request) {
 
     if (token) {
       try {
-        const decoded = verifyToken(token)
+        const decoded = await verifyTokenEdge(token)
         if (decoded.role === "admin") {
           return NextResponse.redirect(new URL("/admin", request.url))
         }
