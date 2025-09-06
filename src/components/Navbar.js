@@ -57,8 +57,9 @@ const Navbar = () => {
           >
             {[
               { href: "/", label: "Home" },
-              { href: "/recentActivities", label: "Recent Activities" },
+              { href: "/recentActivities", label: "Events" },
               { href: "/achievements", label: "Achievements" },
+              { href: "/projects", label: "Projects" },
               { href: "/team", label: "Team Members" },
               { href: "/message-us", label: "Contact Us" },
             ].map((link, index) => (

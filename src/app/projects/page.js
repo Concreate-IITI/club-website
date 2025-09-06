@@ -1,19 +1,19 @@
 import CivilEngineeringBackground from "../../components/CivilEngineeringBackground"
 import Navbar from "../../components/Navbar"
-import Events from "../../components/Events"
+import Projects from "../../components/Projects"
 import Footer from "../../components/Footer"
 
 export const metadata = {
-  title: "Events & Activities - Concreate Club",
-  description: "Upcoming, ongoing, and past events by the Concreate Club at IIT Indore",
+  title: "Projects - Concreate Club",
+  description: "Ongoing and completed projects by the Concreate Club at IIT Indore",
 }
 
-export default function EventsPage() {
+export default function ProjectsPage() {
   return (
     <>
       <CivilEngineeringBackground />
       <Navbar />
-      <Events />
+      <Projects />
       <Footer />
     </>
   )
