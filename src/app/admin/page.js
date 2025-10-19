@@ -51,8 +51,8 @@ export default function AdminDashboard() {
       if (teamData.success) {
         const total = teamData.total
         const active = teamData.data.filter((member) => member.isActive).length
-        
-        setStats(prevStats => ({
+
+        setStats((prevStats) => ({
           ...prevStats,
           totalTeamMembers: total,
           activeTeamMembers: active,
@@ -61,9 +61,9 @@ export default function AdminDashboard() {
 
       if (messageData.success) {
         const totalMessages = messageData.total || 0
-        const unreadMessages = messageData.data?.filter((msg) => msg.status === 'unread').length || 0
-        
-        setStats(prevStats => ({
+        const unreadMessages = messageData.data?.filter((msg) => msg.status === "unread").length || 0
+
+        setStats((prevStats) => ({
           ...prevStats,
           totalMessages,
           unreadMessages,
@@ -216,16 +216,32 @@ export default function AdminDashboard() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                {stats.unreadMessages > 0 && (
-                  <div className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 font-bold">
-                    {stats.unreadMessages} new
-                  </div>
-                )}
+                {stats.unreadMessages > 0 && <div className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 font-bold">{stats.unreadMessages} new</div>}
               </div>
               <h3 className="text-xl font-bold text-white mb-2">Manage Messages</h3>
               <p className="text-gray-300 mb-4">View and respond to contact form submissions</p>
               <div className="flex items-center text-orange-400 group-hover:text-orange-300">
                 <span>View Messages</span>
+                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/admin/events">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group">
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-purple-600 rounded-lg group-hover:bg-purple-500 transition-colors duration-200">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Manage Events</h3>
+              <p className="text-gray-300 mb-4">Create and manage events, registrations, and custom forms</p>
+              <div className="flex items-center text-purple-400 group-hover:text-purple-300">
+                <span>Manage Events</span>
                 <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                 </svg>
