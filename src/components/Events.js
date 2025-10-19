@@ -1,15 +1,22 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Modal from "./Modal"
+import RegistrationModal from "./RegistrationModal"
 
 const Events = () => {
   const [activeTab, setActiveTab] = useState("upcoming")
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false)
+  const [registrationEvent, setRegistrationEvent] = useState(null)
   const [carouselIndices, setCarouselIndices] = useState({})
+  const [upcomingEvents, setUpcomingEvents] = useState([])
+  const [ongoingEvents, setOngoingEvents] = useState([])
+  const [pastEvents, setPastEvents] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const goToSlide = (eventId, index) => {
     setCarouselIndices((prev) => ({
@@ -28,121 +35,45 @@ const Events = () => {
     goToSlide(eventId, (currentIndex - 1 + totalImages) % totalImages)
   }
 
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: "CivilX Series 2025: Smart Infrastructure",
-      date: "March 15, 2025",
-      time: "10:00 AM - 5:00 PM",
-      venue: "IIT Indore Auditorium",
-      description: "Annual flagship event focusing on smart city solutions and IoT applications in civil engineering.",
-      image: "/recent/techexpo1.jpg",
-      category: "Conference",
-      registrations: "200+",
-    },
-    {
-      id: 2,
-      title: "Sustainable Construction Workshop",
-      date: "February 28, 2025",
-      time: "2:00 PM - 6:00 PM",
-      venue: "Civil Engineering Lab",
-      description: "Hands-on workshop on eco-friendly building materials and sustainable construction practices.",
-      image: "/recent/techexpo2.jpg",
-      category: "Workshop",
-      registrations: "50",
-    },
-    {
-      id: 3,
-      title: "Inter-IIT Civil Conclave",
-      date: "April 12-14, 2025",
-      time: "9:00 AM - 8:00 PM",
-      venue: "IIT Indore Campus",
-      description: "Three-day national level competition featuring structural design, surveying, and innovation challenges.",
-      image: "/recent/IITISOC1.jpg",
-      category: "Competition",
-      registrations: "500+",
-    },
-  ]
+  useEffect(() => {
+    fetchEvents()
+  }, [])
 
-  const ongoingEvents = [
-    {
-      id: 1,
-      title: "Hackathon 2025: Civil Tech Solutions",
-      endDate: "January 31, 2025",
-      description: "48-hour hackathon to develop innovative digital solutions for civil engineering challenges.",
-      participants: "150",
-      teams: "30",
-      status: "Registration Open",
-    },
-    {
-      id: 2,
-      title: "Research Paper Competition",
-      endDate: "February 15, 2025",
-      description: "Annual research paper competition on emerging trends in civil engineering and sustainability.",
-      participants: "80",
-      teams: "40",
-      status: "Submission Phase",
-    },
-  ]
+  const fetchEvents = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/events")
+      const data = await response.json()
 
-  const pastEvents = [
-    {
-      id: 1,
-      year: "2024",
-      title: "CivilX Series 2024: Future of Infrastructure",
-      date: "March 2024",
-      description: "Successfully organized our flagship event with renowned speakers and innovative project showcases. This three-day event brought together industry leaders, academics, and students to explore the future of infrastructure development.",
-      images: ["/recent/Bimg1.jpg", "/recent/techexpo1.jpg", "/recent/IITISOC1.jpg"],
-      participants: "500+",
-      outcome: "Best Student Event Award",
-      highlights: ["5 Keynote Speakers", "50+ Project Displays", "Industry Networking", "3-Day Duration", "Live Streaming"],
-      venue: "IIT Indore Auditorium",
-      duration: "3 Days",
-      impact: "Established partnerships with 10+ industry leaders and received national recognition",
-    },
-    {
-      id: 2,
-      year: "2024",
-      title: "National Concrete Mix Design Competition",
-      date: "November 2024",
-      description: "Interstate competition focused on sustainable concrete technology and innovative mix designs. Teams from across India competed to develop the most sustainable and cost-effective concrete solutions.",
-      images: ["/recent/Bimg2.jpg", "/recent/techexpo2.jpg", "/recent/IITISOC2.jpg"],
-      participants: "200+",
-      outcome: "2nd Place National",
-      highlights: ["15 Teams Participated", "Industry Mentorship", "Research Publications", "Sustainability Focus", "Innovation Awards"],
-      venue: "Civil Engineering Lab Complex",
-      duration: "2 Days",
-      impact: "Published 5 research papers and developed 3 patentable mix designs",
-    },
-    {
-      id: 3,
-      year: "2023",
-      title: "Green Building Workshop Series",
-      date: "September 2023",
-      description: "Month-long workshop series on sustainable construction and green building certifications. Featured hands-on training with industry experts and certification programs.",
-      images: ["/recent/Bimg3.jpg", "/Home/new/p1.jpg", "/Home/new/p2.jpg"],
-      participants: "300+",
-      outcome: "Certification Program",
-      highlights: ["IGBC Partnership", "20+ Industry Experts", "Practical Training", "LEED Certification", "Green Materials"],
-      venue: "Multiple Venues",
-      duration: "1 Month",
-      impact: "150+ students received green building certifications, 50+ projects implemented sustainable practices",
-    },
-    {
-      id: 4,
-      year: "2023",
-      title: "Tech Expo: Civil Engineering Innovations",
-      date: "May 2023",
-      description: "Annual technology exhibition showcasing student projects and industry innovations. A platform for students to present their research and connect with industry professionals.",
-      images: ["/recent/Bimg4.jpg", "/Home/new/p3.jpg", "/Home/new/p4.jpg"],
-      participants: "400+",
-      outcome: "Innovation Award",
-      highlights: ["100+ Projects", "Live Demonstrations", "Startup Pitches", "Industry Panels", "Student Awards"],
-      venue: "Campus Exhibition Hall",
-      duration: "2 Days",
-      impact: "Launched 5 student startups, secured funding for 10+ projects, established industry mentorship programs",
-    },
-  ]
+      if (data.success) {
+        const upcoming = data.data.filter((e) => e.type === "upcoming" && e.isActive)
+        const ongoing = data.data.filter((e) => e.type === "ongoing" && e.isActive)
+        const past = data.data.filter((e) => e.type === "past" && e.isActive)
+
+        setUpcomingEvents(upcoming)
+        setOngoingEvents(ongoing)
+        setPastEvents(past)
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleRegisterClick = (event) => {
+    if (event.registrationEnabled && event.registrationForm?.length > 0) {
+      setRegistrationEvent(event)
+      setIsRegistrationModalOpen(true)
+    }
+  }
+
+  const handleJoinClick = (event) => {
+    if (event.registrationEnabled && event.registrationForm?.length > 0) {
+      setRegistrationEvent(event)
+      setIsRegistrationModalOpen(true)
+    }
+  }
 
   const tabs = [
     { id: "upcoming", label: "Upcoming Events", count: upcomingEvents.length },
@@ -205,47 +136,64 @@ const Events = () => {
                   whileHover={{ y: -5 }}
                 >
                   <div className="relative h-48 overflow-hidden">
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-sky-500/90 text-white text-sm font-semibold rounded-full">{event.category}</span>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 bg-black/70 text-white text-sm font-semibold rounded-full">{event.registrations} registered</span>
-                    </div>
+                    <img src={event.images?.[0]?.url || "/recent/techexpo1.jpg"} alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    {event.category && (
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-sky-500/90 text-white text-sm font-semibold rounded-full">{event.category}</span>
+                      </div>
+                    )}
+                    {event.registrations && (
+                      <div className="absolute top-4 right-4">
+                        <span className="px-3 py-1 bg-black/70 text-white text-sm font-semibold rounded-full">{event.registrations} registered</span>
+                      </div>
+                    )}
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{event.title}</h3>
                     <div className="space-y-2 mb-4 text-slate-300">
-                      <div className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-sm">{event.date}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-sm">{event.time}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-sm">{event.venue}</span>
-                      </div>
+                      {event.date && (
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-sm">{event.date}</span>
+                        </div>
+                      )}
+                      {event.time && (
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-sm">{event.time}</span>
+                        </div>
+                      )}
+                      {event.venue && (
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-sm">{event.venue}</span>
+                        </div>
+                      )}
                     </div>
-                    <p className="text-slate-400 text-sm mb-4 leading-relaxed">{event.description}</p>
+                    {event.description && <p className="text-slate-400 text-sm mb-4 leading-relaxed">{event.description}</p>}
                     <div className="flex gap-3">
-                      <motion.button className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        Register Now
-                      </motion.button>
+                      {event.registrationEnabled && (
+                        <motion.button
+                          onClick={() => handleRegisterClick(event)}
+                          className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          Register Now
+                        </motion.button>
+                      )}
                       <motion.button
                         onClick={() => {
                           setSelectedEvent(event)
                           setIsModalOpen(true)
                         }}
-                        className="flex-1 px-4 py-2 border border-sky-400/50 text-sky-400 font-semibold rounded-lg hover:bg-sky-400/10 transition-all duration-300"
+                        className={`${event.registrationEnabled ? "flex-1" : "w-full"} px-4 py-2 border border-sky-400/50 text-sky-400 font-semibold rounded-lg hover:bg-sky-400/10 transition-all duration-300`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
@@ -299,9 +247,16 @@ const Events = () => {
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <motion.button className="px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        Join Now
-                      </motion.button>
+                      {event.registrationEnabled && (
+                        <motion.button
+                          onClick={() => handleJoinClick(event)}
+                          className="px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          Join Now
+                        </motion.button>
+                      )}
                       <motion.button
                         onClick={() => {
                           setSelectedEvent(event)
@@ -339,18 +294,10 @@ const Events = () => {
                   <div className="relative">
                     {/* Image Carousel */}
                     <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/9", maxHeight: "500px" }}>
-                      <motion.div
-                        className="relative w-full h-full"
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <img
-                          src={event.images[carouselIndices[event.id] || 0]}
-                          alt={event.title}
-                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                        />
+                      <motion.div className="relative w-full h-full" animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+                        <img src={event.images?.[carouselIndices[event._id || event.id] || 0]?.url || "/recent/Bimg1.jpg"} alt={event.title} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        
+
                         {/* Year and Outcome Badges */}
                         <div className="absolute top-6 left-6">
                           <span className="px-4 py-2 bg-sky-500/90 text-white text-lg font-bold rounded-full">{event.year}</span>
@@ -358,7 +305,7 @@ const Events = () => {
                         <div className="absolute top-6 right-6">
                           <span className="px-4 py-2 bg-green-500/90 text-white text-sm font-semibold rounded-full">{event.outcome}</span>
                         </div>
-                        
+
                         {/* Title and Date Overlay */}
                         <div className="absolute bottom-6 left-6 right-6">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{event.title}</h3>
@@ -399,16 +346,7 @@ const Events = () => {
                     {event.images.length > 1 && (
                       <div className="flex justify-center gap-2 p-4 bg-slate-900/50">
                         {event.images.map((_, imgIndex) => (
-                          <motion.button
-                            key={imgIndex}
-                            onClick={() => goToSlide(event.id, imgIndex)}
-                            className={`h-2 rounded-full transition-all duration-300 ${
-                              (carouselIndices[event.id] || 0) === imgIndex
-                                ? "bg-sky-400 w-8"
-                                : "bg-slate-600 w-2 hover:bg-slate-500"
-                            }`}
-                            whileHover={{ scale: 1.2 }}
-                          />
+                          <motion.button key={imgIndex} onClick={() => goToSlide(event.id, imgIndex)} className={`h-2 rounded-full transition-all duration-300 ${(carouselIndices[event.id] || 0) === imgIndex ? "bg-sky-400 w-8" : "bg-slate-600 w-2 hover:bg-slate-500"}`} whileHover={{ scale: 1.2 }} />
                         ))}
                       </div>
                     )}
@@ -578,6 +516,9 @@ const Events = () => {
           </div>
         )}
       </Modal>
+
+      {/* Registration Modal */}
+      <RegistrationModal isOpen={isRegistrationModalOpen} onClose={() => setIsRegistrationModalOpen(false)} event={registrationEvent} />
     </div>
   )
 }
