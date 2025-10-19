@@ -249,6 +249,26 @@ export default function AdminDashboard() {
             </div>
           </Link>
 
+          <Link href="/admin/projects">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group">
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-cyan-600 rounded-lg group-hover:bg-cyan-500 transition-colors duration-200">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Manage Projects</h3>
+              <p className="text-gray-300 mb-4">Create and manage ongoing and completed projects</p>
+              <div className="flex items-center text-cyan-400 group-hover:text-cyan-300">
+                <span>Manage Projects</span>
+                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </Link>
+
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 opacity-50">
             <div className="flex items-center mb-4">
               <div className="p-3 bg-gray-600 rounded-lg">
