@@ -65,7 +65,7 @@ const Footer = () => {
               <motion.img src="/logo.png" alt="Logo" className="h-24 w-auto sm:h-32 transition-transform duration-300 hover:scale-110" whileHover={{ rotate: 5 }} />
               <div className="text-center sm:text-left">
                 <motion.h3
-                  className="spicy-rice-regular text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2"
+                  className="spicy-rice-regular text-3xl sm:text-4xl font-bold bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2"
                   animate={{
                     backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                   }}
@@ -121,33 +121,7 @@ const Footer = () => {
               </div>
             </motion.div>
           </div>
-
-          {/* Divider */}
-          <motion.div className="my-8 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" initial={{ opacity: 0, scaleX: 0 }} whileInView={{ opacity: 1, scaleX: 1 }} transition={{ duration: 0.8, delay: 0.6 }} />
-
-          {/* Bottom Section */}
-          <motion.div className="flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.8 }}>
-            <div className="text-center md:text-left">
-              <p className="text-sm">© 2024 Concreate Club, IIT Indore. All rights reserved.</p>
-              <p className="text-xs mt-1">Designed with ❤️ by the Concreate Team</p>
-            </div>
-
-            <div className="flex gap-6 text-sm">
-              <motion.a href="#" className="hover:text-sky-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
-                Privacy Policy
-              </motion.a>
-              <motion.a href="#" className="hover:text-sky-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
-                Terms of Service
-              </motion.a>
-              <motion.a href="#" className="hover:text-sky-400 transition-colors duration-300" whileHover={{ scale: 1.05 }}>
-                Contact
-              </motion.a>
-            </div>
-          </motion.div>
         </div>
-
-        {/* Background decoration */}
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-950/50 to-transparent pointer-events-none"></div>
       </footer>
     </motion.div>
   )

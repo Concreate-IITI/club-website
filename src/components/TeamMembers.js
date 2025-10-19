@@ -5,9 +5,10 @@ import { motion } from "framer-motion"
 
 const ModernTeamCard = ({ member, index, isLeadership = false }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const cardSizingClass = isLeadership ? "basis-full sm:basis-1/2 lg:basis-1/3 max-w-sm" : "basis-full sm:basis-1/2 lg:basis-1/4 max-w-xs xl:max-w-sm"
 
   return (
-    <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: index * 0.1 }} className="relative group" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: index * 0.1 }} className={`relative group mx-auto ${cardSizingClass}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <div
         className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 ${isLeadership ? "p-8" : "p-6"} transition-all duration-500 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-400/20`}
       >
@@ -217,22 +218,6 @@ const TeamMembers = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
-        {/* Hero Section */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-20">
-          <motion.h1
-            className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent"
-            animate={{
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-            }}
-            transition={{ duration: 5, repeat: Infinity }}
-          >
-            Our Team
-          </motion.h1>
-          <motion.p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.8 }}>
-            Meet the brilliant minds behind Concreate Club - innovators, builders, and visionaries shaping the future of civil engineering at IIT Indore.
-          </motion.p>
-        </motion.div>
-
         {/* Leadership Section */}
         {leadership.length > 0 && (
           <section id="section-leadership" className="mb-24">
@@ -241,7 +226,7 @@ const TeamMembers = () => {
               <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full" />
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
               {leadership.map((member, index) => (
                 <ModernTeamCard key={member._id} member={member} index={index} isLeadership={true} />
               ))}
@@ -257,7 +242,7 @@ const TeamMembers = () => {
               <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full" />
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
               {coreMembers.map((member, index) => (
                 <ModernTeamCard key={member._id} member={member} index={index} />
               ))}
@@ -273,7 +258,7 @@ const TeamMembers = () => {
               <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full" />
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
               {developers.map((member, index) => (
                 <ModernTeamCard key={member._id} member={member} index={index} isLeadership={true} />
               ))}
