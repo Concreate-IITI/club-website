@@ -7,14 +7,96 @@ import { InfiniteMovingCardsDemo } from "./InfiniteMovingCardsDemo"
 
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [pageSettings, setPageSettings] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const heroImages = ["/Home/new/p1.jpg", "/Home/new/p2.jpg", "/Home/new/p3.jpg", "/Home/new/p4.jpg", "/Home/new/p5.jpg", "/Home/new/p6.jpg"]
+  // Icon mapping
+  const getIcon = (iconType) => {
+    const icons = {
+      beaker: (
+        <svg className="w-12 h-12 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 9.172V5L8 4z"
+          />
+        </svg>
+      ),
+      lightning: (
+        <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      ),
+      trophy: (
+        <svg className="w-12 h-12 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+          />
+        </svg>
+      ),
+      users: (
+        <svg className="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+      ),
+      heart: (
+        <svg className="w-12 h-12 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      ),
+      book: (
+        <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+          />
+        </svg>
+      ),
+    }
+    return icons[iconType] || icons.beaker
+  }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)
-    }, 5000)
-    return () => clearInterval(interval)
+    fetchPageSettings()
+  }, [])
+
+  const fetchPageSettings = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/page-settings?page=home")
+      const data = await response.json()
+
+      if (data.success) {
+        setPageSettings(data.data)
+      }
+    } catch (error) {
+      console.error("Error fetching page settings:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const heroImages = pageSettings?.heroImages?.sort((a, b) => a.order - b.order).map((img) => img.url) || []
+  const uniqueCards = pageSettings?.uniqueCards?.sort((a, b) => a.order - b.order) || []
+
+  useEffect(() => {
+    if (heroImages.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)
+      }, 5000)
+      return () => clearInterval(interval)
+    }
   }, [heroImages.length])
 
   return (
@@ -32,26 +114,22 @@ const Home = () => {
             <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.2 }} className="space-y-4 lg:space-y-6">
               {/* Main Heading */}
               <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="space-y-2 lg:space-y-3">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                  <span className="bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">Concreate</span>
-                  <br />
-                  <span className="text-white">Club</span>
-                </h1>
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">{pageSettings?.heroSection?.title || "Concreate Club"}</h1>
 
-                <h2 className="text-lg md:text-xl lg:text-2xl text-sky-300 font-medium">Civil Engineering Student Club - IIT Indore</h2>
+                <h2 className="text-lg md:text-xl lg:text-2xl text-sky-300 font-medium">{pageSettings?.heroSection?.subtitle || "Civil Engineering Student Club - IIT Indore"}</h2>
               </motion.div>
 
               {/* Description */}
               <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.8 }} className="text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed max-w-2xl">
-                Driving hands-on learning, innovation, and collaboration. Through workshops, student-led projects, competitions, and the flagship CivilX Series, we bridge classroom knowledge with real-world engineering challenges.
+                {pageSettings?.heroSection?.description || "Driving hands-on learning, innovation, and collaboration. Through workshops, student-led projects, competitions, and the flagship CivilX Series, we bridge classroom knowledge with real-world engineering challenges."}
               </motion.p>
 
               {/* Stats */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }} className="grid grid-cols-3 gap-6 lg:gap-8 py-2 lg:py-4">
                 {[
-                  { number: "500+", label: "Students" },
-                  { number: "50+", label: "Projects" },
-                  { number: "25+", label: "Awards" },
+                  { number: pageSettings?.heroSection?.studentsCount || "500+", label: "Students" },
+                  { number: pageSettings?.heroSection?.projectsCount || "50+", label: "Projects" },
+                  { number: pageSettings?.heroSection?.awardsCount || "25+", label: "Awards" },
                 ].map((stat, index) => (
                   <div key={index} className="text-center lg:text-left">
                     <div className="text-2xl md:text-3xl font-bold text-sky-400">{stat.number}</div>
@@ -166,85 +244,10 @@ const Home = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 9.172V5L8 4z"
-                    />
-                  </svg>
-                ),
-                title: "Hands-On Learning",
-                description: "Practical workshops and lab sessions that bring theoretical concepts to life through real engineering applications.",
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                ),
-                title: "Innovation Hub",
-                description: "Student-led projects pushing the boundaries of civil engineering with cutting-edge technologies and sustainable solutions.",
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                    />
-                  </svg>
-                ),
-                title: "CivilX Series",
-                description: "Our flagship competition series connecting students with industry challenges and fostering competitive excellence.",
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                ),
-                title: "Industry Connect",
-                description: "Strong partnerships with leading construction companies and engineering firms for internships and career opportunities.",
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
-                ),
-                title: "Sustainable Focus",
-                description: "Emphasis on green building technologies, sustainable infrastructure, and environmentally conscious engineering practices.",
-              },
-              {
-                icon: (
-                  <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                    />
-                  </svg>
-                ),
-                title: "Knowledge Sharing",
-                description: "Regular seminars, technical talks, and peer-to-peer learning sessions with experts from academia and industry.",
-              },
-            ].map((feature, index) => (
+            {uniqueCards.map((feature, index) => (
               <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1, duration: 0.6 }} className="group">
                 <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:border-sky-400/50 transition-all duration-300 hover:transform hover:scale-105 hover:bg-white/15">
-                  <div className="mb-6 group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
+                  <div className="mb-6 group-hover:scale-110 transition-transform duration-300">{getIcon(feature.iconType)}</div>
                   <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
                   <p className="text-gray-300 leading-relaxed">{feature.description}</p>
                 </div>

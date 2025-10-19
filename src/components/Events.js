@@ -347,7 +347,12 @@ const Events = () => {
                     {event.images && event.images.length > 1 && (
                       <div className="flex justify-center gap-2 p-4 bg-slate-900/50">
                         {event.images.map((_, imgIndex) => (
-                          <motion.button key={imgIndex} onClick={() => goToSlide(event._id, imgIndex)} className={`h-2 rounded-full transition-all duration-300 ${(carouselIndices[event._id] || 0) === imgIndex ? "bg-sky-400 w-8" : "bg-slate-600 w-2 hover:bg-slate-500"}`} whileHover={{ scale: 1.2 }} />
+                          <motion.button
+                            key={imgIndex}
+                            onClick={() => goToSlide(event._id, imgIndex)}
+                            className={`h-2 rounded-full transition-all duration-300 ${(carouselIndices[event._id] || 0) === imgIndex ? "bg-sky-400 w-8" : "bg-slate-600 w-2 hover:bg-slate-500"}`}
+                            whileHover={{ scale: 1.2 }}
+                          />
                         ))}
                       </div>
                     )}
@@ -501,13 +506,13 @@ const Events = () => {
                   </div>
                 )}
                 {selectedEvent.registrationEnabled && (
-                  <motion.button 
+                  <motion.button
                     onClick={() => {
                       setIsModalOpen(false)
                       handleRegisterClick(selectedEvent)
                     }}
-                    className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" 
-                    whileHover={{ scale: 1.02 }} 
+                    className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     Register Now
@@ -552,13 +557,13 @@ const Events = () => {
                   </div>
                 )}
                 {selectedEvent.registrationEnabled && (
-                  <motion.button 
+                  <motion.button
                     onClick={() => {
                       setIsModalOpen(false)
                       handleJoinClick(selectedEvent)
                     }}
-                    className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" 
-                    whileHover={{ scale: 1.02 }} 
+                    className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     Join Now

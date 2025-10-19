@@ -269,25 +269,50 @@ export default function AdminDashboard() {
             </div>
           </Link>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 opacity-50">
-            <div className="flex items-center mb-4">
-              <div className="p-3 bg-gray-600 rounded-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                  />
+          <Link href="/admin/achievements">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:border-purple-400/50 transition-all duration-300 cursor-pointer group h-full">
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-purple-600 rounded-lg group-hover:bg-purple-500 transition-colors duration-200">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Manage Achievements</h3>
+              <p className="text-gray-300 mb-4">Create and manage achievement timeline</p>
+              <div className="flex items-center text-purple-400 group-hover:text-purple-300">
+                <span>Manage Achievements</span>
+                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                 </svg>
               </div>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Manage Achievements</h3>
-            <p className="text-gray-300 mb-4">Add and manage achievements and awards (Coming Soon)</p>
-            <div className="flex items-center text-gray-500">
-              <span>Coming Soon</span>
+          </Link>
+
+          <Link href="/admin/page-settings">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group">
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-green-600 rounded-lg group-hover:bg-green-500 transition-colors duration-200">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Page Settings</h3>
+              <p className="text-gray-300 mb-4">Manage stats cards, fields of excellence, and dynamic content</p>
+              <div className="flex items-center text-green-400 group-hover:text-green-300">
+                <span>Manage Settings</span>
+                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
             </div>
-          </div>
+          </Link>
 
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 opacity-50">
             <div className="flex items-center mb-4">
