@@ -299,9 +299,6 @@ const Achievements = () => {
                   
                   {/* Achievements */}
                   <div className="ml-20 md:ml-0">
-                    <h3 className="text-2xl font-bold text-white mb-6 md:text-center">
-                      {yearData.year} Achievements
-                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {yearData.achievements.map((achievement, achievementIndex) => (
                         <motion.div

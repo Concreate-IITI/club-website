@@ -34,13 +34,6 @@ const Projects = () => {
     }
   }
 
-  const projectStats = [
-    { number: ongoingProjects.length, label: "Ongoing Projects", icon: "🚧" },
-    { number: completedProjects.length, label: "Completed Projects", icon: "✅" },
-    { number: "₹75L", label: "Total Funding", icon: "💰" },
-    { number: "150+", label: "Students Involved", icon: "👨‍🎓" },
-  ]
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -63,32 +56,7 @@ const Projects = () => {
           >
             Our Projects
           </motion.h1>
-          <motion.p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.8 }}>
-            Innovative research and development projects driving the future of civil engineering
-          </motion.p>
           <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full"></div>
-        </div>
-      </motion.div>
-
-      {/* Project Statistics */}
-      <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {projectStats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 text-center hover:border-cyan-400/50 transition-all duration-500 group"
-                whileHover={{ scale: 1.05, y: -5 }}
-              >
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{stat.icon}</div>
-                <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2">{stat.number}</div>
-                <div className="text-white font-semibold">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </motion.div>
 
@@ -125,7 +93,6 @@ const Projects = () => {
         {/* Ongoing Projects */}
         {activeTab === "ongoing" && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Ongoing Projects</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {ongoingProjects.map((project, index) => (
                 <motion.div
@@ -242,7 +209,6 @@ const Projects = () => {
         {/* Completed Projects */}
         {activeTab === "completed" && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Completed Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {completedProjects.map((project, index) => (
                 <motion.div

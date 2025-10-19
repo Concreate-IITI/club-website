@@ -124,7 +124,6 @@ const Events = () => {
         {/* Upcoming Events */}
         {activeTab === "upcoming" && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Upcoming Events</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {upcomingEvents.map((event, index) => (
                 <motion.div
@@ -210,7 +209,6 @@ const Events = () => {
         {/* Ongoing Events */}
         {activeTab === "ongoing" && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Ongoing Events</h2>
             <div className="space-y-6">
               {ongoingEvents.map((event, index) => (
                 <motion.div
@@ -279,7 +277,6 @@ const Events = () => {
         {/* Past Events */}
         {activeTab === "past" && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Past Events Gallery</h2>
             <div className="space-y-12">
               {pastEvents.map((event, index) => (
                 <motion.div
@@ -295,28 +292,32 @@ const Events = () => {
                     {/* Image Carousel */}
                     <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/9", maxHeight: "500px" }}>
                       <motion.div className="relative w-full h-full" animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-                        <img src={event.images?.[carouselIndices[event._id || event.id] || 0]?.url || "/recent/Bimg1.jpg"} alt={event.title} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" />
+                        <img src={event.images?.[carouselIndices[event._id] || 0]?.url || "/recent/Bimg1.jpg"} alt={event.title} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
                         {/* Year and Outcome Badges */}
-                        <div className="absolute top-6 left-6">
-                          <span className="px-4 py-2 bg-sky-500/90 text-white text-lg font-bold rounded-full">{event.year}</span>
-                        </div>
-                        <div className="absolute top-6 right-6">
-                          <span className="px-4 py-2 bg-green-500/90 text-white text-sm font-semibold rounded-full">{event.outcome}</span>
-                        </div>
+                        {event.year && (
+                          <div className="absolute top-6 left-6">
+                            <span className="px-4 py-2 bg-sky-500/90 text-white text-lg font-bold rounded-full">{event.year}</span>
+                          </div>
+                        )}
+                        {event.outcome && (
+                          <div className="absolute top-6 right-6">
+                            <span className="px-4 py-2 bg-green-500/90 text-white text-sm font-semibold rounded-full">{event.outcome}</span>
+                          </div>
+                        )}
 
                         {/* Title and Date Overlay */}
                         <div className="absolute bottom-6 left-6 right-6">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{event.title}</h3>
-                          <p className="text-sky-300 text-lg font-semibold">{event.date}</p>
+                          {event.date && <p className="text-sky-300 text-lg font-semibold">{event.date}</p>}
                         </div>
                       </motion.div>
 
                       {/* Previous Button */}
-                      {event.images.length > 1 && (
+                      {event.images && event.images.length > 1 && (
                         <motion.button
-                          onClick={() => prevSlide(event.id, event.images.length)}
+                          onClick={() => prevSlide(event._id, event.images.length)}
                           className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/40 hover:bg-black/60 text-white rounded-lg backdrop-blur-sm transition-all duration-300"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
@@ -328,9 +329,9 @@ const Events = () => {
                       )}
 
                       {/* Next Button */}
-                      {event.images.length > 1 && (
+                      {event.images && event.images.length > 1 && (
                         <motion.button
-                          onClick={() => nextSlide(event.id, event.images.length)}
+                          onClick={() => nextSlide(event._id, event.images.length)}
                           className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/40 hover:bg-black/60 text-white rounded-lg backdrop-blur-sm transition-all duration-300"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
@@ -343,10 +344,10 @@ const Events = () => {
                     </div>
 
                     {/* Carousel Indicators */}
-                    {event.images.length > 1 && (
+                    {event.images && event.images.length > 1 && (
                       <div className="flex justify-center gap-2 p-4 bg-slate-900/50">
                         {event.images.map((_, imgIndex) => (
-                          <motion.button key={imgIndex} onClick={() => goToSlide(event.id, imgIndex)} className={`h-2 rounded-full transition-all duration-300 ${(carouselIndices[event.id] || 0) === imgIndex ? "bg-sky-400 w-8" : "bg-slate-600 w-2 hover:bg-slate-500"}`} whileHover={{ scale: 1.2 }} />
+                          <motion.button key={imgIndex} onClick={() => goToSlide(event._id, imgIndex)} className={`h-2 rounded-full transition-all duration-300 ${(carouselIndices[event._id] || 0) === imgIndex ? "bg-sky-400 w-8" : "bg-slate-600 w-2 hover:bg-slate-500"}`} whileHover={{ scale: 1.2 }} />
                         ))}
                       </div>
                     )}
@@ -355,65 +356,79 @@ const Events = () => {
                   {/* Details Section */}
                   <div className="p-8">
                     {/* Event Info Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                      <div className="text-center md:text-left">
-                        <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
-                          <svg className="w-5 h-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM9 12a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                            <path fillRule="evenodd" d="M1 4a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm2 0h14v12H3V4z" clipRule="evenodd" />
-                          </svg>
-                          <span className="text-slate-400 text-sm font-medium">Participants</span>
-                        </div>
-                        <div className="text-2xl font-bold text-white">{event.participants}</div>
+                    {(event.participants || event.venue || event.duration) && (
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        {event.participants && (
+                          <div className="text-center md:text-left">
+                            <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
+                              <svg className="w-5 h-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM9 12a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                <path fillRule="evenodd" d="M1 4a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm2 0h14v12H3V4z" clipRule="evenodd" />
+                              </svg>
+                              <span className="text-slate-400 text-sm font-medium">Participants</span>
+                            </div>
+                            <div className="text-2xl font-bold text-white">{event.participants}</div>
+                          </div>
+                        )}
+                        {event.venue && (
+                          <div className="text-center md:text-left">
+                            <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
+                              <svg className="w-5 h-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                              </svg>
+                              <span className="text-slate-400 text-sm font-medium">Venue</span>
+                            </div>
+                            <div className="text-lg font-semibold text-white">{event.venue}</div>
+                          </div>
+                        )}
+                        {event.duration && (
+                          <div className="text-center md:text-left">
+                            <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
+                              <svg className="w-5 h-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                              </svg>
+                              <span className="text-slate-400 text-sm font-medium">Duration</span>
+                            </div>
+                            <div className="text-lg font-semibold text-white">{event.duration}</div>
+                          </div>
+                        )}
                       </div>
-                      <div className="text-center md:text-left">
-                        <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
-                          <svg className="w-5 h-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                          </svg>
-                          <span className="text-slate-400 text-sm font-medium">Venue</span>
-                        </div>
-                        <div className="text-lg font-semibold text-white">{event.venue}</div>
-                      </div>
-                      <div className="text-center md:text-left">
-                        <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
-                          <svg className="w-5 h-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                          </svg>
-                          <span className="text-slate-400 text-sm font-medium">Duration</span>
-                        </div>
-                        <div className="text-lg font-semibold text-white">{event.duration}</div>
-                      </div>
-                    </div>
+                    )}
 
                     {/* Description */}
-                    <div className="mb-6">
-                      <p className="text-slate-300 text-lg leading-relaxed">{event.description}</p>
-                    </div>
+                    {event.description && (
+                      <div className="mb-6">
+                        <p className="text-slate-300 text-lg leading-relaxed">{event.description}</p>
+                      </div>
+                    )}
 
                     {/* Highlights */}
-                    <div className="mb-6">
-                      <h4 className="text-lg font-bold text-white mb-4">Key Highlights</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {event.highlights.map((highlight, idx) => (
-                          <motion.div key={idx} className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-xl border border-slate-700/30 hover:border-sky-400/30 transition-colors duration-300" whileHover={{ scale: 1.02 }}>
-                            <div className="w-2 h-2 bg-sky-400 rounded-full flex-shrink-0"></div>
-                            <span className="text-slate-300 text-sm font-medium">{highlight}</span>
-                          </motion.div>
-                        ))}
+                    {event.highlights && event.highlights.length > 0 && (
+                      <div className="mb-6">
+                        <h4 className="text-lg font-bold text-white mb-4">Key Highlights</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {event.highlights.map((highlight, idx) => (
+                            <motion.div key={idx} className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-xl border border-slate-700/30 hover:border-sky-400/30 transition-colors duration-300" whileHover={{ scale: 1.02 }}>
+                              <div className="w-2 h-2 bg-sky-400 rounded-full flex-shrink-0"></div>
+                              <span className="text-slate-300 text-sm font-medium">{highlight}</span>
+                            </motion.div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Impact Section */}
-                    <div className="border-t border-slate-700/50 pt-6">
-                      <h4 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        Impact & Achievements
-                      </h4>
-                      <p className="text-slate-300 leading-relaxed bg-slate-800/30 p-4 rounded-xl border border-slate-700/30">{event.impact}</p>
-                    </div>
+                    {event.impact && (
+                      <div className="border-t border-slate-700/50 pt-6">
+                        <h4 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                          <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                          Impact & Achievements
+                        </h4>
+                        <p className="text-slate-300 leading-relaxed bg-slate-800/30 p-4 rounded-xl border border-slate-700/30">{event.impact}</p>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -453,64 +468,102 @@ const Events = () => {
         {selectedEvent && (
           <div className="space-y-4">
             {/* For Upcoming Events */}
-            {selectedEvent.category && (
+            {selectedEvent.type === "upcoming" && (
               <>
-                <div>
-                  <h3 className="text-sm font-semibold text-slate-400 mb-2">Category</h3>
-                  <p className="text-white text-lg">{selectedEvent.category}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-slate-400 mb-2">Date & Time</h3>
-                  <p className="text-white text-lg">{selectedEvent.date}</p>
-                  <p className="text-sky-400">{selectedEvent.time}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-slate-400 mb-2">Venue</h3>
-                  <p className="text-white text-lg">{selectedEvent.venue}</p>
-                </div>
+                {selectedEvent.category && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Category</h3>
+                    <p className="text-white text-lg">{selectedEvent.category}</p>
+                  </div>
+                )}
+                {selectedEvent.date && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Date & Time</h3>
+                    <p className="text-white text-lg">{selectedEvent.date}</p>
+                    {selectedEvent.time && <p className="text-sky-400">{selectedEvent.time}</p>}
+                  </div>
+                )}
+                {selectedEvent.venue && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Venue</h3>
+                    <p className="text-white text-lg">{selectedEvent.venue}</p>
+                  </div>
+                )}
                 <div>
                   <h3 className="text-sm font-semibold text-slate-400 mb-2">Description</h3>
                   <p className="text-slate-300 leading-relaxed">{selectedEvent.description}</p>
                 </div>
-                <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
-                  <p className="text-sm text-slate-400">
-                    <span className="font-semibold text-sky-400">{selectedEvent.registrations}</span> students have already registered for this event!
-                  </p>
-                </div>
-                <motion.button className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  Register Now
-                </motion.button>
+                {selectedEvent.registrations && (
+                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
+                    <p className="text-sm text-slate-400">
+                      <span className="font-semibold text-sky-400">{selectedEvent.registrations}</span> students have already registered for this event!
+                    </p>
+                  </div>
+                )}
+                {selectedEvent.registrationEnabled && (
+                  <motion.button 
+                    onClick={() => {
+                      setIsModalOpen(false)
+                      handleRegisterClick(selectedEvent)
+                    }}
+                    className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" 
+                    whileHover={{ scale: 1.02 }} 
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Register Now
+                  </motion.button>
+                )}
               </>
             )}
 
             {/* For Ongoing Events */}
-            {selectedEvent.status && (
+            {selectedEvent.type === "ongoing" && (
               <>
-                <div>
-                  <h3 className="text-sm font-semibold text-slate-400 mb-2">Status</h3>
-                  <span className="inline-block px-3 py-1 bg-green-500/20 text-green-400 text-sm font-semibold rounded-full border border-green-500/30">{selectedEvent.status}</span>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-slate-400 mb-2">End Date</h3>
-                  <p className="text-white text-lg">{selectedEvent.endDate}</p>
-                </div>
+                {selectedEvent.status && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Status</h3>
+                    <span className="inline-block px-3 py-1 bg-green-500/20 text-green-400 text-sm font-semibold rounded-full border border-green-500/30">{selectedEvent.status}</span>
+                  </div>
+                )}
+                {selectedEvent.endDate && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">End Date</h3>
+                    <p className="text-white text-lg">{selectedEvent.endDate}</p>
+                  </div>
+                )}
                 <div>
                   <h3 className="text-sm font-semibold text-slate-400 mb-2">Description</h3>
                   <p className="text-slate-300 leading-relaxed">{selectedEvent.description}</p>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4 text-center">
-                    <p className="text-sm text-slate-400 mb-1">Participants</p>
-                    <p className="text-xl font-bold text-sky-400">{selectedEvent.participants}</p>
+                {(selectedEvent.participants || selectedEvent.teams) && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {selectedEvent.participants && (
+                      <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4 text-center">
+                        <p className="text-sm text-slate-400 mb-1">Participants</p>
+                        <p className="text-xl font-bold text-sky-400">{selectedEvent.participants}</p>
+                      </div>
+                    )}
+                    {selectedEvent.teams && (
+                      <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4 text-center">
+                        <p className="text-sm text-slate-400 mb-1">Teams</p>
+                        <p className="text-xl font-bold text-sky-400">{selectedEvent.teams}</p>
+                      </div>
+                    )}
                   </div>
-                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4 text-center">
-                    <p className="text-sm text-slate-400 mb-1">Teams</p>
-                    <p className="text-xl font-bold text-sky-400">{selectedEvent.teams}</p>
-                  </div>
-                </div>
-                <motion.button className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  Join Now
-                </motion.button>
+                )}
+                {selectedEvent.registrationEnabled && (
+                  <motion.button 
+                    onClick={() => {
+                      setIsModalOpen(false)
+                      handleJoinClick(selectedEvent)
+                    }}
+                    className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300" 
+                    whileHover={{ scale: 1.02 }} 
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Join Now
+                  </motion.button>
+                )}
               </>
             )}
           </div>
