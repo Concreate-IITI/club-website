@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { useSession, signOut } from "next-auth/react"
 import Link from "next/link"
 
 export default function AdminDashboard() {
-  const [user, setUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const { data: session, status } = useSession()
   const [stats, setStats] = useState({
     totalTeamMembers: 0,
     activeTeamMembers: 0,
@@ -16,27 +16,12 @@ export default function AdminDashboard() {
   const router = useRouter()
 
   useEffect(() => {
-    checkAuth()
-    fetchStats()
-  }, [])
-
-  const checkAuth = async () => {
-    try {
-      const response = await fetch("/api/auth/me")
-      const data = await response.json()
-
-      if (data.success) {
-        setUser(data.user)
-      } else {
-        router.push("/login")
-      }
-    } catch (error) {
-      console.error("Auth check error:", error)
+    if (status === "unauthenticated") {
       router.push("/login")
-    } finally {
-      setIsLoading(false)
+    } else if (status === "authenticated") {
+      fetchStats()
     }
-  }
+  }, [status, router])
 
   const fetchStats = async () => {
     try {
@@ -75,20 +60,19 @@ export default function AdminDashboard() {
   }
 
   const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "POST" })
-      router.push("/login")
-    } catch (error) {
-      console.error("Logout error:", error)
-    }
+    await signOut({ callbackUrl: "/login" })
   }
 
-  if (isLoading) {
+  if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <div className="text-white text-xl">Loading...</div>
       </div>
     )
+  }
+
+  if (!session) {
+    return null
   }
 
   return (
@@ -101,7 +85,8 @@ export default function AdminDashboard() {
               <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300">Welcome, {user?.username}</span>
+              <span className="text-gray-300">Welcome, {session?.user?.name || session?.user?.email}</span>
+              {session?.user?.super && <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">Super Admin</span>}
               <button onClick={handleLogout} className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200">
                 Logout
               </button>
@@ -313,6 +298,30 @@ export default function AdminDashboard() {
               </div>
             </div>
           </Link>
+
+          {/* Admin Management - Only for Super Admins */}
+          {session?.user?.super && (
+            <Link href="/admin/admins">
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-purple-400/30 hover:bg-white/20 hover:border-purple-400/50 transition-all duration-200 cursor-pointer group">
+                <div className="flex items-center mb-4">
+                  <div className="p-3 bg-purple-600 rounded-lg group-hover:bg-purple-500 transition-colors duration-200">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </div>
+                  <div className="ml-2 px-2 py-1 bg-purple-500/30 text-purple-200 text-xs rounded-full font-semibold">SUPER ADMIN</div>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Admin Management</h3>
+                <p className="text-gray-300 mb-4">Create, edit, and manage administrator accounts</p>
+                <div className="flex items-center text-purple-400 group-hover:text-purple-300">
+                  <span>Manage Admins</span>
+                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+          )}
 
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 opacity-50">
             <div className="flex items-center mb-4">

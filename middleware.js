@@ -1,48 +1,38 @@
 import { NextResponse } from "next/server"
-import { verifyTokenEdge } from "./src/lib/edgeAuth"
+import { getToken } from "next-auth/jwt"
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl
 
   // Protected admin routes
   if (pathname.startsWith("/admin")) {
-    const token = request.cookies.get("auth-token")?.value
+    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET })
 
     if (!token) {
       // Redirect to login if no token
       return NextResponse.redirect(new URL("/login", request.url))
     }
 
-    try {
-      // Verify token using Edge-safe verifier
-      const decoded = await verifyTokenEdge(token)
-
-      // Check if user has admin role
-      if (decoded.role !== "admin") {
-        return NextResponse.redirect(new URL("/login", request.url))
-      }
-
-      // Allow access to admin routes
-      return NextResponse.next()
-    } catch (error) {
-      // Invalid token, redirect to login
+    // Check if user has admin role
+    if (token.role !== "admin" && token.role !== "editor") {
       return NextResponse.redirect(new URL("/login", request.url))
     }
+
+    // Check super admin access for admin management routes
+    if (pathname.startsWith("/admin/admins") && !token.super) {
+      return NextResponse.redirect(new URL("/admin", request.url))
+    }
+
+    // Allow access to admin routes
+    return NextResponse.next()
   }
 
   // Redirect to dashboard if logged in user tries to access login
   if (pathname === "/login") {
-    const token = request.cookies.get("auth-token")?.value
+    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET })
 
-    if (token) {
-      try {
-        const decoded = await verifyTokenEdge(token)
-        if (decoded.role === "admin") {
-          return NextResponse.redirect(new URL("/admin", request.url))
-        }
-      } catch (error) {
-        // Invalid token, allow access to login
-      }
+    if (token && (token.role === "admin" || token.role === "editor")) {
+      return NextResponse.redirect(new URL("/admin", request.url))
     }
   }
 

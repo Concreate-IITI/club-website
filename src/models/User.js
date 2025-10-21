@@ -1,12 +1,9 @@
 import mongoose from "mongoose"
-import bcrypt from "bcryptjs"
 
 const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, "Username is required"],
-      unique: true,
       trim: true,
       minlength: [3, "Username must be at least 3 characters long"],
       maxlength: [20, "Username cannot exceed 20 characters"],
@@ -19,16 +16,27 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
     },
-    password: {
+    name: {
       type: String,
-      required: [true, "Password is required"],
-      minlength: [6, "Password must be at least 6 characters long"],
+      trim: true,
+    },
+    image: {
+      type: String,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
     },
     role: {
       type: String,
       enum: ["admin", "editor"],
       default: "admin",
       required: true,
+    },
+    super: {
+      type: Boolean,
+      default: false,
     },
     isActive: {
       type: Boolean,
@@ -39,7 +47,6 @@ const UserSchema = new mongoose.Schema(
     timestamps: true,
     toJSON: {
       transform: function (doc, ret) {
-        delete ret.password
         return ret
       },
     },
@@ -48,34 +55,12 @@ const UserSchema = new mongoose.Schema(
 
 // Index for faster queries
 UserSchema.index({ email: 1 })
-UserSchema.index({ username: 1 })
+UserSchema.index({ googleId: 1 })
 
-// Hash password before saving
-UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next()
-
-  try {
-    const salt = await bcrypt.genSalt(12)
-    this.password = await bcrypt.hash(this.password, salt)
-    next()
-  } catch (error) {
-    next(error)
-  }
-})
-
-// Compare password method
-UserSchema.methods.comparePassword = async function (candidatePassword) {
-  try {
-    return await bcrypt.compare(candidatePassword, this.password)
-  } catch (error) {
-    throw new Error("Password comparison failed")
-  }
-}
-
-// Static method to find user by email or username
-UserSchema.statics.findByCredentials = async function (identifier) {
+// Static method to find user by email
+UserSchema.statics.findByEmail = async function (email) {
   const user = await this.findOne({
-    $or: [{ email: identifier.toLowerCase() }, { username: identifier }],
+    email: email.toLowerCase(),
     isActive: true,
   })
   return user
