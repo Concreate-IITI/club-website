@@ -147,27 +147,26 @@ const Navbar = () => {
           <motion.nav className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? "max-h-screen opacity-100 pb-4" : "max-h-0 opacity-0"}`}>
             <div className="flex flex-col gap-2 px-6">
               {[
-                { href: "/", label: "Home", icon: "🏠" },
-                { href: "/recentActivities", label: "Events", icon: "📅" },
-                { href: "/achievements", label: "Achievements", icon: "🏆" },
-                { href: "/projects", label: "Projects", icon: "🚀" },
-                { href: "/team", label: "Team", icon: "👥" },
-                { href: "/message-us", label: "Contact", icon: "📧" },
+                { href: "/", label: "Home" },
+                { href: "/recentActivities", label: "Events" },
+                { href: "/achievements", label: "Achievements" },
+                { href: "/projects", label: "Projects" },
+                { href: "/team", label: "Team" },
+                { href: "/message-us", label: "Contact" },
               ].map((link, index) => {
                 const isActive = pathname === link.href
                 return (
                   <motion.div key={link.href} initial={{ opacity: 0, x: -20 }} animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? 0 : -20 }} transition={{ delay: 0.05 * index, duration: 0.3 }}>
                     <Link
                       href={link.href}
-                      className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${
+                      className={`px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 block ${
                         isActive
                           ? "bg-gradient-to-r from-sky-500/30 to-blue-500/30 text-cyan-300 border border-cyan-400/50 shadow-lg shadow-cyan-500/20"
                           : "text-slate-300 hover:text-cyan-300 hover:bg-gradient-to-r hover:from-sky-500/10 hover:to-blue-500/10 border border-transparent hover:border-sky-400/30"
                       }`}
                       onClick={() => setMenuOpen(false)}
                     >
-                      <span className="text-lg">{link.icon}</span>
-                      <span>{link.label}</span>
+                      {link.label}
                     </Link>
                   </motion.div>
                 )
