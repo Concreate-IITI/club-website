@@ -53,10 +53,6 @@ const UserSchema = new mongoose.Schema(
   }
 )
 
-// Index for faster queries
-UserSchema.index({ email: 1 })
-UserSchema.index({ googleId: 1 })
-
 // Static method to find user by email
 UserSchema.statics.findByEmail = async function (email) {
   const user = await this.findOne({
