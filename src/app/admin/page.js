@@ -322,21 +322,6 @@ export default function AdminDashboard() {
               </div>
             </Link>
           )}
-
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 opacity-50">
-            <div className="flex items-center mb-4">
-              <div className="p-3 bg-gray-600 rounded-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">Recent Activities</h3>
-            <p className="text-gray-300 mb-4">Manage recent activities and events (Coming Soon)</p>
-            <div className="flex items-center text-gray-500">
-              <span>Coming Soon</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

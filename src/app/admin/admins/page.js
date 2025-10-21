@@ -226,19 +226,11 @@ export default function AdminManagementPage() {
                   <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-sky-500" required />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Role</label>
-                  <select value={formData.role} onChange={(e) => setFormData({ ...formData, role: e.target.value })} className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
-                    <option value="admin">Admin</option>
-                    <option value="editor">Editor</option>
-                  </select>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="super" checked={formData.super} onChange={(e) => setFormData({ ...formData, super: e.target.checked })} className="w-4 h-4 rounded bg-white/5 border-white/10" />
-                  <label htmlFor="super" className="text-sm text-slate-300">
-                    Super Admin (can manage other admins)
-                  </label>
+                <div className="p-3 bg-sky-500/10 border border-sky-500/30 rounded-lg">
+                  <p className="text-sm text-slate-300">
+                    <span className="font-semibold text-sky-400">Role:</span> Admin
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">New admins will be created with standard admin privileges</p>
                 </div>
 
                 <div className="flex gap-3 mt-6">
