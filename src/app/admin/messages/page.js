@@ -188,7 +188,7 @@ export default function AdminMessages() {
               <h1 className="text-xl font-bold text-white">Message Management</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300">Welcome, {user?.username}</span>
+              <span className="text-gray-300">Welcome, {user?.name || user?.email}</span>
               <button 
                 onClick={() => router.push('/admin')} 
                 className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors duration-200"

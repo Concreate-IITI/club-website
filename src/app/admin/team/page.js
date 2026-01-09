@@ -246,7 +246,7 @@ export default function AdminTeamPage() {
               <h1 className="text-xl font-bold text-white">Team Management</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300">Welcome, {user?.username}</span>
+              <span className="text-gray-300">Welcome, {user?.name || user?.email}</span>
               <button onClick={handleLogout} className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200">
                 Logout
               </button>

@@ -1,36 +1,7 @@
 import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
 import Event from "@/models/Event"
-import User from "@/models/User"
-import { verifyToken } from "@/lib/authUtils"
-
-// Verify admin middleware
-async function verifyAdmin(request) {
-  try {
-    await dbConnect()
-
-    const token = request.cookies.get("auth-token")?.value
-    if (!token) {
-      return { error: "No authentication token found", status: 401 }
-    }
-
-    const decoded = verifyToken(token)
-    const user = await User.findById(decoded.userId).select("-password")
-
-    if (!user || !user.isActive) {
-      return { error: "User not found or inactive", status: 401 }
-    }
-
-    if (user.role !== "admin") {
-      return { error: "Admin access required", status: 403 }
-    }
-
-    return { user }
-  } catch (error) {
-    console.error("Auth verification error:", error)
-    return { error: "Authentication failed", status: 401 }
-  }
-}
+import { verifyAdmin } from "@/lib/adminAuth"
 
 // GET single event
 export async function GET(request, { params }) {

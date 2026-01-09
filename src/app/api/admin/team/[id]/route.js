@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
 import TeamMember from "@/models/TeamMember"
-import User from "@/models/User"
-import { verifyToken, sanitizeInput } from "@/lib/authUtils"
+import { verifyAdmin } from "@/lib/adminAuth"
+import { sanitizeInput } from "@/lib/authUtils"
 import { z } from "zod"
 
 // Validation schema for team member update
@@ -24,34 +24,6 @@ const updateTeamMemberSchema = z.object({
   order: z.number().optional(),
 })
 
-// Middleware to verify admin authentication
-async function verifyAdmin(request) {
-  try {
-    await dbConnect()
-
-    const token = request.cookies.get("auth-token")?.value
-    if (!token) {
-      return { error: "No authentication token found", status: 401 }
-    }
-
-    const decoded = verifyToken(token)
-    const user = await User.findById(decoded.userId).select("-password")
-
-    if (!user || !user.isActive) {
-      return { error: "User not found or inactive", status: 401 }
-    }
-
-    if (user.role !== "admin") {
-      return { error: "Admin access required", status: 403 }
-    }
-
-    return { user }
-  } catch (error) {
-    console.error("Auth verification error:", error)
-    return { error: "Authentication failed", status: 401 }
-  }
-}
-
 // GET - Get specific team member
 export async function GET(request, { params }) {
   try {
@@ -62,7 +34,7 @@ export async function GET(request, { params }) {
 
     const { id } = params
 
-    const teamMember = await TeamMember.findById(id).populate("createdBy", "username email")
+    const teamMember = await TeamMember.findById(id).populate("createdBy", "name email")
 
     if (!teamMember) {
       return NextResponse.json({ success: false, message: "Team member not found" }, { status: 404 })
@@ -114,7 +86,7 @@ export async function PUT(request, { params }) {
     if (updateData.skills) updateData.skills = updateData.skills.map((skill) => sanitizeInput(skill))
 
     // Find and update team member
-    const teamMember = await TeamMember.findByIdAndUpdate(id, { ...updateData, updatedAt: new Date() }, { new: true, runValidators: true }).populate("createdBy", "username email")
+    const teamMember = await TeamMember.findByIdAndUpdate(id, { ...updateData, updatedAt: new Date() }, { new: true, runValidators: true }).populate("createdBy", "name email")
 
     if (!teamMember) {
       return NextResponse.json({ success: false, message: "Team member not found" }, { status: 404 })

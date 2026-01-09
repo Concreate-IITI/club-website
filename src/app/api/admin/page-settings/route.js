@@ -1,37 +1,13 @@
 import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
 import PageSettings from "@/models/PageSettings"
-import User from "@/models/User"
-import { verifyToken } from "@/lib/authUtils"
-
-// Middleware to verify admin
-async function verifyAdmin(request) {
-  const token = request.cookies.get("auth-token")?.value
-
-  if (!token) {
-    return { isAdmin: false, error: "Unauthorized - No token provided" }
-  }
-
-  const decoded = verifyToken(token)
-  if (!decoded) {
-    return { isAdmin: false, error: "Unauthorized - Invalid token" }
-  }
-
-  await dbConnect()
-  const user = await User.findById(decoded.userId)
-
-  if (!user || user.role !== "admin") {
-    return { isAdmin: false, error: "Unauthorized - Admin access required" }
-  }
-
-  return { isAdmin: true, user }
-}
+import { verifyAdmin } from "@/lib/adminAuth"
 
 export async function GET(request) {
   try {
     const authResult = await verifyAdmin(request)
-    if (!authResult.isAdmin) {
-      return NextResponse.json({ success: false, error: authResult.error }, { status: 401 })
+    if (authResult.error) {
+      return NextResponse.json({ success: false, error: authResult.error }, { status: authResult.status })
     }
 
     await dbConnect()
@@ -82,8 +58,8 @@ export async function GET(request) {
 export async function PUT(request) {
   try {
     const authResult = await verifyAdmin(request)
-    if (!authResult.isAdmin) {
-      return NextResponse.json({ success: false, error: authResult.error }, { status: 401 })
+    if (authResult.error) {
+      return NextResponse.json({ success: false, error: authResult.error }, { status: authResult.status })
     }
 
     await dbConnect()

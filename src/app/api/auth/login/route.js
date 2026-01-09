@@ -6,7 +6,7 @@ import { z } from "zod"
 
 // Validation schema
 const loginSchema = z.object({
-  identifier: z.string().min(1, "Email or username is required"),
+  identifier: z.string().min(1, "Email is required"),
   password: z.string().min(1, "Password is required"),
 })
 
@@ -36,7 +36,7 @@ export async function POST(request) {
     // Sanitize input
     const cleanIdentifier = sanitizeInput(identifier)
 
-    // Find user by email or username
+    // Find user by email
     const user = await User.findByCredentials(cleanIdentifier)
     if (!user) {
       return NextResponse.json(
@@ -81,7 +81,6 @@ export async function POST(request) {
         message: "Login successful",
         user: {
           id: user._id,
-          username: user.username,
           email: user.email,
           role: user.role,
         },
