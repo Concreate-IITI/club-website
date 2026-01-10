@@ -27,10 +27,6 @@ export const uploadToCloudinary = async (fileBuffer, fileName, folder = "team-me
             folder: folder,
             public_id: fileName,
             overwrite: true,
-            transformation: [
-              { width: 400, height: 400, crop: "fill", gravity: "face" },
-              { quality: "auto", fetch_format: "auto" },
-            ],
           },
           (error, result) => {
             if (error) {
