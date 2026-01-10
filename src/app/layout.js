@@ -32,14 +32,14 @@ export const metadata = {
   authors: [{ name: "Concreate Club", url: "https://concreate.iiti.ac.in" }],
   creator: "Concreate Club",
   publisher: "IIT Indore",
-  metadataBase: new URL("https://concreate-club.vercel.app"), // Fallback to Vercel if official domain isn't set
+  metadataBase: new URL("https://concreate.iiti.ac.in"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Concreate Club | Civil Engineering, IIT Indore",
     description: "Empowering civil engineering students at IIT Indore with hands-on learning and innovative projects.",
-    url: "https://concreate-club.vercel.app",
+    url: "https://concreate.iiti.ac.in",
     siteName: "Concreate Club",
     images: [
       {

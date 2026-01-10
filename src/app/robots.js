@@ -7,6 +7,6 @@ export default function robots() {
         disallow: ["/admin/", "/api/"],
       },
     ],
-    sitemap: "https://concreate-club.vercel.app/sitemap.xml",
+    sitemap: "https://concreate.iiti.ac.in/sitemap.xml",
   }
 }

@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = "https://concreate-club.vercel.app"
+  const baseUrl = "https://concreate.iiti.ac.in"
   
   // Define static routes
   const routes = [
