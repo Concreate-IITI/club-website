@@ -1,19 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
-import { verifyToken } from "@/lib/authUtils"
+import { verifyAdmin } from "@/lib/adminAuth"
 import { uploadToCloudinary, isCloudinaryConfigured } from "@/lib/cloudinary"
 
 export async function POST(request) {
   try {
-    // Check authentication
-    const token = request.cookies.get("auth-token")?.value
-    if (!token) {
-      return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 })
-    }
-
-    // Verify token and admin role
-    const decoded = verifyToken(token)
-    if (decoded.role !== "admin") {
-      return NextResponse.json({ success: false, message: "Admin access required" }, { status: 403 })
+    // Check authentication using shared helper (supports OAuth and legacy)
+    const authResult = await verifyAdmin(request)
+    if (authResult.error) {
+      return NextResponse.json({ success: false, message: authResult.error }, { status: authResult.status })
     }
 
     // Check if Cloudinary is configured

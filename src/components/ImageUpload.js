@@ -65,6 +65,7 @@ const ImageUpload = ({ currentImage, onImageUpload, isUploading = false }) => {
 
       const response = await fetch("/api/upload/image", {
         method: "POST",
+        credentials: "include",
         body: formData,
       })
 
