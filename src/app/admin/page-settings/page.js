@@ -23,7 +23,7 @@ export default function AdminPageSettings() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch("/api/auth/me")
+      const response = await fetch("/api/auth/me", { credentials: "include" })
       if (!response.ok) {
         router.push("/login")
       }
@@ -36,7 +36,7 @@ export default function AdminPageSettings() {
   const fetchSettings = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch(`/api/admin/page-settings?page=${selectedPage}`)
+      const response = await fetch(`/api/admin/page-settings?page=${selectedPage}`, { credentials: "include" })
       const data = await response.json()
 
       if (data.success) {
@@ -56,6 +56,7 @@ export default function AdminPageSettings() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           page: selectedPage,
           ...settings,

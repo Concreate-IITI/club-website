@@ -33,7 +33,7 @@ export default function AdminManagementPage() {
   const fetchAdmins = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch("/api/admin/admins")
+      const response = await fetch("/api/admin/admins", { credentials: "include" })
       const data = await response.json()
 
       if (data.success) {
@@ -60,6 +60,7 @@ export default function AdminManagementPage() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       })
 
@@ -85,6 +86,7 @@ export default function AdminManagementPage() {
     try {
       const response = await fetch(`/api/admin/admins/${id}`, {
         method: "DELETE",
+        credentials: "include",
       })
 
       const data = await response.json()
@@ -108,6 +110,7 @@ export default function AdminManagementPage() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           isActive: !admin.isActive,
         }),

@@ -39,7 +39,7 @@ export default function AdminMessages() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/me');
+      const response = await fetch('/api/auth/me', { credentials: 'include' });
       const data = await response.json();
 
       if (data.success) {
@@ -64,7 +64,7 @@ export default function AdminMessages() {
         ...(filters.search && { search: filters.search })
       });
 
-      const response = await fetch(`/api/admin/messages?${queryParams}`);
+      const response = await fetch(`/api/admin/messages?${queryParams}`, { credentials: 'include' });
       const data = await response.json();
 
       if (data.success) {
@@ -82,7 +82,7 @@ export default function AdminMessages() {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('/api/admin/messages');
+      const response = await fetch('/api/admin/messages', { credentials: 'include' });
       const data = await response.json();
 
       if (data.success && data.stats) {
@@ -100,6 +100,7 @@ export default function AdminMessages() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ status: newStatus }),
       });
 
@@ -125,6 +126,7 @@ export default function AdminMessages() {
     try {
       const response = await fetch(`/api/admin/messages/${messageId}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
 
       const data = await response.json();

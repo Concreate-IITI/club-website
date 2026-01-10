@@ -49,7 +49,7 @@ export default function AdminProjectsPage() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch("/api/auth/me")
+      const response = await fetch("/api/auth/me", { credentials: "include" })
       const data = await response.json()
 
       if (data.success) {
@@ -67,7 +67,7 @@ export default function AdminProjectsPage() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch("/api/admin/projects?includeInactive=true")
+      const response = await fetch("/api/admin/projects?includeInactive=true", { credentials: "include" })
       const data = await response.json()
 
       if (data.success) {
@@ -90,6 +90,7 @@ export default function AdminProjectsPage() {
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(formData),
       })
 
@@ -144,6 +145,7 @@ export default function AdminProjectsPage() {
     try {
       const response = await fetch(`/api/admin/projects/${id}`, {
         method: "DELETE",
+        credentials: "include",
       })
 
       const data = await response.json()

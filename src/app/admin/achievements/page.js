@@ -26,7 +26,7 @@ export default function AdminAchievements() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch("/api/auth/me")
+      const response = await fetch("/api/auth/me", { credentials: "include" })
       if (!response.ok) {
         router.push("/login")
       }
@@ -39,7 +39,7 @@ export default function AdminAchievements() {
   const fetchAchievements = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch("/api/admin/achievements?includeInactive=true")
+      const response = await fetch("/api/admin/achievements?includeInactive=true", { credentials: "include" })
       const data = await response.json()
 
       if (data.success) {
@@ -64,6 +64,7 @@ export default function AdminAchievements() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       })
 
@@ -104,6 +105,7 @@ export default function AdminAchievements() {
     try {
       const response = await fetch(`/api/admin/achievements/${id}`, {
         method: "DELETE",
+        credentials: "include",
       })
 
       const data = await response.json()

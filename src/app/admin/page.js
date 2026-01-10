@@ -26,11 +26,11 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     try {
       // Fetch team stats
-      const teamResponse = await fetch("/api/admin/team?includeInactive=true")
+      const teamResponse = await fetch("/api/admin/team?includeInactive=true", { credentials: "include" })
       const teamData = await teamResponse.json()
 
       // Fetch message stats
-      const messageResponse = await fetch("/api/admin/messages")
+      const messageResponse = await fetch("/api/admin/messages", { credentials: "include" })
       const messageData = await messageResponse.json()
 
       if (teamData.success) {

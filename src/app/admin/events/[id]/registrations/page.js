@@ -20,7 +20,7 @@ export default function EventRegistrationsPage() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch("/api/auth/me")
+      const response = await fetch("/api/auth/me", { credentials: "include" })
       if (response.ok) {
         const data = await response.json()
         if (data.user && data.user.role === "admin") {
@@ -41,7 +41,7 @@ export default function EventRegistrationsPage() {
     try {
       setIsLoading(true)
       console.log("Fetching registrations for event:", eventId)
-      const response = await fetch(`/api/admin/events/${eventId}/registrations`)
+      const response = await fetch(`/api/admin/events/${eventId}/registrations`, { credentials: "include" })
       const data = await response.json()
 
       console.log("API Response:", data)

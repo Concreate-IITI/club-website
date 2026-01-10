@@ -62,7 +62,7 @@ export default function AdminEventsPage() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch("/api/auth/me")
+      const response = await fetch("/api/auth/me", { credentials: "include" })
       const data = await response.json()
 
       if (data.success) {
@@ -80,7 +80,7 @@ export default function AdminEventsPage() {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch("/api/admin/events?includeInactive=true")
+      const response = await fetch("/api/admin/events?includeInactive=true", { credentials: "include" })
       const data = await response.json()
 
       if (data.success) {
@@ -105,6 +105,7 @@ export default function AdminEventsPage() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       })
 
@@ -135,6 +136,7 @@ export default function AdminEventsPage() {
     try {
       const response = await fetch(`/api/admin/events/${id}`, {
         method: "DELETE",
+        credentials: "include",
       })
 
       const data = await response.json()

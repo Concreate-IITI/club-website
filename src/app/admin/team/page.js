@@ -39,7 +39,9 @@ export default function AdminTeamPage() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch("/api/auth/me")
+      const response = await fetch("/api/auth/me", {
+        credentials: "include",
+      })
       const data = await response.json()
 
       if (data.success) {
@@ -57,7 +59,9 @@ export default function AdminTeamPage() {
 
   const fetchTeamMembers = async () => {
     try {
-      const response = await fetch("/api/admin/team?includeInactive=true")
+      const response = await fetch("/api/admin/team?includeInactive=true", {
+        credentials: "include",
+      })
       const data = await response.json()
 
       if (data.success) {
@@ -171,6 +175,7 @@ export default function AdminTeamPage() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       })
 
@@ -200,6 +205,7 @@ export default function AdminTeamPage() {
     try {
       const response = await fetch(`/api/admin/team/${id}`, {
         method: "DELETE",
+        credentials: "include",
       })
 
       const data = await response.json()
