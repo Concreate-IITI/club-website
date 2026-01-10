@@ -32,7 +32,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ success: false, message: authResult.error }, { status: authResult.status })
     }
 
-    const { id } = params
+    const { id } = await params
 
     const teamMember = await TeamMember.findById(id).populate("createdBy", "name email")
 
@@ -61,7 +61,7 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ success: false, message: authResult.error }, { status: authResult.status })
     }
 
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
 
     // Validate input
@@ -130,7 +130,7 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ success: false, message: authResult.error }, { status: authResult.status })
     }
 
-    const { id } = params
+    const { id } = await params
 
     const teamMember = await TeamMember.findByIdAndDelete(id)
 

@@ -12,7 +12,8 @@ export async function GET(request, { params }) {
 
     await dbConnect()
 
-    const achievement = await Achievement.findById(params.id).lean()
+    const { id } = await params
+    const achievement = await Achievement.findById(id).lean()
 
     if (!achievement) {
       return NextResponse.json(
@@ -49,9 +50,10 @@ export async function PUT(request, { params }) {
 
     await dbConnect()
 
+    const { id } = await params
     const body = await request.json()
 
-    const achievement = await Achievement.findByIdAndUpdate(params.id, body, {
+    const achievement = await Achievement.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
     })
@@ -91,7 +93,8 @@ export async function DELETE(request, { params }) {
 
     await dbConnect()
 
-    const achievement = await Achievement.findByIdAndDelete(params.id)
+    const { id } = await params
+    const achievement = await Achievement.findByIdAndDelete(id)
 
     if (!achievement) {
       return NextResponse.json(
