@@ -405,9 +405,12 @@ export default function AdminTeamPage() {
 
         {/* Team Members List */}
         <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-white/5">
+          <div 
+            className="overflow-auto max-h-[calc(100vh-280px)]"
+            style={{ WebkitOverflowScrolling: 'touch', touchAction: 'auto' }}
+          >
+            <table className="w-full min-w-[600px]">
+              <thead className="bg-white/5 sticky top-0 z-10 backdrop-blur-lg">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Member</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Position</th>
