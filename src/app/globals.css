@@ -1,25 +1,26 @@
 @import 'tailwindcss';
 
 /* Override Tailwind preflight and ensure scrolling works */
-@layer base {
-  html {
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    overscroll-behavior-x: none;
-    background-color: #020617;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
+/* Rules outside @layer for higher specificity than preflight */
+html {
+  height: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+  overscroll-behavior-x: none;
+  background-color: #020617;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
 
-  body {
-    min-height: 100%;
-    overflow: visible;
-    overscroll-behavior-x: none;
-    background-color: #020617;
-    -webkit-overflow-scrolling: touch;
-    position: relative;
-  }
+body {
+  min-height: 100% !important;
+  overflow: visible !important;
+  overscroll-behavior-x: none;
+  background-color: #020617;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  touch-action: pan-y;
 }
 
 /* :root {

@@ -1,16 +1,25 @@
-"use client"
+'use client'
 
-import React, { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 
 const ModernTeamCard = ({ member, index, isLeadership = false }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const cardSizingClass = isLeadership ? "basis-full sm:basis-1/2 lg:basis-1/3 max-w-sm" : "basis-full sm:basis-1/2 lg:basis-1/4 max-w-xs xl:max-w-sm"
+  const cardSizingClass = isLeadership
+    ? 'basis-full sm:basis-1/2 lg:basis-1/3 max-w-sm'
+    : 'basis-full sm:basis-1/2 lg:basis-1/4 max-w-xs xl:max-w-sm'
 
   return (
-    <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: index * 0.1 }} className={`relative group mx-auto ${cardSizingClass}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className={`relative group mx-auto ${cardSizingClass}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div
-        className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 ${isLeadership ? "p-8" : "p-6"} transition-all duration-500 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-400/20`}
+        className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 ${isLeadership ? 'p-8' : 'p-6'} transition-all duration-500 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-400/20`}
       >
         {/* Animated background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-sky-400/5 via-cyan-400/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -41,9 +50,13 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
 
         {/* Profile Image */}
         <div className="relative mb-6 mx-auto">
-          <div className={`relative ${isLeadership ? "w-32 h-32" : "w-24 h-24"} mx-auto`}>
+          <div className={`relative ${isLeadership ? 'w-32 h-32' : 'w-24 h-24'} mx-auto`}>
             {/* Rotating ring - behind the image */}
-            <motion.div className="absolute inset-0 border-2 border-sky-400/50 rounded-full z-0" animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} />
+            <motion.div
+              className="absolute inset-0 border-2 border-sky-400/50 rounded-full z-0"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+            />
 
             {/* Image container with gradient border */}
             <div className="absolute inset-0 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full p-0.5 z-10">
@@ -53,7 +66,7 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
                   alt={member.name}
                   className="w-full h-full object-cover rounded-full transition-transform duration-500 group-hover:scale-110"
                   onError={(e) => {
-                    e.target.src = "/team/default-avatar.jpg"
+                    e.target.src = '/team/default-avatar.jpg'
                   }}
                 />
               </div>
@@ -63,12 +76,18 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
 
         {/* Content */}
         <div className="relative z-10 text-center">
-          <motion.h3 className={`font-bold text-white mb-2 ${isLeadership ? "text-2xl" : "text-xl"}`} animate={{ color: isHovered ? "#0ea5e9" : "#ffffff" }} transition={{ duration: 0.3 }}>
+          <motion.h3
+            className={`font-bold text-white mb-2 ${isLeadership ? 'text-2xl' : 'text-xl'}`}
+            animate={{ color: isHovered ? '#0ea5e9' : '#ffffff' }}
+            transition={{ duration: 0.3 }}
+          >
             {member.name}
           </motion.h3>
 
           <div className="mb-3">
-            <span className="inline-block px-3 py-1 text-sm font-medium bg-gradient-to-r from-sky-400/20 to-blue-500/20 text-sky-300 rounded-full border border-sky-400/30">{member.position}</span>
+            <span className="inline-block px-3 py-1 text-sm font-medium bg-gradient-to-r from-sky-400/20 to-blue-500/20 text-sky-300 rounded-full border border-sky-400/30">
+              {member.position}
+            </span>
           </div>
 
           <p className="text-slate-400 text-sm mb-4">{member.department}</p>
@@ -77,7 +96,11 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
           <div className="flex flex-wrap justify-center gap-1 mb-6">
             {member.skills &&
               member.skills.map((skill, skillIndex) => (
-                <motion.span key={skillIndex} className="px-2 py-1 text-xs bg-slate-800/50 text-slate-300 rounded-md border border-slate-700/50" whileHover={{ scale: 1.05, backgroundColor: "rgba(14, 165, 233, 0.1)" }}>
+                <motion.span
+                  key={skillIndex}
+                  className="px-2 py-1 text-xs bg-slate-800/50 text-slate-300 rounded-md border border-slate-700/50"
+                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(14, 165, 233, 0.1)' }}
+                >
                   {skill}
                 </motion.span>
               ))}
@@ -123,7 +146,12 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
                 whileTap={{ scale: 0.95 }}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
                 </svg>
               </motion.a>
             )}
@@ -135,7 +163,7 @@ const ModernTeamCard = ({ member, index, isLeadership = false }) => {
 }
 
 const TeamMembers = () => {
-  const [activeSection, setActiveSection] = useState("leadership")
+  const [activeSection, setActiveSection] = useState('leadership')
   const [teamMembers, setTeamMembers] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -153,7 +181,7 @@ const TeamMembers = () => {
           }
         })
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     )
 
     const sections = document.querySelectorAll('[id^="section-"]')
@@ -165,19 +193,19 @@ const TeamMembers = () => {
   const fetchTeamMembers = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch("/api/team")
+      const response = await fetch('/api/team')
       const data = await response.json()
 
       if (data.success) {
         setTeamMembers(data.data || [])
       } else {
-        setError("Failed to fetch team members")
+        setError('Failed to fetch team members')
         // Use fallback data if available
         setTeamMembers([])
       }
     } catch (error) {
-      console.error("Error fetching team members:", error)
-      setError("Error loading team members")
+      console.error('Error fetching team members:', error)
+      setError('Error loading team members')
       setTeamMembers([])
     } finally {
       setIsLoading(false)
@@ -185,15 +213,26 @@ const TeamMembers = () => {
   }
 
   // Group team members by position
-  const leadership = teamMembers.filter((member) => member.position.toLowerCase().includes("head") || member.position.toLowerCase().includes("president") || member.position.toLowerCase().includes("lead"))
+  const leadership = teamMembers.filter(
+    (member) =>
+      member.position.toLowerCase().includes('head') ||
+      member.position.toLowerCase().includes('president') ||
+      member.position.toLowerCase().includes('lead'),
+  )
 
-  const coreMembers = teamMembers.filter((member) => member.position.toLowerCase().includes("core") || member.position.toLowerCase().includes("member"))
+  const coreMembers = teamMembers.filter(
+    (member) =>
+      member.position.toLowerCase().includes('core') ||
+      member.position.toLowerCase().includes('member'),
+  )
 
-  const developers = teamMembers.filter((member) => member.position.toLowerCase().includes("developer"))
+  const developers = teamMembers.filter((member) =>
+    member.position.toLowerCase().includes('developer'),
+  )
 
   if (isLoading) {
     return (
-      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+      <div className="min-h-screen relative flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cyan-400 mx-auto mb-4"></div>
           <p className="text-xl text-slate-400">Loading our amazing team...</p>
@@ -204,10 +243,13 @@ const TeamMembers = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+      <div className="min-h-screen relative flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-400 text-xl mb-4">⚠️ {error}</div>
-          <button onClick={fetchTeamMembers} className="px-6 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors duration-200">
+          <button
+            onClick={fetchTeamMembers}
+            className="px-6 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors duration-200"
+          >
             Try Again
           </button>
         </div>
@@ -216,19 +258,29 @@ const TeamMembers = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative">
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
         {/* Leadership Section */}
         {leadership.length > 0 && (
           <section id="section-leadership" className="mb-24">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+            >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Leadership</h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full" />
             </motion.div>
 
             <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
               {leadership.map((member, index) => (
-                <ModernTeamCard key={member._id} member={member} index={index} isLeadership={true} />
+                <ModernTeamCard
+                  key={member._id}
+                  member={member}
+                  index={index}
+                  isLeadership={true}
+                />
               ))}
             </div>
           </section>
@@ -237,7 +289,12 @@ const TeamMembers = () => {
         {/* Core Members Section */}
         {coreMembers.length > 0 && (
           <section id="section-members" className="mb-24">
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+            >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Core Members</h2>
               <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full" />
             </motion.div>
@@ -253,14 +310,24 @@ const TeamMembers = () => {
         {/* Developer Section */}
         {developers.length > 0 && (
           <section id="section-developer" className="mb-16">
-            <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+            >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Development Team</h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full" />
             </motion.div>
 
             <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
               {developers.map((member, index) => (
-                <ModernTeamCard key={member._id} member={member} index={index} isLeadership={true} />
+                <ModernTeamCard
+                  key={member._id}
+                  member={member}
+                  index={index}
+                  isLeadership={true}
+                />
               ))}
             </div>
           </section>
@@ -270,7 +337,9 @@ const TeamMembers = () => {
         {teamMembers.length === 0 && !isLoading && (
           <div className="text-center py-16">
             <div className="text-gray-400 text-xl mb-4">No team members found</div>
-            <div className="text-gray-500 text-sm">Team information will be displayed here once available</div>
+            <div className="text-gray-500 text-sm">
+              Team information will be displayed here once available
+            </div>
           </div>
         )}
       </div>
