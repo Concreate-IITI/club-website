@@ -1,7 +1,6 @@
-import CivilEngineeringBackground from "../../components/CivilEngineeringBackground"
-import Navbar from "../../components/Navbar"
-import TeamMembers from "../../components/TeamMembers"
-import Footer from "../../components/Footer"
+import CivilEngineeringBackground from "@/components/CivilEngineeringBackground"
+import { Navbar, Footer } from "@/components/layout"
+import { TeamMembersPage } from "@/components/team"
 
 export const metadata = {
   title: "Team Members - Concreate Club",
@@ -13,7 +12,7 @@ export default function TeamPage() {
     <>
       <CivilEngineeringBackground />
       <Navbar />
-      <TeamMembers />
+      <TeamMembersPage />
       <Footer />
     </>
   )

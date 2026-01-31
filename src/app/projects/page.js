@@ -1,19 +1,18 @@
-import CivilEngineeringBackground from "../../components/CivilEngineeringBackground"
-import Navbar from "../../components/Navbar"
-import Projects from "../../components/Projects"
-import Footer from "../../components/Footer"
+import CivilEngineeringBackground from "@/components/CivilEngineeringBackground"
+import { Navbar, Footer } from "@/components/layout"
+import { ProjectsPage } from "@/components/projects"
 
 export const metadata = {
   title: "Projects - Concreate Club",
   description: "Ongoing and completed projects by the Concreate Club at IIT Indore",
 }
 
-export default function ProjectsPage() {
+export default function Projects() {
   return (
     <>
       <CivilEngineeringBackground />
       <Navbar />
-      <Projects />
+      <ProjectsPage />
       <Footer />
     </>
   )

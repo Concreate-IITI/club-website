@@ -1,7 +1,6 @@
-import CivilEngineeringBackground from "../../components/CivilEngineeringBackground"
-import Navbar from "../../components/Navbar"
-import NewMessageUs from "../../components/NewMessageUs"
-import Footer from "../../components/Footer"
+import CivilEngineeringBackground from "@/components/CivilEngineeringBackground"
+import { Navbar, Footer } from "@/components/layout"
+import NewMessageUs from "@/components/NewMessageUs"
 
 export const metadata = {
   title: "Contact Us - Concreate Club",

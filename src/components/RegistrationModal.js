@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import { motion } from "framer-motion"
-import Modal from "./Modal"
+import { Modal } from "./common"
 
 const RegistrationModal = ({ isOpen, onClose, event }) => {
   const [formData, setFormData] = useState({})

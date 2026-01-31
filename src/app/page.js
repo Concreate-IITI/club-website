@@ -1,14 +1,13 @@
-import CivilEngineeringBackground from "../components/CivilEngineeringBackground"
-import Navbar from "../components/Navbar"
-import Home from "../components/Home"
-import Footer from "../components/Footer"
+import CivilEngineeringBackground from "@/components/CivilEngineeringBackground"
+import { Navbar, Footer } from "@/components/layout"
+import { HomePage } from "@/components/home"
 
-export default function HomePage() {
+export default function Home() {
   return (
     <>
       <CivilEngineeringBackground />
       <Navbar />
-      <Home />
+      <HomePage />
       <Footer />
     </>
   )

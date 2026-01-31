@@ -1,7 +1,6 @@
-import CivilEngineeringBackground from "../../components/CivilEngineeringBackground"
-import Navbar from "../../components/Navbar"
-import Achievements from "../../components/Achievements"
-import Footer from "../../components/Footer"
+import CivilEngineeringBackground from "@/components/CivilEngineeringBackground"
+import { Navbar, Footer } from "@/components/layout"
+import Achievements from "@/components/Achievements"
 
 export const metadata = {
   title: "Achievements - Concreate Club",
