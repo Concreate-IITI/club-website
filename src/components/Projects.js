@@ -5,7 +5,8 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 
 const Projects = () => {
-  const [activeTab, setActiveTab] = useState("ongoing")
+  const [activeTab, setActiveTab] = useState("all")
+  const [allProjects, setAllProjects] = useState([])
   const [ongoingProjects, setOngoingProjects] = useState([])
   const [completedProjects, setCompletedProjects] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -21,9 +22,11 @@ const Projects = () => {
       const data = await response.json()
 
       if (data.success) {
+        const active = data.data.filter((p) => p.isActive)
         const ongoing = data.data.filter((p) => p.type === "ongoing" && p.isActive)
         const completed = data.data.filter((p) => p.type === "completed" && p.isActive)
 
+        setAllProjects(active)
         setOngoingProjects(ongoing)
         setCompletedProjects(completed)
       }
@@ -62,7 +65,18 @@ const Projects = () => {
 
       {/* Tab Navigation */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }} className="relative z-10 max-w-6xl mx-auto px-6 mb-12">
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
+          <motion.button
+            onClick={() => setActiveTab("all")}
+            className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+              activeTab === "all" ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-400/25" : "bg-slate-800/50 text-slate-300 hover:bg-slate-700/50 hover:text-white border border-slate-600/50"
+            }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            All Projects
+            <span className={`px-2 py-1 rounded-full text-xs ${activeTab === "all" ? "bg-white/20" : "bg-slate-600/50"}`}>{allProjects.length}</span>
+          </motion.button>
           <motion.button
             onClick={() => setActiveTab("ongoing")}
             className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
@@ -90,6 +104,92 @@ const Projects = () => {
 
       {/* Content Sections */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16">
+        {/* All Projects */}
+        {activeTab === "all" && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {allProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden hover:border-sky-400/50 transition-all duration-500 group"
+                  whileHover={{ y: -5 }}
+                >
+                  {(project.image || (project.images && project.images.length > 0)) && (
+                    <div className="relative h-48 overflow-hidden">
+                      <img src={project.images && project.images.length > 0 ? project.images[0].url : project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      <div className="absolute top-4 left-4">
+                        <span className={`px-3 py-1 text-white text-sm font-semibold rounded-full ${
+                          project.type === "ongoing" ? "bg-green-500/90" : "bg-sky-500/90"
+                        }`}>{project.type === "ongoing" ? "Ongoing" : "Completed"}</span>
+                      </div>
+                      {project.progress !== undefined && project.type === "ongoing" && (
+                        <div className="absolute top-4 right-4">
+                          <span className="px-3 py-1 bg-black/70 text-white text-sm font-semibold rounded-full">{project.progress}% Complete</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{project.title}</h3>
+                    <p className="text-slate-300 text-sm mb-4 leading-relaxed line-clamp-2">{project.description}</p>
+
+                    {/* Progress Bar for Ongoing */}
+                    {project.progress !== undefined && project.type === "ongoing" && (
+                      <div className="mb-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-xs text-slate-400">Progress</span>
+                          <span className="text-xs text-sky-400 font-semibold">{project.progress}%</span>
+                        </div>
+                        <div className="w-full bg-slate-700 rounded-full h-2">
+                          <div className="bg-gradient-to-r from-sky-400 to-blue-500 h-2 rounded-full transition-all duration-500" style={{ width: `${project.progress}%` }}></div>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="space-y-3 mb-4">
+                      {project.timeline && (
+                        <div className="flex items-center gap-2 text-sm text-slate-400">
+                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                          </svg>
+                          <span>{project.type === "ongoing" ? `Timeline: ${project.timeline}` : `Completed: ${project.completionDate}`}</span>
+                        </div>
+                      )}
+                      {project.completionDate && project.type === "completed" && !project.timeline && (
+                        <div className="flex items-center gap-2 text-sm text-slate-400">
+                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                          </svg>
+                          <span>Completed: {project.completionDate}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {project.technologies && project.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.slice(0, 3).map((tech, idx) => (
+                          <span key={idx} className="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs rounded-md border border-sky-500/30">
+                            {tech}
+                          </span>
+                        ))}
+                        {project.technologies.length > 3 && (
+                          <span className="px-2 py-1 bg-slate-700/50 text-slate-400 text-xs rounded-md">
+                            +{project.technologies.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
         {/* Ongoing Projects */}
         {activeTab === "ongoing" && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>

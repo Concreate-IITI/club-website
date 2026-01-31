@@ -7,12 +7,13 @@ import Modal from "./Modal"
 import RegistrationModal from "./RegistrationModal"
 
 const Events = () => {
-  const [activeTab, setActiveTab] = useState("upcoming")
+  const [activeTab, setActiveTab] = useState("all")
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false)
   const [registrationEvent, setRegistrationEvent] = useState(null)
   const [carouselIndices, setCarouselIndices] = useState({})
+  const [allEvents, setAllEvents] = useState([])
   const [upcomingEvents, setUpcomingEvents] = useState([])
   const [ongoingEvents, setOngoingEvents] = useState([])
   const [pastEvents, setPastEvents] = useState([])
@@ -46,10 +47,12 @@ const Events = () => {
       const data = await response.json()
 
       if (data.success) {
+        const active = data.data.filter((e) => e.isActive)
         const upcoming = data.data.filter((e) => e.type === "upcoming" && e.isActive)
         const ongoing = data.data.filter((e) => e.type === "ongoing" && e.isActive)
         const past = data.data.filter((e) => e.type === "past" && e.isActive)
 
+        setAllEvents(active)
         setUpcomingEvents(upcoming)
         setOngoingEvents(ongoing)
         setPastEvents(past)
@@ -76,6 +79,7 @@ const Events = () => {
   }
 
   const tabs = [
+    { id: "all", label: "All Events", count: allEvents.length },
     { id: "upcoming", label: "Upcoming Events", count: upcomingEvents.length },
     { id: "ongoing", label: "Ongoing Events", count: ongoingEvents.length },
     { id: "past", label: "Past Events", count: pastEvents.length },
@@ -121,6 +125,85 @@ const Events = () => {
 
       {/* Content Sections */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16">
+        {/* All Events */}
+        {activeTab === "all" && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {allEvents.map((event, index) => (
+                <motion.div
+                  key={event.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden hover:border-sky-400/50 transition-all duration-500 group"
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    <img src={event.images?.[0]?.url || "/recent/techexpo1.jpg"} alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    {event.type && (
+                      <div className="absolute top-4 left-4">
+                        <span className={`px-3 py-1 text-white text-sm font-semibold rounded-full ${
+                          event.type === "upcoming" ? "bg-sky-500/90" : event.type === "ongoing" ? "bg-green-500/90" : "bg-slate-500/90"
+                        }`}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)}</span>
+                      </div>
+                    )}
+                    {event.category && (
+                      <div className="absolute top-4 right-4">
+                        <span className="px-3 py-1 bg-black/70 text-white text-sm font-semibold rounded-full">{event.category}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{event.title}</h3>
+                    <div className="space-y-2 mb-4 text-slate-300">
+                      {event.date && (
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-sm">{event.date}</span>
+                        </div>
+                      )}
+                      {event.venue && (
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-sm">{event.venue}</span>
+                        </div>
+                      )}
+                    </div>
+                    {event.description && <p className="text-slate-400 text-sm mb-4 leading-relaxed line-clamp-2">{event.description}</p>}
+                    <div className="flex gap-3">
+                      {event.registrationEnabled && (event.type === "upcoming" || event.type === "ongoing") && (
+                        <motion.button
+                          onClick={() => handleRegisterClick(event)}
+                          className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          {event.type === "upcoming" ? "Register Now" : "Join Now"}
+                        </motion.button>
+                      )}
+                      <motion.button
+                        onClick={() => {
+                          setSelectedEvent(event)
+                          setIsModalOpen(true)
+                        }}
+                        className={`${event.registrationEnabled && (event.type === "upcoming" || event.type === "ongoing") ? "flex-1" : "w-full"} px-4 py-2 border border-sky-400/50 text-sky-400 font-semibold rounded-lg hover:bg-sky-400/10 transition-all duration-300`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        Info
+                      </motion.button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
         {/* Upcoming Events */}
         {activeTab === "upcoming" && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
