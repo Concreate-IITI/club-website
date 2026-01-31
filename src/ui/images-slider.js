@@ -103,6 +103,9 @@ export const ImagesSlider = ({ images, children, overlay = true, overlayClassNam
       style={{
         perspective: "1000px",
       }}
+      role="region"
+      aria-label="Image slideshow"
+      aria-roledescription="carousel"
     >
       {areImagesLoaded && children}
       {areImagesLoaded && overlay && <div className={cn("absolute inset-0 bg-black/60 z-40", overlayClassName)} />}

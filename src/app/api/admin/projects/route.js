@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
 import Project from "@/models/Project"
 import { verifyAdmin } from "@/lib/adminAuth"
+import { projectSchema, validateBody } from "@/lib/validations"
 
 // GET - Fetch all projects (including inactive)
 export async function GET(request) {
@@ -48,7 +49,17 @@ export async function POST(request) {
     await dbConnect()
 
     const body = await request.json()
-    const project = await Project.create(body)
+
+    // Validate request body
+    const validation = validateBody(projectSchema, body)
+    if (!validation.success) {
+      return NextResponse.json(
+        { success: false, message: validation.error },
+        { status: 400 }
+      )
+    }
+
+    const project = await Project.create(validation.data)
 
     return NextResponse.json(
       {

@@ -134,7 +134,15 @@ const Navbar = () => {
             </nav>
 
             {/* Mobile Menu Toggle */}
-            <motion.button className="md:hidden relative p-2 rounded-xl bg-gradient-to-br from-sky-500/20 to-blue-500/20 border border-sky-400/30 hover:border-sky-400 transition-all duration-300" onClick={() => setMenuOpen(!menuOpen)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.button
+              className="md:hidden relative p-2 rounded-xl bg-gradient-to-br from-sky-500/20 to-blue-500/20 border border-sky-400/30 hover:border-sky-400 transition-all duration-300"
+              onClick={() => setMenuOpen(!menuOpen)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation"
+            >
               <motion.div animate={{ rotate: menuOpen ? 90 : 0 }} transition={{ duration: 0.3 }}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 text-cyan-400">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
@@ -144,7 +152,11 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Navigation Menu */}
-          <motion.nav className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? "max-h-screen opacity-100 pb-4" : "max-h-0 opacity-0"}`}>
+          <motion.nav
+            id="mobile-navigation"
+            className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${menuOpen ? "max-h-screen opacity-100 pb-4" : "max-h-0 opacity-0"}`}
+            aria-label="Mobile navigation"
+          >
             <div className="flex flex-col gap-2 px-6">
               {[
                 { href: "/", label: "Home" },

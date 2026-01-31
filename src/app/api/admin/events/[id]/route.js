@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
 import Event from "@/models/Event"
 import { verifyAdmin } from "@/lib/adminAuth"
+import { deleteFromCloudinary } from "@/lib/cloudinary"
 
 // GET single event
 export async function GET(request, { params }) {
@@ -94,11 +95,21 @@ export async function DELETE(request, { params }) {
     await dbConnect()
 
     const { id } = await params
-    const event = await Event.findByIdAndDelete(id)
+    const event = await Event.findById(id)
 
     if (!event) {
       return NextResponse.json({ success: false, message: "Event not found" }, { status: 404 })
     }
+
+    // Delete associated Cloudinary images
+    if (event.images && event.images.length > 0) {
+      const deletePromises = event.images
+        .filter((img) => img.publicId)
+        .map((img) => deleteFromCloudinary(img.publicId).catch((err) => console.error(`Failed to delete image ${img.publicId}:`, err)))
+      await Promise.all(deletePromises)
+    }
+
+    await Event.findByIdAndDelete(id)
 
     return NextResponse.json({
       success: true,

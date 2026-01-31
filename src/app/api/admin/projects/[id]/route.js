@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
 import Project from "@/models/Project"
 import { verifyAdmin } from "@/lib/adminAuth"
+import { deleteFromCloudinary } from "@/lib/cloudinary"
 
 // GET - Fetch single project
 export async function GET(request, { params }) {
@@ -94,11 +95,21 @@ export async function DELETE(request, { params }) {
     await dbConnect()
 
     const { id } = await params
-    const project = await Project.findByIdAndDelete(id)
+    const project = await Project.findById(id)
 
     if (!project) {
       return NextResponse.json({ success: false, message: "Project not found" }, { status: 404 })
     }
+
+    // Delete associated Cloudinary images
+    if (project.images && project.images.length > 0) {
+      const deletePromises = project.images
+        .filter((img) => img.publicId)
+        .map((img) => deleteFromCloudinary(img.publicId).catch((err) => console.error(`Failed to delete image ${img.publicId}:`, err)))
+      await Promise.all(deletePromises)
+    }
+
+    await Project.findByIdAndDelete(id)
 
     return NextResponse.json({
       success: true,

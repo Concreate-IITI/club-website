@@ -106,7 +106,7 @@ const Events = () => {
 
       {/* Tab Navigation */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }} className="relative z-10 max-w-6xl mx-auto px-6 mb-12">
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-4" role="tablist" aria-label="Event categories">
           {tabs.map((tab) => (
             <motion.button
               key={tab.id}
@@ -116,6 +116,9 @@ const Events = () => {
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`${tab.id}-panel`}
             >
               {tab.label}
               <span className={`px-2 py-1 rounded-full text-xs ${activeTab === tab.id ? "bg-white/20" : "bg-slate-600/50"}`}>{tab.count}</span>
@@ -368,6 +371,7 @@ const Events = () => {
                           className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/40 hover:bg-black/60 text-white rounded-lg backdrop-blur-sm transition-all duration-300"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
+                          aria-label="Previous image"
                         >
                           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -382,6 +386,7 @@ const Events = () => {
                           className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/40 hover:bg-black/60 text-white rounded-lg backdrop-blur-sm transition-all duration-300"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
+                          aria-label="Next image"
                         >
                           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -399,6 +404,8 @@ const Events = () => {
                             onClick={() => goToSlide(event._id, imgIndex)}
                             className={`h-2 rounded-full transition-all duration-300 ${(carouselIndices[event._id] || 0) === imgIndex ? "bg-sky-400 w-8" : "bg-slate-600 w-2 hover:bg-slate-500"}`}
                             whileHover={{ scale: 1.2 }}
+                            aria-label={`Go to image ${imgIndex + 1}`}
+                            aria-current={(carouselIndices[event._id] || 0) === imgIndex ? "true" : undefined}
                           />
                         ))}
                       </div>

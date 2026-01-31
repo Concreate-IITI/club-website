@@ -65,6 +65,8 @@ export const InfiniteMovingCards = ({ items, direction = "left", speed = "fast",
         "[mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
         className
       )}
+      role="region"
+      aria-label="Scrolling content carousel"
     >
       <ul 
         ref={scrollerRef} 

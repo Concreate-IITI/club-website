@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
 import Event from "@/models/Event"
 import { verifyAdmin } from "@/lib/adminAuth"
+import { eventSchema, validateBody } from "@/lib/validations"
 
 // GET all events (admin - includes inactive)
 export async function GET(request) {
@@ -54,7 +55,16 @@ export async function POST(request) {
 
     const body = await request.json()
 
-    const event = await Event.create(body)
+    // Validate request body
+    const validation = validateBody(eventSchema, body)
+    if (!validation.success) {
+      return NextResponse.json(
+        { success: false, message: validation.error },
+        { status: 400 }
+      )
+    }
+
+    const event = await Event.create(validation.data)
 
     return NextResponse.json(
       {

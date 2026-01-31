@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
 import Achievement from "@/models/Achievement"
 import { verifyAdmin } from "@/lib/adminAuth"
+import { achievementSchema, validateBody } from "@/lib/validations"
 
 export async function GET(request) {
   try {
@@ -45,7 +46,16 @@ export async function POST(request) {
 
     const body = await request.json()
 
-    const achievement = await Achievement.create(body)
+    // Validate request body
+    const validation = validateBody(achievementSchema, body)
+    if (!validation.success) {
+      return NextResponse.json(
+        { success: false, error: validation.error },
+        { status: 400 }
+      )
+    }
+
+    const achievement = await Achievement.create(validation.data)
 
     return NextResponse.json(
       {
