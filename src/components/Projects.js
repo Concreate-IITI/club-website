@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Modal from "./Modal"
+import { parseLinks } from "@/utils/parseLinks"
 
 const Projects = () => {
   const [activeTab, setActiveTab] = useState("all")
@@ -201,7 +202,7 @@ const Projects = () => {
 
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{project.title}</h3>
-                    {project.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{project.description}</p>}
+                    {project.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{parseLinks(project.description)}</p>}
 
                     {/* Progress Bar */}
                     {project.progress !== undefined && (
@@ -278,7 +279,7 @@ const Projects = () => {
 
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{project.title}</h3>
-                    {project.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{project.description}</p>}
+                    {project.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{parseLinks(project.description)}</p>}
                     {project.completionDate && (
                       <div className="flex items-center gap-2 mb-4 text-slate-300">
                         <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
@@ -398,7 +399,7 @@ const Projects = () => {
             {/* Description */}
             {selectedProject.description && (
               <div>
-                <p className="text-slate-300 leading-relaxed text-sm">{selectedProject.description}</p>
+                <p className="text-slate-300 leading-relaxed text-sm">{parseLinks(selectedProject.description)}</p>
               </div>
             )}
 

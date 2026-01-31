@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import Modal from "./Modal"
 import RegistrationModal from "./RegistrationModal"
+import { parseLinks } from "@/utils/parseLinks"
 
 const Events = () => {
   const [activeTab, setActiveTab] = useState("all")
@@ -155,7 +156,7 @@ const Events = () => {
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{event.title}</h3>
-                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{event.description}</p>}
+                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{parseLinks(event.description)}</p>}
                     <div className="space-y-2 mb-4 text-slate-300">
                       {event.date && (
                         <div className="flex items-center gap-2">
@@ -220,7 +221,7 @@ const Events = () => {
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{event.title}</h3>
-                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{event.description}</p>}
+                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{parseLinks(event.description)}</p>}
                     <div className="space-y-2 mb-4 text-slate-300">
                       {event.date && (
                         <div className="flex items-center gap-2">
@@ -283,7 +284,7 @@ const Events = () => {
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{event.title}</h3>
-                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{event.description}</p>}
+                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{parseLinks(event.description)}</p>}
                     <div className="space-y-2 mb-4 text-slate-300">
                       {event.endDate && (
                         <div className="flex items-center gap-2">
@@ -449,7 +450,7 @@ const Events = () => {
                     {/* Description */}
                     {event.description && (
                       <div className="mb-6">
-                        <p className="text-slate-300 text-lg leading-relaxed">{event.description}</p>
+                        <p className="text-slate-300 text-lg leading-relaxed">{parseLinks(event.description)}</p>
                       </div>
                     )}
 
@@ -542,7 +543,7 @@ const Events = () => {
                 )}
                 <div>
                   <h3 className="text-sm font-semibold text-slate-400 mb-2">Description</h3>
-                  <p className="text-slate-300 leading-relaxed">{selectedEvent.description}</p>
+                  <p className="text-slate-300 leading-relaxed">{parseLinks(selectedEvent.description)}</p>
                 </div>
                 {selectedEvent.registrations && (
                   <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
@@ -584,7 +585,7 @@ const Events = () => {
                 )}
                 <div>
                   <h3 className="text-sm font-semibold text-slate-400 mb-2">Description</h3>
-                  <p className="text-slate-300 leading-relaxed">{selectedEvent.description}</p>
+                  <p className="text-slate-300 leading-relaxed">{parseLinks(selectedEvent.description)}</p>
                 </div>
                 {(selectedEvent.participants || selectedEvent.teams) && (
                   <div className="grid grid-cols-2 gap-4">
@@ -642,7 +643,7 @@ const Events = () => {
                 {selectedEvent.description && (
                   <div>
                     <h3 className="text-sm font-semibold text-slate-400 mb-2">Description</h3>
-                    <p className="text-slate-300 leading-relaxed">{selectedEvent.description}</p>
+                    <p className="text-slate-300 leading-relaxed">{parseLinks(selectedEvent.description)}</p>
                   </div>
                 )}
                 {(selectedEvent.participants || selectedEvent.duration) && (
