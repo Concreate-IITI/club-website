@@ -26,6 +26,9 @@ export async function GET(request, { params }) {
     })
   } catch (error) {
     console.error("Error fetching project:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid project ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,
@@ -66,6 +69,9 @@ export async function PUT(request, { params }) {
     })
   } catch (error) {
     console.error("Error updating project:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid project ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,
@@ -100,6 +106,9 @@ export async function DELETE(request, { params }) {
     })
   } catch (error) {
     console.error("Error deleting project:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid project ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,

@@ -23,7 +23,7 @@ export async function verifyAdmin(request) {
         return { error: "User not found or inactive", status: 401 }
       }
 
-      if (user.role !== "admin") {
+      if (user.role !== "admin" && user.role !== "editor") {
         return { error: "Admin access required", status: 403 }
       }
 
@@ -43,7 +43,7 @@ export async function verifyAdmin(request) {
       return { error: "User not found or inactive", status: 401 }
     }
 
-    if (user.role !== "admin") {
+    if (user.role !== "admin" && user.role !== "editor") {
       return { error: "Admin access required", status: 403 }
     }
 

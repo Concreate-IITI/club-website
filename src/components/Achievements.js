@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 
 const Achievements = () => {
@@ -10,9 +10,19 @@ const Achievements = () => {
   const [timelineAchievements, setTimelineAchievements] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  // Store interval ID for cleanup using ref to avoid dependency issues
+  const animationIntervalRef = useRef(null)
+
   useEffect(() => {
     fetchPageSettings()
     fetchAchievements()
+
+    // Cleanup interval on unmount
+    return () => {
+      if (animationIntervalRef.current) {
+        clearInterval(animationIntervalRef.current)
+      }
+    }
   }, [])
 
   const fetchPageSettings = async () => {
@@ -69,11 +79,15 @@ const Achievements = () => {
 
         if (allReached) {
           clearInterval(intervalId)
+          animationIntervalRef.current = null
         }
 
         return newCounters
       })
     }, stepTime)
+
+    // Store interval ID for cleanup
+    animationIntervalRef.current = intervalId
   }
 
   const fetchAchievements = async () => {

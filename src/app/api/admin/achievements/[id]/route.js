@@ -31,10 +31,13 @@ export async function GET(request, { params }) {
     })
   } catch (error) {
     console.error("Error fetching achievement:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid achievement ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to fetch achievement",
+        message: "Failed to fetch achievement",
       },
       { status: 500 }
     )
@@ -74,10 +77,13 @@ export async function PUT(request, { params }) {
     })
   } catch (error) {
     console.error("Error updating achievement:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid achievement ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,
-        error: error.message || "Failed to update achievement",
+        message: error.message || "Failed to update achievement",
       },
       { status: 500 }
     )
@@ -112,10 +118,13 @@ export async function DELETE(request, { params }) {
     })
   } catch (error) {
     console.error("Error deleting achievement:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid achievement ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to delete achievement",
+        message: "Failed to delete achievement",
       },
       { status: 500 }
     )

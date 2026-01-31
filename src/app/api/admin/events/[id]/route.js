@@ -26,6 +26,9 @@ export async function GET(request, { params }) {
     })
   } catch (error) {
     console.error("Error fetching event:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid event ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,
@@ -66,6 +69,9 @@ export async function PUT(request, { params }) {
     })
   } catch (error) {
     console.error("Error updating event:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid event ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,
@@ -100,6 +106,9 @@ export async function DELETE(request, { params }) {
     })
   } catch (error) {
     console.error("Error deleting event:", error)
+    if (error.name === "CastError") {
+      return NextResponse.json({ success: false, message: "Invalid event ID format" }, { status: 400 })
+    }
     return NextResponse.json(
       {
         success: false,

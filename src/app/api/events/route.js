@@ -9,9 +9,9 @@ export async function GET(request) {
 
     const { searchParams } = new URL(request.url)
     const type = searchParams.get("type")
-    const includeInactive = searchParams.get("includeInactive") === "true"
 
-    const query = includeInactive ? {} : { isActive: true }
+    // Public route - ONLY show active events
+    const query = { isActive: true }
 
     if (type) {
       query.type = type

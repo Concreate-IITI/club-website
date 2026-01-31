@@ -34,7 +34,13 @@ export default function AdminProjectsPage() {
     isActive: true,
     order: 0,
   })
-  const [arrayInput, setArrayInput] = useState("")
+  const [arrayInputs, setArrayInputs] = useState({
+    expectedOutcomes: "",
+    leadMembers: "",
+    technologies: "",
+    results: "",
+    awards: "",
+  })
   const [activeArrayField, setActiveArrayField] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState({ type: "", text: "" })
@@ -186,17 +192,23 @@ export default function AdminProjectsPage() {
       order: 0,
     })
     setEditingProject(null)
-    setArrayInput("")
+    setArrayInputs({
+      expectedOutcomes: "",
+      leadMembers: "",
+      technologies: "",
+      results: "",
+      awards: "",
+    })
     setActiveArrayField(null)
   }
 
   const addToArray = (field) => {
-    if (arrayInput.trim()) {
+    if (arrayInputs[field]?.trim()) {
       setFormData({
         ...formData,
-        [field]: [...formData[field], arrayInput.trim()],
+        [field]: [...formData[field], arrayInputs[field].trim()],
       })
-      setArrayInput("")
+      setArrayInputs({ ...arrayInputs, [field]: "" })
     }
   }
 
@@ -319,8 +331,8 @@ export default function AdminProjectsPage() {
                     <div className="flex gap-2 mb-2">
                       <input
                         type="text"
-                        value={arrayInput}
-                        onChange={(e) => setArrayInput(e.target.value)}
+                        value={arrayInputs.expectedOutcomes}
+                        onChange={(e) => setArrayInputs({ ...arrayInputs, expectedOutcomes: e.target.value })}
                         onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addToArray("expectedOutcomes"))}
                         placeholder="Add outcome and press Enter"
                         className="flex-1 px-4 py-2 bg-gray-900/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-400"
@@ -347,8 +359,8 @@ export default function AdminProjectsPage() {
                     <div className="flex gap-2 mb-2">
                       <input
                         type="text"
-                        value={arrayInput}
-                        onChange={(e) => setArrayInput(e.target.value)}
+                        value={arrayInputs.leadMembers}
+                        onChange={(e) => setArrayInputs({ ...arrayInputs, leadMembers: e.target.value })}
                         onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addToArray("leadMembers"))}
                         placeholder="Add member name and press Enter"
                         className="flex-1 px-4 py-2 bg-gray-900/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-400"
@@ -375,8 +387,8 @@ export default function AdminProjectsPage() {
                     <div className="flex gap-2 mb-2">
                       <input
                         type="text"
-                        value={arrayInput}
-                        onChange={(e) => setArrayInput(e.target.value)}
+                        value={arrayInputs.technologies}
+                        onChange={(e) => setArrayInputs({ ...arrayInputs, technologies: e.target.value })}
                         onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addToArray("technologies"))}
                         placeholder="Add technology and press Enter"
                         className="flex-1 px-4 py-2 bg-gray-900/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-400"
@@ -438,8 +450,8 @@ export default function AdminProjectsPage() {
                     <div className="flex gap-2 mb-2">
                       <input
                         type="text"
-                        value={arrayInput}
-                        onChange={(e) => setArrayInput(e.target.value)}
+                        value={arrayInputs.results}
+                        onChange={(e) => setArrayInputs({ ...arrayInputs, results: e.target.value })}
                         onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addToArray("results"))}
                         placeholder="Add result and press Enter"
                         className="flex-1 px-4 py-2 bg-gray-900/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-400"
@@ -466,8 +478,8 @@ export default function AdminProjectsPage() {
                     <div className="flex gap-2 mb-2">
                       <input
                         type="text"
-                        value={arrayInput}
-                        onChange={(e) => setArrayInput(e.target.value)}
+                        value={arrayInputs.awards}
+                        onChange={(e) => setArrayInputs({ ...arrayInputs, awards: e.target.value })}
                         onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addToArray("awards"))}
                         placeholder="Add award and press Enter"
                         className="flex-1 px-4 py-2 bg-gray-900/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-400"

@@ -160,9 +160,10 @@ export default function AdminMessages() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'unread': return 'bg-red-500';
+      case 'new': return 'bg-red-500';
       case 'read': return 'bg-yellow-500';
       case 'replied': return 'bg-green-500';
+      case 'archived': return 'bg-gray-500';
       default: return 'bg-gray-500';
     }
   };
@@ -227,8 +228,8 @@ export default function AdminMessages() {
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-gray-300">Unread</p>
-                <p className="text-2xl font-bold text-white">{stats.unread}</p>
+                <p className="text-gray-300">New</p>
+                <p className="text-2xl font-bold text-white">{stats.new}</p>
               </div>
             </div>
           </div>
@@ -288,9 +289,10 @@ export default function AdminMessages() {
                 className="px-4 py-2 bg-white/10 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 <option value="all">All Messages</option>
-                <option value="unread">Unread</option>
+                <option value="new">New</option>
                 <option value="read">Read</option>
                 <option value="replied">Replied</option>
+                <option value="archived">Archived</option>
               </select>
             </div>
           </div>
@@ -352,9 +354,10 @@ export default function AdminMessages() {
                           onChange={(e) => updateMessageStatus(message._id, e.target.value)}
                           className="px-2 py-1 text-xs bg-white/10 border border-gray-600 rounded text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
                         >
-                          <option value="unread">Unread</option>
+                          <option value="new">New</option>
                           <option value="read">Read</option>
                           <option value="replied">Replied</option>
+                          <option value="archived">Archived</option>
                         </select>
                         <button
                           onClick={() => deleteMessage(message._id)}
