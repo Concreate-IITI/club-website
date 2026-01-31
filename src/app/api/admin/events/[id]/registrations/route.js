@@ -16,21 +16,14 @@ export async function GET(request, { params }) {
 
     const { id } = await params
 
-    console.log("Fetching registrations for event ID:", id)
-
     // Fetch the event
     const event = await Event.findById(id)
     if (!event) {
-      console.log("Event not found:", id)
       return NextResponse.json({ success: false, message: "Event not found" }, { status: 404 })
     }
 
-    console.log("Event found:", event.title)
-
     // Fetch registrations
     const registrations = await EventRegistration.find({ eventId: id }).sort({ createdAt: -1 })
-
-    console.log("Found registrations:", registrations.length)
 
     // Convert Map to Object for JSON serialization
     const formattedRegistrations = registrations.map((reg) => ({

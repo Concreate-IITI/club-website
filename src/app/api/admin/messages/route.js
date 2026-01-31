@@ -32,10 +32,21 @@ export async function GET(request) {
       .limit(limit)
       .skip((page - 1) * limit);
 
+    // Build query for total count (same as getFilteredMessages)
+    const countQuery = {};
+    if (filters.status) countQuery.status = filters.status;
+    if (filters.isStarred !== undefined) countQuery.isStarred = filters.isStarred;
+    if (filters.search) {
+      countQuery.$or = [
+        { name: new RegExp(filters.search, 'i') },
+        { email: new RegExp(filters.search, 'i') },
+        { subject: new RegExp(filters.search, 'i') },
+        { message: new RegExp(filters.search, 'i') },
+      ];
+    }
+
     // Get total count for pagination
-    const totalMessages = await Message.countDocuments(
-      filters.status ? { status: filters.status } : {}
-    );
+    const totalMessages = await Message.countDocuments(countQuery);
 
     // Get statistics
     const stats = await Message.getStats();

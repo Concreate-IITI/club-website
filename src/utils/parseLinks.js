@@ -11,6 +11,17 @@
  * @param {string} className - Additional classes for the text wrapper
  * @returns {JSX.Element[]} Array of text and link elements
  */
+
+// Validate URL to prevent XSS attacks (only allow http/https)
+function isValidUrl(url) {
+  try {
+    const parsed = new URL(url);
+    return ['http:', 'https:'].includes(parsed.protocol);
+  } catch {
+    return false;
+  }
+}
+
 export function parseLinks(text) {
   if (!text) return null;
   
@@ -32,20 +43,30 @@ export function parseLinks(text) {
       );
     }
     
-    // Add the link
+    // Add the link (only if URL is valid)
     const linkText = match[1];
     const linkUrl = match[2];
-    parts.push(
-      <a
-        key={`link-${keyIndex++}`}
-        href={linkUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sky-400 hover:text-sky-300 underline underline-offset-2 decoration-sky-400/50 hover:decoration-sky-300 transition-colors"
-      >
-        {linkText}
-      </a>
-    );
+    
+    if (isValidUrl(linkUrl)) {
+      parts.push(
+        <a
+          key={`link-${keyIndex++}`}
+          href={linkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sky-400 hover:text-sky-300 underline underline-offset-2 decoration-sky-400/50 hover:decoration-sky-300 transition-colors"
+        >
+          {linkText}
+        </a>
+      );
+    } else {
+      // Invalid URL - render as plain text
+      parts.push(
+        <span key={`text-${keyIndex++}`}>
+          {linkText}
+        </span>
+      );
+    }
     
     lastIndex = match.index + match[0].length;
   }

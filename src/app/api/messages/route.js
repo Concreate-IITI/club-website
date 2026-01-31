@@ -18,6 +18,21 @@ const rateLimitStore = new Map();
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
 const RATE_LIMIT_MAX_REQUESTS = 3; // Maximum 3 messages per 15 minutes per IP
 
+// Cleanup old entries every 15 minutes to prevent memory leak
+if (typeof setInterval !== 'undefined') {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, requests] of rateLimitStore.entries()) {
+      const validRequests = requests.filter(time => now - time < RATE_LIMIT_WINDOW);
+      if (validRequests.length === 0) {
+        rateLimitStore.delete(key);
+      } else {
+        rateLimitStore.set(key, validRequests);
+      }
+    }
+  }, RATE_LIMIT_WINDOW);
+}
+
 function getRateLimitKey(ip) {
   return `contact_${ip}`;
 }

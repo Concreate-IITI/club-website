@@ -132,7 +132,7 @@ const Events = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {allEvents.map((event, index) => (
                 <motion.div
-                  key={event.id}
+                  key={event._id}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -199,7 +199,7 @@ const Events = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {upcomingEvents.map((event, index) => (
                 <motion.div
-                  key={event.id}
+                  key={event._id}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -264,7 +264,7 @@ const Events = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {ongoingEvents.map((event, index) => (
                 <motion.div
-                  key={event.id}
+                  key={event._id}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -327,7 +327,7 @@ const Events = () => {
             <div className="space-y-12">
               {pastEvents.map((event, index) => (
                 <motion.div
-                  key={event.id}
+                  key={event._id}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}

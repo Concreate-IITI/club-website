@@ -38,5 +38,7 @@ const EventRegistrationSchema = new mongoose.Schema(
 // Index for better query performance
 EventRegistrationSchema.index({ eventId: 1, createdAt: -1 })
 EventRegistrationSchema.index({ status: 1 })
+// Compound index to prevent duplicate registrations (same email for same event)
+EventRegistrationSchema.index({ eventId: 1, userEmail: 1 }, { unique: true, sparse: true })
 
 export default mongoose.models.EventRegistration || mongoose.model("EventRegistration", EventRegistrationSchema)

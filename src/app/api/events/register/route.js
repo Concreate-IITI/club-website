@@ -12,6 +12,10 @@ export async function POST(request) {
     const body = await request.json()
     const { eventId, formData } = body
 
+    if (!eventId || !formData) {
+      return NextResponse.json({ success: false, message: "Event ID and form data are required" }, { status: 400 })
+    }
+
     // Verify event exists and registration is enabled
     const event = await Event.findById(eventId)
     if (!event) {
@@ -22,23 +26,40 @@ export async function POST(request) {
       return NextResponse.json({ success: false, message: "Registration is not enabled for this event" }, { status: 400 })
     }
 
+    // Get email from formData (for duplicate check) or logged in user
+    let userEmail = formData.email || formData.Email || null
+    
     // Try to get user email if logged in (optional)
-    let userEmail = null
     try {
       const token = request.cookies.get("auth-token")?.value
       if (token) {
         const decoded = verifyToken(token)
-        userEmail = decoded.email
+        if (decoded.email) userEmail = decoded.email
       }
     } catch (error) {
       // User not logged in, that's okay
+    }
+
+    // Check for duplicate registration if email is provided
+    if (userEmail) {
+      const existingRegistration = await EventRegistration.findOne({
+        eventId,
+        userEmail: userEmail.toLowerCase().trim()
+      })
+      
+      if (existingRegistration) {
+        return NextResponse.json({ 
+          success: false, 
+          message: "You have already registered for this event" 
+        }, { status: 409 })
+      }
     }
 
     // Create registration
     const registration = await EventRegistration.create({
       eventId,
       eventTitle: event.title,
-      userEmail,
+      userEmail: userEmail ? userEmail.toLowerCase().trim() : null,
       formData: new Map(Object.entries(formData)),
     })
 
@@ -52,6 +73,15 @@ export async function POST(request) {
     )
   } catch (error) {
     console.error("Error submitting registration:", error)
+    
+    // Handle duplicate key error from MongoDB
+    if (error.code === 11000) {
+      return NextResponse.json({
+        success: false,
+        message: "You have already registered for this event"
+      }, { status: 409 })
+    }
+    
     return NextResponse.json(
       {
         success: false,

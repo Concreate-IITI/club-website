@@ -114,7 +114,7 @@ const Projects = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {allProjects.map((project, index) => (
                 <motion.div
-                  key={project.id}
+                  key={project._id}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -177,7 +177,7 @@ const Projects = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {ongoingProjects.map((project, index) => (
                 <motion.div
-                  key={project.id}
+                  key={project._id}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -256,7 +256,7 @@ const Projects = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {completedProjects.map((project, index) => (
                 <motion.div
-                  key={project.id}
+                  key={project._id}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}

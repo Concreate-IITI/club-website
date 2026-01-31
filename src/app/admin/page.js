@@ -46,7 +46,7 @@ export default function AdminDashboard() {
 
       if (messageData.success) {
         const totalMessages = messageData.total || 0
-        const unreadMessages = messageData.data?.filter((msg) => msg.status === "unread").length || 0
+        const unreadMessages = messageData.data?.filter((msg) => msg.status === "new").length || 0
 
         setStats((prevStats) => ({
           ...prevStats,
