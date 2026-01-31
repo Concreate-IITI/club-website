@@ -1,15 +1,10 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import Link from "next/link"
-import { Modal } from "@/components/common"
-import { PageHero } from "@/components/common"
-import { CTASection } from "@/components/common"
-import { TabNavigation } from "@/components/common"
-import RegistrationModal from "@/components/RegistrationModal"
+import { Modal, PageHero, CTASection, TabNavigation } from "@/components/common"
+import { RegistrationModal } from "@/components/forms"
 import { EventCard, PastEventCard, EventGrid, EventList, EventModalContent } from "@/components/events"
-import { useEvents } from "@/hooks"
-import { useCarousel } from "@/hooks"
+import { useEvents, useCarousel } from "@/hooks"
 
 /**
  * Events page component - displays all club events

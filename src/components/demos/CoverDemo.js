@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Cover } from "../ui/cover"
+import { Cover } from "@/ui/cover"
 
 export function CoverDemo() {
   return (

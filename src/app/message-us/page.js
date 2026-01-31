@@ -1,6 +1,6 @@
 import CivilEngineeringBackground from "@/components/CivilEngineeringBackground"
 import { Navbar, Footer } from "@/components/layout"
-import NewMessageUs from "@/components/NewMessageUs"
+import { ContactPage } from "@/components/contact"
 
 export const metadata = {
   title: "Contact Us - Concreate Club",
@@ -12,7 +12,7 @@ export default function MessageUsPage() {
     <>
       <CivilEngineeringBackground />
       <Navbar />
-      <NewMessageUs />
+      <ContactPage />
       <Footer />
     </>
   )

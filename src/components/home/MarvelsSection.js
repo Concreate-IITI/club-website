@@ -2,7 +2,7 @@
 
 import React from "react"
 import { motion } from "framer-motion"
-import { InfiniteMovingCardsDemo } from "@/components/InfiniteMovingCardsDemo"
+import { InfiniteMovingCardsDemo } from "@/components/demos"
 
 /**
  * Marvels section - Iconic Civil Engineering structures showcase

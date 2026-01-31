@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { FlipWords } from "../ui/flip-words"
+import { FlipWords } from "@/ui/flip-words"
 
 export function FlipWordsDemo() {
   const words = ["better", "cute", "beautiful", "modern"]
@@ -16,8 +16,9 @@ export function FlipWordsDemo() {
               <FlipWords words={words} />
             </span>
           </span>
-          <br className="" />
-          Welcome to <span className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl">Concreate Club</span>
+          <br />
+          Welcome to{" "}
+          <span className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl">Concreate Club</span>
         </div>
       </div>
     </div>
