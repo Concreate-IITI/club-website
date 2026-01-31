@@ -25,3 +25,6 @@ export { LoadingSpinner, PageLoading } from "./LoadingSpinner"
 
 // InfoGrid
 export { InfoGrid, InfoGridItem, StatCard } from "./InfoGrid"
+
+// CivilEngineeringBackground
+export { default as CivilEngineeringBackground } from "./CivilEngineeringBackground"

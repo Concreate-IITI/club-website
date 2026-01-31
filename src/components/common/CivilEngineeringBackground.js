@@ -3,6 +3,10 @@
 import React from "react"
 import { motion } from "framer-motion"
 
+/**
+ * Civil Engineering Background - Animated blueprint-style background
+ * Used across pages for consistent visual theme
+ */
 const CivilEngineeringBackground = () => {
   return (
     <div className="fixed inset-0 pointer-events-none z-0">

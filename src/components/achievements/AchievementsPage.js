@@ -1,68 +1,12 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { PageHero } from "@/components/common"
+import { useCounterAnimation } from "@/hooks"
 import StatisticsSection from "./StatCard"
 import AchievementTimeline from "./AchievementTimeline"
 import FieldsOfExcellence from "./FieldsOfExcellence"
-
-/**
- * Custom hook for counter animation
- */
-const useCounterAnimation = (targets) => {
-  const [counters, setCounters] = useState({})
-  const animationIntervalRef = useRef(null)
-
-  useEffect(() => {
-    if (!targets || Object.keys(targets).length === 0) return
-
-    const duration = 2000
-    const steps = 50
-    const stepTime = duration / steps
-    const initialCounters = {}
-
-    Object.keys(targets).forEach((key) => {
-      initialCounters[key] = 0
-    })
-
-    setCounters(initialCounters)
-
-    const intervalId = setInterval(() => {
-      setCounters((prev) => {
-        const newCounters = { ...prev }
-        let allReached = true
-
-        Object.keys(targets).forEach((key) => {
-          if (newCounters[key] < targets[key]) {
-            newCounters[key] = Math.min(
-              newCounters[key] + Math.ceil(targets[key] / steps),
-              targets[key]
-            )
-            allReached = false
-          }
-        })
-
-        if (allReached) {
-          clearInterval(intervalId)
-          animationIntervalRef.current = null
-        }
-
-        return newCounters
-      })
-    }, stepTime)
-
-    animationIntervalRef.current = intervalId
-
-    return () => {
-      if (animationIntervalRef.current) {
-        clearInterval(animationIntervalRef.current)
-      }
-    }
-  }, [targets])
-
-  return counters
-}
 
 /**
  * Achievements page component

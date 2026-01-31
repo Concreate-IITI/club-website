@@ -1,4 +1,4 @@
-import CivilEngineeringBackground from "@/components/CivilEngineeringBackground"
+import { CivilEngineeringBackground } from "@/components/common"
 import { Navbar, Footer } from "@/components/layout"
 import { HomePage } from "@/components/home"
 
