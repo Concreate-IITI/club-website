@@ -18,7 +18,7 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ success: false, message: "Forbidden - Super admin access required" }, { status: 403 })
     }
 
-    const { id } = params
+    const { id } = await params
 
     await dbConnect()
 
@@ -67,7 +67,7 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ success: false, message: "Forbidden - Super admin access required" }, { status: 403 })
     }
 
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
     const { name, role, super: isSuper, isActive } = body
 

@@ -27,6 +27,8 @@ const updateTeamMemberSchema = z.object({
 // GET - Get specific team member
 export async function GET(request, { params }) {
   try {
+    await dbConnect()
+    
     const authResult = await verifyAdmin(request)
     if (authResult.error) {
       return NextResponse.json({ success: false, message: authResult.error }, { status: authResult.status })
@@ -56,6 +58,8 @@ export async function GET(request, { params }) {
 // PUT - Update team member
 export async function PUT(request, { params }) {
   try {
+    await dbConnect()
+    
     const authResult = await verifyAdmin(request)
     if (authResult.error) {
       return NextResponse.json({ success: false, message: authResult.error }, { status: authResult.status })
@@ -125,6 +129,8 @@ export async function PUT(request, { params }) {
 // DELETE - Delete team member
 export async function DELETE(request, { params }) {
   try {
+    await dbConnect()
+    
     const authResult = await verifyAdmin(request)
     if (authResult.error) {
       return NextResponse.json({ success: false, message: authResult.error }, { status: authResult.status })
