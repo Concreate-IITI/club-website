@@ -1,19 +1,25 @@
-/* @tailwind base;
-@tailwind components; */
-@tailwind utilities;
+@import 'tailwindcss';
 
-@import "tailwindcss";
+/* Override Tailwind preflight and ensure scrolling works */
+@layer base {
+  html {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    overscroll-behavior-x: none;
+    background-color: #020617;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
 
-/* Prevent overscroll on all sides */
-html,
-body {
-  overflow-x: hidden;
-  overscroll-behavior: none;
-  background-color: #020617;
-}
-
-* {
-  overscroll-behavior: none;
+  body {
+    min-height: 100%;
+    overflow: visible;
+    overscroll-behavior-x: none;
+    background-color: #020617;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
 }
 
 /* :root {
@@ -50,13 +56,13 @@ a {
 /* } */
 
 .pacifico-regular {
-  font-family: "Pacifico", cursive;
+  font-family: 'Pacifico', cursive;
   font-weight: 500;
   font-style: normal;
 }
 
 .spicy-rice-regular {
-  font-family: "Spicy Rice", serif;
+  font-family: 'Spicy Rice', serif;
   font-weight: 900;
   font-style: normal;
 }
@@ -72,7 +78,8 @@ a {
 }
 
 .animate-scroll {
-  animation: scroll var(--animation-duration, 40s) linear infinite var(--animation-direction, forwards);
+  animation: scroll var(--animation-duration, 40s) linear infinite
+    var(--animation-direction, forwards);
   animation-play-state: running;
   will-change: transform;
 }
