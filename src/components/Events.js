@@ -154,7 +154,8 @@ const Events = () => {
                     )}
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{event.title}</h3>
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{event.title}</h3>
+                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{event.description}</p>}
                     <div className="space-y-2 mb-4 text-slate-300">
                       {event.date && (
                         <div className="flex items-center gap-2">
@@ -173,30 +174,17 @@ const Events = () => {
                         </div>
                       )}
                     </div>
-                    {event.description && <p className="text-slate-400 text-sm mb-4 leading-relaxed line-clamp-2">{event.description}</p>}
-                    <div className="flex gap-3">
-                      {event.registrationEnabled && (event.type === "upcoming" || event.type === "ongoing") && (
-                        <motion.button
-                          onClick={() => handleRegisterClick(event)}
-                          className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          {event.type === "upcoming" ? "Register Now" : "Join Now"}
-                        </motion.button>
-                      )}
-                      <motion.button
-                        onClick={() => {
-                          setSelectedEvent(event)
-                          setIsModalOpen(true)
-                        }}
-                        className={`${event.registrationEnabled && (event.type === "upcoming" || event.type === "ongoing") ? "flex-1" : "w-full"} px-4 py-2 border border-sky-400/50 text-sky-400 font-semibold rounded-lg hover:bg-sky-400/10 transition-all duration-300`}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Info
-                      </motion.button>
-                    </div>
+                    <motion.button
+                      onClick={() => {
+                        setSelectedEvent(event)
+                        setIsModalOpen(true)
+                      }}
+                      className="w-full px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      View Details
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
@@ -231,7 +219,8 @@ const Events = () => {
                     )}
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{event.title}</h3>
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{event.title}</h3>
+                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{event.description}</p>}
                     <div className="space-y-2 mb-4 text-slate-300">
                       {event.date && (
                         <div className="flex items-center gap-2">
@@ -239,14 +228,6 @@ const Events = () => {
                             <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                           </svg>
                           <span className="text-sm">{event.date}</span>
-                        </div>
-                      )}
-                      {event.time && (
-                        <div className="flex items-center gap-2">
-                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                          </svg>
-                          <span className="text-sm">{event.time}</span>
                         </div>
                       )}
                       {event.venue && (
@@ -258,30 +239,17 @@ const Events = () => {
                         </div>
                       )}
                     </div>
-                    {event.description && <p className="text-slate-400 text-sm mb-4 leading-relaxed">{event.description}</p>}
-                    <div className="flex gap-3">
-                      {event.registrationEnabled && (
-                        <motion.button
-                          onClick={() => handleRegisterClick(event)}
-                          className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          Register Now
-                        </motion.button>
-                      )}
-                      <motion.button
-                        onClick={() => {
-                          setSelectedEvent(event)
-                          setIsModalOpen(true)
-                        }}
-                        className={`${event.registrationEnabled ? "flex-1" : "w-full"} px-4 py-2 border border-sky-400/50 text-sky-400 font-semibold rounded-lg hover:bg-sky-400/10 transition-all duration-300`}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Info
-                      </motion.button>
-                    </div>
+                    <motion.button
+                      onClick={() => {
+                        setSelectedEvent(event)
+                        setIsModalOpen(true)
+                      }}
+                      className="w-full px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      View Details
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
@@ -314,54 +282,37 @@ const Events = () => {
                     )}
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{event.title}</h3>
-                    <p className="text-slate-300 text-sm mb-4 leading-relaxed line-clamp-2">{event.description}</p>
-                    <div className="space-y-2 mb-4 text-slate-400 text-sm">
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{event.title}</h3>
+                    {event.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{event.description}</p>}
+                    <div className="space-y-2 mb-4 text-slate-300">
                       {event.endDate && (
                         <div className="flex items-center gap-2">
                           <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                           </svg>
-                          <span>Ends: {event.endDate}</span>
+                          <span className="text-sm">Ends: {event.endDate}</span>
                         </div>
                       )}
-                      {(event.participants || event.teams) && (
+                      {event.venue && (
                         <div className="flex items-center gap-2">
                           <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM9 12a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                            <path fillRule="evenodd" d="M1 4a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm2 0h14v12H3V4z" clipRule="evenodd" />
+                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                           </svg>
-                          <span>
-                            {event.participants && `${event.participants} participants`}
-                            {event.participants && event.teams && " | "}
-                            {event.teams && `${event.teams} teams`}
-                          </span>
+                          <span className="text-sm">{event.venue}</span>
                         </div>
                       )}
                     </div>
-                    <div className="flex gap-3">
-                      {event.registrationEnabled && (
-                        <motion.button
-                          onClick={() => handleJoinClick(event)}
-                          className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          Join Now
-                        </motion.button>
-                      )}
-                      <motion.button
-                        onClick={() => {
-                          setSelectedEvent(event)
-                          setIsModalOpen(true)
-                        }}
-                        className={`${event.registrationEnabled ? "flex-1" : "w-full"} px-4 py-2 border border-sky-400/50 text-sky-400 font-semibold rounded-lg hover:bg-sky-400/10 transition-all duration-300`}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Learn More
-                      </motion.button>
-                    </div>
+                    <motion.button
+                      onClick={() => {
+                        setSelectedEvent(event)
+                        setIsModalOpen(true)
+                      }}
+                      className="w-full px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      View Details
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
@@ -663,6 +614,71 @@ const Events = () => {
                   >
                     Join Now
                   </motion.button>
+                )}
+              </>
+            )}
+
+            {/* For Past Events */}
+            {selectedEvent.type === "past" && (
+              <>
+                {selectedEvent.category && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Category</h3>
+                    <p className="text-white text-lg">{selectedEvent.category}</p>
+                  </div>
+                )}
+                {selectedEvent.date && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Date</h3>
+                    <p className="text-white text-lg">{selectedEvent.date}</p>
+                  </div>
+                )}
+                {selectedEvent.venue && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Venue</h3>
+                    <p className="text-white text-lg">{selectedEvent.venue}</p>
+                  </div>
+                )}
+                {selectedEvent.description && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Description</h3>
+                    <p className="text-slate-300 leading-relaxed">{selectedEvent.description}</p>
+                  </div>
+                )}
+                {(selectedEvent.participants || selectedEvent.duration) && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {selectedEvent.participants && (
+                      <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4 text-center">
+                        <p className="text-sm text-slate-400 mb-1">Participants</p>
+                        <p className="text-xl font-bold text-sky-400">{selectedEvent.participants}</p>
+                      </div>
+                    )}
+                    {selectedEvent.duration && (
+                      <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4 text-center">
+                        <p className="text-sm text-slate-400 mb-1">Duration</p>
+                        <p className="text-xl font-bold text-sky-400">{selectedEvent.duration}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {selectedEvent.highlights && selectedEvent.highlights.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Key Highlights</h3>
+                    <ul className="space-y-2">
+                      {selectedEvent.highlights.map((highlight, idx) => (
+                        <li key={idx} className="flex items-center gap-2 text-slate-300">
+                          <span className="w-2 h-2 bg-sky-400 rounded-full"></span>
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {selectedEvent.impact && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-400 mb-2">Impact & Achievements</h3>
+                    <p className="text-slate-300 leading-relaxed bg-slate-800/30 p-4 rounded-xl border border-slate-700/30">{selectedEvent.impact}</p>
+                  </div>
                 )}
               </>
             )}

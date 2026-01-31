@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Modal from "./Modal"
 
 const Projects = () => {
   const [activeTab, setActiveTab] = useState("all")
@@ -10,6 +11,8 @@ const Projects = () => {
   const [ongoingProjects, setOngoingProjects] = useState([])
   const [completedProjects, setCompletedProjects] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedProject, setSelectedProject] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     fetchProjects()
@@ -135,7 +138,6 @@ const Projects = () => {
 
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{project.title}</h3>
-                    <p className="text-slate-300 text-sm mb-4 leading-relaxed line-clamp-2">{project.description}</p>
 
                     {/* Progress Bar for Ongoing */}
                     {project.progress !== undefined && project.type === "ongoing" && (
@@ -150,39 +152,17 @@ const Projects = () => {
                       </div>
                     )}
 
-                    <div className="space-y-3 mb-4">
-                      {project.timeline && (
-                        <div className="flex items-center gap-2 text-sm text-slate-400">
-                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                          </svg>
-                          <span>{project.type === "ongoing" ? `Timeline: ${project.timeline}` : `Completed: ${project.completionDate}`}</span>
-                        </div>
-                      )}
-                      {project.completionDate && project.type === "completed" && !project.timeline && (
-                        <div className="flex items-center gap-2 text-sm text-slate-400">
-                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                          </svg>
-                          <span>Completed: {project.completionDate}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {project.technologies && project.technologies.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {project.technologies.slice(0, 3).map((tech, idx) => (
-                          <span key={idx} className="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs rounded-md border border-sky-500/30">
-                            {tech}
-                          </span>
-                        ))}
-                        {project.technologies.length > 3 && (
-                          <span className="px-2 py-1 bg-slate-700/50 text-slate-400 text-xs rounded-md">
-                            +{project.technologies.length - 3} more
-                          </span>
-                        )}
-                      </div>
-                    )}
+                    <motion.button
+                      onClick={() => {
+                        setSelectedProject(project)
+                        setIsModalOpen(true)
+                      }}
+                      className="w-full px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      View Details
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
@@ -220,8 +200,8 @@ const Projects = () => {
                   )}
 
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{project.title}</h3>
-                    <p className="text-slate-300 text-sm mb-4 leading-relaxed">{project.description}</p>
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{project.title}</h3>
+                    {project.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{project.description}</p>}
 
                     {/* Progress Bar */}
                     {project.progress !== undefined && (
@@ -236,69 +216,32 @@ const Projects = () => {
                       </div>
                     )}
 
-                    <div className="space-y-3 mb-4">
-                      {project.timeline && (
-                        <div className="flex items-center gap-2 text-sm text-slate-400">
-                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                          </svg>
-                          <span>Timeline: {project.timeline}</span>
-                        </div>
-                      )}
-                      {project.funding && (
-                        <div className="flex items-center gap-2 text-sm text-slate-400">
-                          <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span>Funding: {project.funding}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {project.leadMembers && project.leadMembers.length > 0 && (
-                      <div className="space-y-3 mb-4">
-                        <h4 className="text-sm font-semibold text-white">Lead Members:</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {project.leadMembers.map((member, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-slate-700/50 text-slate-300 text-xs rounded-md">
-                              {member}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
                     {project.technologies && project.technologies.length > 0 && (
-                      <div className="space-y-3 mb-4">
-                        <h4 className="text-sm font-semibold text-white">Technologies:</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.map((tech, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs rounded-md border border-sky-500/30">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.technologies.slice(0, 3).map((tech, idx) => (
+                          <span key={idx} className="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs rounded-md border border-sky-500/30">
+                            {tech}
+                          </span>
+                        ))}
+                        {project.technologies.length > 3 && (
+                          <span className="px-2 py-1 bg-slate-700/50 text-slate-400 text-xs rounded-md">
+                            +{project.technologies.length - 3}
+                          </span>
+                        )}
                       </div>
                     )}
 
-                    {project.expectedOutcomes && project.expectedOutcomes.length > 0 && (
-                      <div className="space-y-3">
-                        <h4 className="text-sm font-semibold text-white">Expected Outcomes:</h4>
-                        <ul className="space-y-1">
-                          {project.expectedOutcomes.map((outcome, idx) => (
-                            <li key={idx} className="text-xs text-slate-400 flex items-start gap-2">
-                              <span className="text-sky-400 mt-1">•</span>
-                              {outcome}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                    <motion.button
+                      onClick={() => {
+                        setSelectedProject(project)
+                        setIsModalOpen(true)
+                      }}
+                      className="w-full px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      View Details
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
@@ -334,57 +277,41 @@ const Projects = () => {
                   )}
 
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors">{project.title}</h3>
-                    <p className="text-slate-300 text-sm mb-4 leading-relaxed">{project.description}</p>
-
-                    {(project.completionDate || project.teamSize) && (
-                      <div className="space-y-3 mb-4">
-                        <div className="flex items-center justify-between text-sm text-slate-400">
-                          {project.completionDate && <span>Completed: {project.completionDate}</span>}
-                          {project.teamSize && <span>Team Size: {project.teamSize}</span>}
-                        </div>
-                        {(project.publications || (project.awards && project.awards.length > 0)) && (
-                          <div className="flex items-center justify-between text-sm text-slate-400">
-                            {project.publications && <span>Publications: {project.publications}</span>}
-                            {project.awards && project.awards.length > 0 && <span>Awards: {project.awards.length}</span>}
-                          </div>
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">{project.title}</h3>
+                    {project.description && <p className="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{project.description}</p>}
+                    {project.completionDate && (
+                      <div className="flex items-center gap-2 mb-4 text-slate-300">
+                        <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-sm">Completed: {project.completionDate}</span>
+                      </div>
+                    )}
+                    {project.awards && project.awards.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.awards.slice(0, 2).map((award, idx) => (
+                          <span key={idx} className="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-md border border-amber-500/30">
+                            {award}
+                          </span>
+                        ))}
+                        {project.awards.length > 2 && (
+                          <span className="px-2 py-1 bg-slate-700/50 text-slate-400 text-xs rounded-md">
+                            +{project.awards.length - 2}
+                          </span>
                         )}
                       </div>
                     )}
-
-                    {project.results && project.results.length > 0 && (
-                      <div className="space-y-3 mb-4">
-                        <h4 className="text-sm font-semibold text-white">Key Results:</h4>
-                        <ul className="space-y-1">
-                          {project.results.map((result, idx) => (
-                            <li key={idx} className="text-xs text-slate-400 flex items-start gap-2">
-                              <span className="text-green-400 mt-1">✓</span>
-                              {result}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {project.impact && (
-                      <div className="space-y-3 mb-4">
-                        <h4 className="text-sm font-semibold text-white">Impact:</h4>
-                        <p className="text-xs text-slate-400 leading-relaxed">{project.impact}</p>
-                      </div>
-                    )}
-
-                    {project.awards.length > 0 && (
-                      <div className="space-y-3">
-                        <h4 className="text-sm font-semibold text-white">Awards:</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {project.awards.map((award, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-md border border-amber-500/30">
-                              {award}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                    <motion.button
+                      onClick={() => {
+                        setSelectedProject(project)
+                        setIsModalOpen(true)
+                      }}
+                      className="w-full px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-sky-400/25 transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      View Details
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
@@ -418,6 +345,170 @@ const Projects = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Modal */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={selectedProject?.title}>
+        {selectedProject && (
+          <div className="space-y-5">
+            {/* Header with Status */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-700/50">
+              <span className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium tracking-wide uppercase rounded ${
+                selectedProject.type === "ongoing" 
+                  ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
+                  : "bg-slate-500/10 text-slate-300 border border-slate-500/20"
+              }`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${selectedProject.type === "ongoing" ? "bg-emerald-400" : "bg-slate-400"}`}></span>
+                {selectedProject.type === "ongoing" ? "In Progress" : "Completed"}
+              </span>
+              
+              {/* Key metrics inline */}
+              <div className="flex items-center gap-4 text-sm text-slate-400">
+                {selectedProject.teamSize > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    {selectedProject.teamSize}
+                  </span>
+                )}
+                {selectedProject.publications > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    {selectedProject.publications}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Progress for ongoing */}
+            {selectedProject.progress > 0 && selectedProject.type === "ongoing" && (
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-medium text-slate-400 uppercase tracking-wide">Progress</span>
+                  <span className="text-sm font-semibold text-white">{selectedProject.progress}%</span>
+                </div>
+                <div className="w-full bg-slate-800 rounded-full h-1.5">
+                  <div className="bg-sky-500 h-1.5 rounded-full transition-all duration-500" style={{ width: `${selectedProject.progress}%` }}></div>
+                </div>
+              </div>
+            )}
+
+            {/* Description */}
+            {selectedProject.description && (
+              <div>
+                <p className="text-slate-300 leading-relaxed text-sm">{selectedProject.description}</p>
+              </div>
+            )}
+
+            {/* Details Grid */}
+            {(selectedProject.timeline || selectedProject.completionDate || selectedProject.funding) && (
+              <div className="grid grid-cols-2 gap-x-8 gap-y-4 py-4 border-y border-slate-700/50">
+                {(selectedProject.timeline || selectedProject.completionDate) && (
+                  <div>
+                    <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">
+                      {selectedProject.type === "ongoing" ? "Timeline" : "Completed"}
+                    </p>
+                    <p className="text-sm text-white">{selectedProject.timeline || selectedProject.completionDate}</p>
+                  </div>
+                )}
+                {selectedProject.funding && (
+                  <div>
+                    <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Funding</p>
+                    <p className="text-sm text-white">{selectedProject.funding}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Lead Members */}
+            {selectedProject.leadMembers && selectedProject.leadMembers.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">Project Leads</p>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.leadMembers.map((member, idx) => (
+                    <span key={idx} className="px-3 py-1.5 bg-slate-800/80 text-slate-200 text-sm rounded-md border border-slate-700/50">
+                      {member}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Technologies */}
+            {selectedProject.technologies && selectedProject.technologies.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">Technologies</p>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.technologies.map((tech, idx) => (
+                    <span key={idx} className="px-3 py-1.5 bg-slate-800/50 text-slate-300 text-xs font-medium rounded border border-slate-700/40">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Expected Outcomes (for ongoing) */}
+            {selectedProject.expectedOutcomes && selectedProject.expectedOutcomes.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">Expected Outcomes</p>
+                <ul className="space-y-2">
+                  {selectedProject.expectedOutcomes.map((outcome, idx) => (
+                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-300">
+                      <span className="flex-shrink-0 w-5 h-5 flex items-center justify-center bg-slate-800 text-slate-400 text-xs rounded mt-0.5">{idx + 1}</span>
+                      {outcome}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Key Results (for completed) */}
+            {selectedProject.results && selectedProject.results.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">Key Results</p>
+                <ul className="space-y-2">
+                  {selectedProject.results.map((result, idx) => (
+                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-300">
+                      <svg className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {result}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Impact */}
+            {selectedProject.impact && (
+              <div className="bg-slate-800/40 rounded-lg p-4 border-l-2 border-sky-500">
+                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-2">Impact</p>
+                <p className="text-sm text-slate-300 leading-relaxed">{selectedProject.impact}</p>
+              </div>
+            )}
+
+            {/* Awards */}
+            {selectedProject.awards && selectedProject.awards.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">Recognition</p>
+                <div className="space-y-2">
+                  {selectedProject.awards.map((award, idx) => (
+                    <div key={idx} className="flex items-center gap-3 text-sm">
+                      <svg className="w-4 h-4 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      <span className="text-slate-200">{award}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </Modal>
     </div>
   )
 }
