@@ -4,6 +4,7 @@
 
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
+  { href: "/civitas26", label: "CIVITAS'26", highlight: true },
   { href: "/recentActivities", label: "Events" },
   { href: "/achievements", label: "Achievements" },
   { href: "/projects", label: "Projects" },

@@ -18,7 +18,7 @@ import { NAV_LINKS } from "@/constants"
 /**
  * Desktop navigation link component
  */
-const NavLink = ({ href, label, isActive, index }) => (
+const NavLink = ({ href, label, isActive, index, highlight }) => (
   <motion.div
     initial={{ opacity: 0, y: -10 }}
     animate={{ opacity: 1, y: 0 }}
@@ -29,14 +29,22 @@ const NavLink = ({ href, label, isActive, index }) => (
     <Link
       href={href}
       className={`relative group flex items-center px-3 lg:px-4 py-2 rounded-xl font-medium text-sm lg:text-base transition-all duration-300 ${
-        isActive
+        highlight
+          ? "bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 border border-amber-500/50 shadow-lg shadow-amber-500/20 hover:from-amber-500/30 hover:to-orange-500/30"
+          : isActive
           ? "bg-gradient-to-r from-sky-500/30 to-blue-500/30 text-cyan-300 border border-cyan-400/50 shadow-lg shadow-cyan-500/20"
           : "text-slate-300 hover:text-cyan-300 hover:bg-gradient-to-r hover:from-sky-500/10 hover:to-blue-500/10 border border-transparent hover:border-sky-400/30"
       }`}
     >
+      {highlight && (
+        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+        </span>
+      )}
       <span className="relative z-10">{label}</span>
 
-      {isActive && (
+      {isActive && !highlight && (
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-sky-400/20 to-blue-500/20 rounded-xl blur"
           layoutId="activeNav"
@@ -53,7 +61,7 @@ const NavLink = ({ href, label, isActive, index }) => (
 /**
  * Mobile navigation link component
  */
-const MobileNavLink = ({ href, label, isActive, index, menuOpen, onClick }) => (
+const MobileNavLink = ({ href, label, isActive, index, menuOpen, onClick, highlight }) => (
   <motion.div
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? 0 : -20 }}
@@ -61,13 +69,21 @@ const MobileNavLink = ({ href, label, isActive, index, menuOpen, onClick }) => (
   >
     <Link
       href={href}
-      className={`px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 block ${
-        isActive
+      className={`px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 block relative ${
+        highlight
+          ? "bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 border border-amber-500/50 shadow-lg shadow-amber-500/20"
+          : isActive
           ? "bg-gradient-to-r from-sky-500/30 to-blue-500/30 text-cyan-300 border border-cyan-400/50 shadow-lg shadow-cyan-500/20"
           : "text-slate-300 hover:text-cyan-300 hover:bg-gradient-to-r hover:from-sky-500/10 hover:to-blue-500/10 border border-transparent hover:border-sky-400/30"
       }`}
       onClick={onClick}
     >
+      {highlight && (
+        <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+        </span>
+      )}
       {label}
     </Link>
   </motion.div>
@@ -189,7 +205,7 @@ const Navbar = () => {
             </motion.div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1">
+            <nav className="hidden md:flex items-center gap-3">
               {NAV_LINKS.map((link, index) => (
                 <NavLink
                   key={link.href}
@@ -197,6 +213,7 @@ const Navbar = () => {
                   label={link.label}
                   isActive={pathname === link.href}
                   index={index}
+                  highlight={link.highlight}
                 />
               ))}
             </nav>
@@ -248,6 +265,7 @@ const Navbar = () => {
                   index={index}
                   menuOpen={menuOpen}
                   onClick={() => setMenuOpen(false)}
+                  highlight={link.highlight}
                 />
               ))}
             </div>
