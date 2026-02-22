@@ -5,6 +5,7 @@ import HeroSection from "./HeroSection"
 import FeaturesSection from "./FeaturesSection"
 import HomeCTASection from "./HomeCTASection"
 import MarvelsSection from "./MarvelsSection"
+import CivitasBanner from "./CivitasBanner"
 import { usePageSettings } from "@/hooks"
 
 /**
@@ -33,6 +34,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen relative">
+      <CivitasBanner />
       {/* Hero Section */}
       <HeroSection settings={settings} heroImages={heroImages} />
 
