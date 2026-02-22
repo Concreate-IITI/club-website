@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import ImageUpload from "@/components/ImageUpload"
+import ImageUpload from "@/components/forms/ImageUpload"
 
 export default function AdminProjectsPage() {
   const [user, setUser] = useState(null)

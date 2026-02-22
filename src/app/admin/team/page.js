@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import ImageUpload from "@/components/ImageUpload"
+import ImageUpload from "@/components/forms/ImageUpload"
 
 export default function AdminTeamPage() {
   const [user, setUser] = useState(null)
