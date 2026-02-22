@@ -28,6 +28,7 @@ export default function AdminProjectsPage() {
     teamSize: 0,
     publications: 0,
     awards: [],
+    teamMembers: [],
     category: "",
     image: "",
     images: [],
@@ -40,6 +41,7 @@ export default function AdminProjectsPage() {
     technologies: "",
     results: "",
     awards: "",
+    teamMembers: "",
   })
   const [activeArrayField, setActiveArrayField] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -136,6 +138,7 @@ export default function AdminProjectsPage() {
       teamSize: project.teamSize || 0,
       publications: project.publications || 0,
       awards: project.awards || [],
+      teamMembers: project.teamMembers || [],
       category: project.category || "",
       image: project.image || "",
       images: project.images || [],
@@ -185,6 +188,7 @@ export default function AdminProjectsPage() {
       teamSize: 0,
       publications: 0,
       awards: [],
+      teamMembers: [],
       category: "",
       image: "",
       images: [],
@@ -198,6 +202,7 @@ export default function AdminProjectsPage() {
       technologies: "",
       results: "",
       awards: "",
+      teamMembers: "",
     })
     setActiveArrayField(null)
   }
@@ -493,6 +498,34 @@ export default function AdminProjectsPage() {
                         <div key={index} className="flex items-center gap-2 px-3 py-1 bg-gray-700 text-white rounded-lg">
                           <span>{award}</span>
                           <button type="button" onClick={() => removeFromArray("awards", index)} className="text-red-400 hover:text-red-300">
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Team Members */}
+                  <div>
+                    <label className="block text-white mb-2">Team Members</label>
+                    <div className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={arrayInputs.teamMembers}
+                        onChange={(e) => setArrayInputs({ ...arrayInputs, teamMembers: e.target.value })}
+                        onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addToArray("teamMembers"))}
+                        placeholder="Add team member name and press Enter"
+                        className="flex-1 px-4 py-2 bg-gray-900/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-400"
+                      />
+                      <button type="button" onClick={() => addToArray("teamMembers")} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Add
+                      </button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {formData.teamMembers.map((member, index) => (
+                        <div key={index} className="flex items-center gap-2 px-3 py-1 bg-gray-700 text-white rounded-lg">
+                          <span>{member}</span>
+                          <button type="button" onClick={() => removeFromArray("teamMembers", index)} className="text-red-400 hover:text-red-300">
                             ×
                           </button>
                         </div>

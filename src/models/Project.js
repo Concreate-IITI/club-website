@@ -63,6 +63,10 @@ const ProjectSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    teamMembers: {
+      type: [String],
+      default: [],
+    },
     category: {
       type: String,
     },

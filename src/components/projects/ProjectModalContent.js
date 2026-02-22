@@ -201,6 +201,23 @@ const ProjectModalContent = ({ project }) => {
           </div>
         </div>
       )}
+
+      {/* Team Members (for completed projects) */}
+      {project.teamMembers && project.teamMembers.length > 0 && (
+        <div>
+          <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">Team Members</p>
+          <div className="flex flex-wrap gap-2">
+            {project.teamMembers.map((member, idx) => (
+              <span
+                key={idx}
+                className="px-3 py-1.5 bg-slate-800/80 text-slate-200 text-sm rounded-md border border-slate-700/50"
+              >
+                {member}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
