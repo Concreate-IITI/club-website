@@ -1,47 +1,57 @@
 "use client"
 
 import React, { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 
 /**
- * Form input field component
+ * Modern form input field
  */
 const FormField = ({ label, name, type = "text", value, onChange, required, maxLength, placeholder, disabled, rows }) => {
-  const baseClasses =
-    "w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-300"
+  const [isFocused, setIsFocused] = useState(false)
+  
+  const baseClasses = `w-full px-4 py-3.5 bg-slate-900/50 border rounded-xl text-white placeholder-slate-500 
+    focus:outline-none transition-all duration-300 ${
+      isFocused 
+        ? "border-sky-500/50 ring-2 ring-sky-500/20" 
+        : "border-slate-700/50 hover:border-slate-600"
+    }`
 
   return (
-    <div>
-      <label className="block text-sm font-semibold text-white mb-2">
-        {label} {required && "*"}
+    <div className="relative">
+      <label className="block text-sm font-medium text-slate-400 mb-2">
+        {label} {required && <span className="text-sky-400">*</span>}
       </label>
       {type === "textarea" ? (
-        <>
+        <div className="relative">
           <textarea
             name={name}
             value={value}
             onChange={onChange}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             required={required}
-            rows={rows || 6}
+            rows={rows || 5}
             maxLength={maxLength}
             className={`${baseClasses} resize-none`}
             placeholder={placeholder}
             disabled={disabled}
           />
           {maxLength && (
-            <div className="text-right mt-2">
-              <span className="text-xs text-slate-500">
+            <div className="absolute bottom-3 right-3">
+              <span className={`text-xs ${value.length > maxLength * 0.9 ? 'text-amber-400' : 'text-slate-600'}`}>
                 {value.length}/{maxLength}
               </span>
             </div>
           )}
-        </>
+        </div>
       ) : (
         <input
           type={type}
           name={name}
           value={value}
           onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           required={required}
           maxLength={maxLength}
           className={baseClasses}
@@ -60,36 +70,29 @@ const StatusMessage = ({ status }) => {
   if (!status.message) return null
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={`mb-6 p-4 rounded-xl border ${
-        status.type === "success"
-          ? "bg-green-500/20 border-green-500/50 text-green-300"
-          : "bg-red-500/20 border-red-500/50 text-red-300"
-      }`}
-    >
-      <div className="flex items-center gap-2">
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: -10, height: 0 }}
+        animate={{ opacity: 1, y: 0, height: "auto" }}
+        exit={{ opacity: 0, y: -10, height: 0 }}
+        className={`mb-6 p-4 rounded-xl border flex items-start gap-3 ${
+          status.type === "success"
+            ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+            : "bg-red-500/10 border-red-500/30 text-red-400"
+        }`}
+      >
         {status.type === "success" ? (
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clipRule="evenodd"
-            />
+          <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         ) : (
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-              clipRule="evenodd"
-            />
+          <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         )}
-        {status.message}
-      </div>
-    </motion.div>
+        <span className="text-sm">{status.message}</span>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
@@ -100,49 +103,29 @@ const SubmitButton = ({ isSubmitting }) => (
   <motion.button
     type="submit"
     disabled={isSubmitting}
-    className="w-full py-4 px-6 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 disabled:from-sky-800 disabled:to-blue-800 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center group shadow-lg hover:shadow-sky-400/25"
-    whileHover={{ scale: 1.02, y: -2 }}
-    whileTap={{ scale: 0.98 }}
+    className="w-full py-4 px-6 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 
+      disabled:from-slate-700 disabled:to-slate-700 disabled:cursor-not-allowed 
+      text-white font-semibold rounded-xl transition-all duration-300 
+      flex items-center justify-center gap-3 relative overflow-hidden group"
+    whileHover={{ scale: isSubmitting ? 1 : 1.01 }}
+    whileTap={{ scale: isSubmitting ? 1 : 0.99 }}
   >
+    {/* Shine effect */}
+    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    
     {isSubmitting ? (
       <>
-        <svg
-          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
+        <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
         </svg>
-        Sending Message...
+        <span>Sending...</span>
       </>
     ) : (
       <>
-        Send Message
-        <svg
-          className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-          />
+        <span>Send Message</span>
+        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
         </svg>
       </>
     )}
@@ -227,83 +210,98 @@ const ContactForm = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
     >
-      <div className="bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 hover:border-sky-400/50 transition-all duration-500">
-        <motion.h3
-          className="text-2xl md:text-3xl font-bold text-white mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Send us a Message
-        </motion.h3>
-
-        <StatusMessage status={submitStatus} />
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormField
-              label="Name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              maxLength={100}
-              placeholder="Your full name"
-              disabled={isSubmitting}
-            />
-            <FormField
-              label="Email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="your.email@example.com"
-              disabled={isSubmitting}
-            />
+      {/* Form card */}
+      <div className="relative overflow-hidden rounded-2xl bg-slate-900/50 border border-slate-800/50 p-8 md:p-10">
+        {/* Corner decorations */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-sky-500/5 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-500/5 to-transparent" />
+        
+        <div className="relative">
+          {/* Form header */}
+          <div className="mb-8">
+            <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+              Send a Message
+            </h3>
+            <p className="text-slate-500 text-sm">
+              Fill out the form below and we will get back to you shortly.
+            </p>
           </div>
 
-          <FormField
-            label="Phone (Optional)"
-            name="phone"
-            type="tel"
-            value={formData.phone}
-            onChange={handleChange}
-            maxLength={20}
-            placeholder="+91 9876543210"
-            disabled={isSubmitting}
-          />
+          <StatusMessage status={submitStatus} />
 
-          <FormField
-            label="Subject"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-            required
-            maxLength={200}
-            placeholder="What's this about?"
-            disabled={isSubmitting}
-          />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Name & Email row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <FormField
+                label="Full Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                maxLength={100}
+                placeholder="John Doe"
+                disabled={isSubmitting}
+              />
+              <FormField
+                label="Email Address"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="john@example.com"
+                disabled={isSubmitting}
+              />
+            </div>
 
-          <FormField
-            label="Message"
-            name="message"
-            type="textarea"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            rows={6}
-            maxLength={2000}
-            placeholder="Tell us about your inquiry, project idea, or how you'd like to collaborate..."
-            disabled={isSubmitting}
-          />
+            {/* Phone & Subject row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <FormField
+                label="Phone"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                maxLength={20}
+                placeholder="+91 9876543210"
+                disabled={isSubmitting}
+              />
+              <FormField
+                label="Subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                required
+                maxLength={200}
+                placeholder="How can we help?"
+                disabled={isSubmitting}
+              />
+            </div>
 
-          <SubmitButton isSubmitting={isSubmitting} />
-        </form>
+            {/* Message */}
+            <FormField
+              label="Message"
+              name="message"
+              type="textarea"
+              value={formData.message}
+              onChange={handleChange}
+              required
+              rows={5}
+              maxLength={2000}
+              placeholder="Tell us about your project, idea, or inquiry..."
+              disabled={isSubmitting}
+            />
+
+            {/* Submit */}
+            <div className="pt-2">
+              <SubmitButton isSubmitting={isSubmitting} />
+            </div>
+          </form>
+        </div>
       </div>
     </motion.div>
   )
