@@ -135,7 +135,7 @@ const HeroSection = ({ settings, heroImages = [] }) => {
   ]
 
   return (
-    <div className="relative min-h-[600px] sm:min-h-[650px] md:min-h-[700px] lg:h-[calc(100vh-4rem)] flex items-center overflow-hidden">
+    <div id="hero" className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] flex items-center overflow-hidden">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/50 to-transparent" />

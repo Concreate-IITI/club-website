@@ -134,6 +134,7 @@
        HERO  INFO  OVERLAY
        ═══════════════════════════════════════════════════════════ */
     var heroInfo    = document.getElementById('hero-info');
+    var scrollHint   = document.getElementById('scroll-hint');
     var heroReady  = false;                               // gate until preloader is gone
 
     // Show hero info 800 ms after preloader fades
@@ -141,27 +142,45 @@
         var check = setInterval(function () {
             if (preloader.classList.contains('hidden')) {
                 clearInterval(check);
-                setTimeout(function () { heroReady = true; heroInfo.classList.add('visible'); }, 800);
+                setTimeout(function () {
+                    heroReady = true;
+                    heroInfo.classList.add('visible');
+                    if (scrollHint) scrollHint.classList.add('visible');
+                }, 800);
             }
         }, 100);
     })();
 
     function updateHero(p) {
         if (!heroReady) return;
-        // On mobile: show hero text until 0.20
-        // On desktop: show until 0.18
-        var hideThreshold = isMobile ? 0.20 : 0.18;
-        var fadeStart = hideThreshold - 0.08;
+        var heroHideThreshold = isMobile ? 0.14 : 0.12;
+        var heroFadeStart = heroHideThreshold - 0.06;
         
-        if (p > hideThreshold) {
+        if (p > heroHideThreshold) {
             heroInfo.classList.remove('visible');
             heroInfo.style.opacity = '0';
-        } else if (p > fadeStart) {
+        } else if (p > heroFadeStart) {
             heroInfo.classList.add('visible');
-            heroInfo.style.opacity = String(Math.max(0, 1 - (p - fadeStart) / 0.08));
+            heroInfo.style.opacity = String(Math.max(0, 1 - (p - heroFadeStart) / 0.06));
         } else {
             heroInfo.classList.add('visible');
             heroInfo.style.opacity = '';
+        }
+
+        // scroll hint stays visible longer
+        if (scrollHint) {
+            var scrollHideThreshold = isMobile ? 0.68 : 0.66;
+            var scrollFadeStart = scrollHideThreshold - 0.10;
+            if (p > scrollHideThreshold) {
+                scrollHint.classList.remove('visible');
+                scrollHint.style.opacity = '0';
+            } else if (p > scrollFadeStart) {
+                scrollHint.classList.add('visible');
+                scrollHint.style.opacity = String(Math.max(0, 1 - (p - scrollFadeStart) / 0.10));
+            } else {
+                if (heroReady) scrollHint.classList.add('visible');
+                scrollHint.style.opacity = '';
+            }
         }
     }
 
@@ -176,28 +195,86 @@
        DOM  ELEMENTS
        ═══════════════════════════════════════════════════════════ */
     var canvasOverlay  = document.getElementById('canvas-overlay');
+    var bgGrid         = document.getElementById('bg-grid');
     var progressBar    = document.getElementById('progress-bar');
     var navBar         = document.getElementById('nav-bar');
     var navToggle      = document.getElementById('navToggle');
-    var navLinks       = document.getElementById('navLinks');
+    var navLinks       = document.getElementById('navLinksDesktop');
+    var mobileMenu     = document.getElementById('mobileMenu');
+    var navLogo        = document.querySelector('.nav-logo');
 
     // ── Mobile nav ────────────────────────────────────────────
-    navToggle.addEventListener('click', function () {
-        navLinks.classList.toggle('open');
-    });
-    navLinks.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', function (e) {
-            var href = this.getAttribute('href');
-            if (!href || href.startsWith('http')) return;  // external links pass through
-            e.preventDefault();
-            navLinks.classList.remove('open');
-            var target = document.querySelector(href);
-            if (target) {
-                var y = target.getBoundingClientRect().top + window.scrollY - 72;
-                window.scrollTo({ top: y, behavior: 'smooth' });
+    if (navToggle && mobileMenu) {
+        navToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var isOpen = mobileMenu.classList.toggle('open');
+            navToggle.classList.toggle('active', isOpen);
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                var href = this.getAttribute('href');
+                mobileMenu.classList.remove('open');
+                navToggle.classList.remove('active');
+                if (!href || href.startsWith('http')) return;
+                e.preventDefault();
+                if (href === '#home' || href === '#') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                var target = document.querySelector(href);
+                if (target) {
+                    var y = target.getBoundingClientRect().top + window.scrollY - 72;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (e) {
+            if (mobileMenu.classList.contains('open') && 
+                !mobileMenu.contains(e.target) && 
+                !navToggle.contains(e.target)) {
+                mobileMenu.classList.remove('open');
+                navToggle.classList.remove('active');
             }
         });
-    });
+
+        // Prevent clicks inside menu from closing it
+        mobileMenu.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
+
+    // Desktop nav links — smooth scroll
+    if (navLinks) {
+        navLinks.querySelectorAll('a').forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                var href = this.getAttribute('href');
+                if (!href || href.startsWith('http')) return;
+                e.preventDefault();
+                if (href === '#home' || href === '#') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                var target = document.querySelector(href);
+                if (target) {
+                    var y = target.getBoundingClientRect().top + window.scrollY - 72;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            });
+        });
+    }
+
+    // Logo click scrolls to top
+    if (navLogo) {
+        navLogo.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
     // Hero section CTA buttons
     document.querySelectorAll('.hero-btn[href^="#"]').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
@@ -307,6 +384,16 @@
             canvasOverlay.classList.add('active');
         } else {
             canvasOverlay.classList.remove('active');
+        }
+
+        // ── Background grid visibility (only on home section) ──
+        if (bgGrid) {
+            if (scrollY > spacerBottom - window.innerHeight * 0.3) {
+                var fadeOutProgress = (scrollY - (spacerBottom - window.innerHeight * 0.3)) / (window.innerHeight * 0.5);
+                bgGrid.style.opacity = Math.max(0, 1 - fadeOutProgress);
+            } else {
+                bgGrid.style.opacity = '1';
+            }
         }
     }
 

@@ -38,10 +38,11 @@ const FeaturesSection = ({ features = [] }) => {
 
   return (
     <motion.section
+      id="unique"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="py-12 sm:py-16 lg:py-20 relative z-10"
+      className="pt-6 pb-12 sm:pt-8 sm:pb-16 lg:pt-10 lg:pb-20 relative z-10"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}

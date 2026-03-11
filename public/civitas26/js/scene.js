@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    CIVITAS'26 — Scene Module (scene.js)
    Three.js renderer, camera, lighting, fog, performance flags
    ============================================================ */
@@ -34,7 +34,7 @@
 
     // Tone mapping
     renderer.toneMapping         = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.8;
+    renderer.toneMappingExposure = 2.2;
 
     // Color space (r150+ uses outputColorSpace)
     if (typeof THREE.SRGBColorSpace !== 'undefined') {
@@ -45,11 +45,11 @@
 
     // ── Scene ──────────────────────────────────────────────────
     var scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x00020c);   // near-black deep space
+    scene.background = new THREE.Color(0x0d1a38);   // lighter dark navy
 
     var fog = null;
     if (!isLowEnd) {
-        fog = new THREE.FogExp2(0x00020c, 0.008);   // softer fog so voxels pop
+        fog = new THREE.FogExp2(0x0d1a38, 0.007);
         scene.fog = fog;
     }
 
@@ -67,12 +67,13 @@
 
     // ── Lighting ───────────────────────────────────────────────
     // Ambient fill
-    var ambientLight = new THREE.AmbientLight(0x1a44aa, 1.2);
+    // Neutral white ambient — no blue cast
+    var ambientLight = new THREE.AmbientLight(0xffffff, 1.8);
     scene.add(ambientLight);
 
-    // Primary directional — front-facing to illuminate voxels
-    var dirLight = new THREE.DirectionalLight(0xe8f4ff, 1.4);
-    dirLight.position.set(15, 25, 12);
+    // Primary directional — pure white, strongly front-lit
+    var dirLight = new THREE.DirectionalLight(0xffffff, 4.0);
+    dirLight.position.set(5, 10, 12);
     if (renderer.shadowMap.enabled) {
         dirLight.castShadow              = true;
         dirLight.shadow.mapSize.width    = isMobile ? 512 : 1024;
@@ -87,14 +88,14 @@
     }
     scene.add(dirLight);
 
-    // Rim / fill light
-    var rimLight = new THREE.DirectionalLight(0x44aaff, 0.9);
+    // Subtle cool rim for edge definition
+    var rimLight = new THREE.DirectionalLight(0xaaddff, 0.6);
     rimLight.position.set(-8, 3, -6);
     scene.add(rimLight);
 
-    // Close-up point light — makes voxels glow from the front
-    var voxelLight = new THREE.PointLight(0x3399ff, 3.0, 20);
-    voxelLight.position.set(0, 0.5, 5);
+    // Close-up point light — harsh bright white on voxel faces
+    var voxelLight = new THREE.PointLight(0xffffff, 18.0, 40);
+    voxelLight.position.set(0, 0, 6);
     scene.add(voxelLight);
 
     // ── Resize handler ─────────────────────────────────────────

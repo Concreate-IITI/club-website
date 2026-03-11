@@ -1,5 +1,5 @@
 import { CivilEngineeringBackground } from "@/components/common"
-import { Navbar, Footer } from "@/components/layout"
+import { Navbar, Footer, MobileSectionNav } from "@/components/layout"
 import { HomePage } from "@/components/home"
 
 export default function Home() {
@@ -9,6 +9,7 @@ export default function Home() {
       <Navbar />
       <HomePage />
       <Footer />
+      <MobileSectionNav />
     </>
   )
 }
