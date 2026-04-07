@@ -499,15 +499,176 @@ http://localhost:3000/civitas26
                     Registration is open for all civil engineering students and
                     professionals. Join us at IIT Indore.
                 </p>
-                <a href="https://registration.iiti.ac.in/civitas26" class="cs-btn" target="_blank" rel="noopener noreferrer">
-                    <span>Register Now</span>
-                </a>
+                <style>
+                    /* Custom Button Overrides for Registration Section */
+                    .reg-btn-group {
+                        display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px;
+                        margin-top: 30px;
+                    }
+                    .reg-btn-group .cs-btn, .reg-resource-wrap .cs-btn {
+                        display: flex !important;
+                        justify-content: center !important;
+                        align-items: center !important;
+                        text-align: center !important;
+                    }
+                    .reg-resource-wrap {
+                        display: flex;
+                        justify-content: center;
+                        margin-bottom: 50px;
+                    }
+                    .btn-primary-glow {
+                        background: linear-gradient(135deg, var(--accent), var(--accent-cyan)) !important;
+                        box-shadow: 0 4px 20px rgba(0, 229, 255, 0.3) !important;
+                        animation: btn-pulse-glow-cyan 2.5s infinite alternate;
+                        border: none !important;
+                        color: #0b1121 !important; /* Dark text for contrast on bright cyan */
+                        font-weight: 700;
+                    }
+                    .btn-primary-glow::before {
+                        background: linear-gradient(135deg, var(--accent-cyan), var(--accent)) !important;
+                    }
+                    .btn-primary-glow:hover {
+                        box-shadow: 0 8px 30px rgba(0, 229, 255, 0.5) !important;
+                        transform: translateY(-4px) scale(1.03);
+                        color: #000 !important;
+                    }
+                    .btn-secondary {
+                        background: rgba(255, 255, 255, 0.03) !important;
+                        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                        box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+                        backdrop-filter: blur(10px);
+                        color: #e2e8f0 !important;
+                        transition: all 0.3s ease;
+                    }
+                    .btn-secondary::before {
+                        background: rgba(255, 255, 255, 0.05) !important;
+                    }
+                    .btn-secondary:hover {
+                        border-color: rgba(255, 255, 255, 0.3) !important;
+                        box-shadow: 0 8px 30px rgba(255, 255, 255, 0.1) !important;
+                        transform: translateY(-4px) scale(1.02);
+                        color: #fff !important;
+                    }
+                    .btn-accent {
+                        background: transparent !important;
+                        border: 1px solid var(--accent-cyan) !important;
+                        box-shadow: inset 0 0 10px rgba(0,229,255,0.1), 0 4px 20px rgba(0,229,255,0.15) !important;
+                        color: var(--accent-cyan) !important;
+                        transition: all 0.3s ease;
+                    }
+                    .btn-accent::before {
+                        background: rgba(0, 229, 255, 0.05) !important;
+                    }
+                    .btn-accent:hover {
+                        background: rgba(0, 229, 255, 0.1) !important;
+                        box-shadow: inset 0 0 20px rgba(0,229,255,0.2), 0 8px 30px rgba(0,229,255,0.3) !important;
+                        transform: translateY(-4px) scale(1.03);
+                    }
+                    .btn-stacked-text {
+                        display: flex !important; flex-direction: column; align-items: center; justify-content: center; line-height: 1.3;
+                    }
+                    .btn-stacked-text .btn-subtext {
+                        font-size: 10px; opacity: 0.8; font-weight: 400; letter-spacing: 1.5px;
+                        margin-top: 4px;
+                    }
+                    .reg-portal-url {
+                        overflow-wrap: anywhere;
+                        word-break: break-word;
+                    }
+                    @keyframes btn-pulse-glow-cyan {
+                        0% { box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+                        100% { box-shadow: 0 0 30px rgba(0, 229, 255, 0.6), 0 0 15px rgba(0, 150, 255, 0.4); }
+                    }
+
+                    /* Phone-first responsiveness for register area */
+                    @media (max-width: 768px) {
+                        .reg-btn-group {
+                            gap: 12px;
+                            margin-top: 20px;
+                            margin-bottom: 20px;
+                        }
+                        .reg-btn-group .cs-btn {
+                            width: min(100%, 340px);
+                            margin-top: 0;
+                            padding: 14px 22px;
+                            font-size: 12px;
+                            letter-spacing: 2px;
+                        }
+                        .btn-stacked-text .btn-subtext {
+                            font-size: 9px;
+                            letter-spacing: 1.2px;
+                        }
+                        .reg-resource-wrap {
+                            margin-bottom: 28px;
+                        }
+                        .reg-resource-wrap .cs-btn {
+                            width: min(100%, 560px);
+                            margin-top: 0;
+                            padding: 14px 18px;
+                            letter-spacing: 1.2px;
+                            line-height: 1.45;
+                        }
+                        .reg-steps {
+                            margin-top: 30px;
+                            padding: 20px 16px;
+                        }
+                        .reg-steps-title {
+                            font-size: 14px;
+                            letter-spacing: 1.4px;
+                        }
+                        .reg-list li {
+                            gap: 10px;
+                            font-size: 12px;
+                            line-height: 1.5;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .reg-btn-group .cs-btn {
+                            width: 100%;
+                            max-width: 100%;
+                            font-size: 11px;
+                            letter-spacing: 1.3px;
+                            padding: 13px 16px;
+                        }
+                        .btn-stacked-text .btn-subtext {
+                            font-size: 8.5px;
+                            letter-spacing: 1px;
+                        }
+                        .reg-resource-wrap .cs-btn {
+                            font-size: 10.5px;
+                            letter-spacing: 0.7px;
+                            padding: 12px 14px;
+                        }
+                    }
+                </style>
+                <div class="reg-btn-group">
+                    <a href="https://registration.iiti.ac.in/civitas26" class="cs-btn btn-primary-glow" target="_blank" rel="noopener noreferrer">
+                        <span>REGISTER NOW</span>
+                    </a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfZPMBZtOojiCrHQLDp2d3y9C_j3lNG_NdmsWgH34Oc7njjOg/viewform?usp=publish-editor" class="cs-btn btn-accent btn-stacked-text" target="_blank" rel="noopener noreferrer">
+                        <span>REGISTER</span>
+                        <span class="btn-subtext">(FOR IIT INDORE ONLY)</span>
+                    </a>
+                </div>
+
+                <div class="reg-resource-wrap">
+                    <a href="https://drive.google.com/drive/u/4/folders/1Hofm6NWdYD1VXxtTRcEegPTGffTEF5SH" class="cs-btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        <span>Access Event Details, Problem Statements, and Rulebooks(Click Here)</span>
+                    </a>
+                </div>
 
                 <div class="reg-steps">
                     <h3 class="reg-steps-title">How to Register</h3>
                     <ol class="reg-list">
-                        <li>Agree with the terms and conditions of the registration portal</li>
-                        <li>Visit the official registration portal at <strong>https://registration.iiti.ac.in/civitas26</strong></li>
+                    
+                        <li>
+                            <div style="display: flex; flex-direction: column; gap: 4px; overflow-wrap: anywhere; word-break: break-word;">
+                                <span class="reg-portal-line">Visit the official registration portal at</span>
+                                <strong class="reg-portal-url">https://registration.iiti.ac.in/civitas26</strong>
+                            </div>
+                        </li>
+                         <li>Agree with the terms and conditions of the registration portal</li>
                         <li>Select your event category</li>
                         <li>Fill in required details: Full Name, College/Organization, Contact, Email, Team Details</li>
                         <li>Complete payment (including applicable GST)</li>
