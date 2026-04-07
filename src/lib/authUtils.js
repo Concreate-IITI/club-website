@@ -1,10 +1,12 @@
 import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 
-const JWT_SECRET = process.env.JWT_SECRET
-
-if (!JWT_SECRET) {
-  throw new Error("Please define the JWT_SECRET environment variable inside .env.local")
+const getJwtSecret = () => {
+  const secret = process.env.JWT_SECRET
+  if (!secret) {
+    throw new Error("Please define the JWT_SECRET environment variable inside .env.local")
+  }
+  return secret
 }
 
 // Generate JWT token
@@ -15,7 +17,7 @@ export const generateToken = (userId, role) => {
       role,
       iat: Math.floor(Date.now() / 1000),
     },
-    JWT_SECRET,
+    getJwtSecret(),
     {
       expiresIn: "7d",
       issuer: "conreate-app",
@@ -27,7 +29,7 @@ export const generateToken = (userId, role) => {
 // Verify JWT token
 export const verifyToken = (token) => {
   try {
-    return jwt.verify(token, JWT_SECRET, {
+    return jwt.verify(token, getJwtSecret(), {
       issuer: "conreate-app",
       audience: "conreate-users",
     })
