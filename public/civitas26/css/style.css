@@ -787,6 +787,13 @@ body {
 .ev-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
 .ev-grid-4 { grid-template-columns:repeat(4,1fr); }
 .ev-grid-3i { grid-template-columns:repeat(3,1fr); }
+.ev-grid-informal {
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:20px;
+}
+.ev-grid-informal .cs-card-sm {
+    min-height: 190px;
+}
 
 /* ════════════════════════════════════════════════════════
    MAJOR ATTRACTIONS
@@ -1228,6 +1235,7 @@ body {
         --fs-cs-text: 15px;
     }
     .ev-grid, .ev-grid-4, .ev-grid-3i { grid-template-columns:repeat(2,1fr); }
+    .ev-grid-informal .cs-card-sm { min-height: 170px; }
     .attract-grid { grid-template-columns:repeat(2,1fr); }
     .attract-grid .attract-card:last-child:nth-child(odd) { grid-column:unset; }
     .why-grid { grid-template-columns:repeat(2,1fr); }
@@ -1294,6 +1302,8 @@ body {
     .cs-card p { font-size:12px; }
 
     .ev-grid, .ev-grid-4, .ev-grid-3i { grid-template-columns:1fr; gap:14px; }
+    .ev-grid-informal { gap:14px; }
+    .ev-grid-informal .cs-card-sm { min-height: auto; }
     .attract-grid { grid-template-columns:1fr; gap:16px; }
     .attract-card { padding:18px; }
     .attract-num { font-size:clamp(24px, 6vw, 32px); }
