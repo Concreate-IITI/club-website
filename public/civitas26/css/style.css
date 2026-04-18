@@ -953,7 +953,7 @@ body {
 .sponsor-row { display:flex; gap:18px; flex-wrap:wrap; }
 .sponsor-slot {
     flex:1; min-width:120px;
-    height:90px;
+    height: 120px;
     display:flex; align-items:center; justify-content:center;
     background: var(--bg-card);
     border:1px solid var(--border);
@@ -964,8 +964,27 @@ body {
     transition: all 0.3s;
 }
 .sponsor-slot:hover { border-color: var(--border-hov); background: var(--bg-card-hov); }
-.sponsor-row-lg .sponsor-slot-lg { height:120px; font-size:14px; }
-.sponsor-row-sm .sponsor-slot-sm { height:72px; font-size:10px; }
+.sponsor-row-lg .sponsor-slot-lg { height: 300px; font-size:16px; }
+.sponsor-row-md .sponsor-slot-md { height: 180px; font-size:14px; }
+.sponsor-row-sm .sponsor-slot-sm { height: 120px; font-size:12px; }
+
+.sponsor-slot a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.sponsor-logo {
+    max-width: 90%;
+    max-height: 85%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
 
 .why-sponsor {
     margin-top:60px; padding:40px 44px;
